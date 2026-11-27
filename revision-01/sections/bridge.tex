@@ -1,0 +1,62 @@
+\section{Cầu nối giữa sai số thông tin và độ bền quyết định}\label{sec:bridge}
+Các phần số học và giao tiếp giải hai đối tượng khác nhau: một bên đếm hoặc chứng nhận hành động bền, bên kia chặn sai số của thông tin được tái dựng. Để ghép chúng, cần cùng tọa độ, đơn vị, thời điểm đích và nhiệm vụ. Phần này nêu chính xác phép ghép ấy.
+
+\begin{theorem}[Tiêu chuẩn nhiễu không đồng nhất và tham số chung]\label{thm:heterogeneous}
+Cho giá trị danh nghĩa $\widehat x\in\R^n$, tham số $\widehat\alpha$ và các cận $\delta_i\ge0$, $\tau\ge0$. Trạng thái thật và tham số thật thuộc toàn hộp
+\[
+|x_i-\widehat x_i|\le\delta_i,\qquad
+|\alpha-\widehat\alpha|\le\tau.
+\]
+Một đoạn cố định $I$ tối ưu yếu trước mọi phần tử hộp khi và chỉ khi, với mọi đoạn $J$,
+\begin{equation}\label{eq:jointbridge}
+f_{\widehat x,\widehat\alpha}(I)-f_{\widehat x,\widehat\alpha}(J)
+\ge \sum_{i\in I\triangle J}\delta_i+\tau\big||I|-|J|\big|.
+\end{equation}
+\end{theorem}
+\begin{proof}
+Đặt $u_i=\ind_I(i)-\ind_J(i)$, $e_i=x_i-\widehat x_i$ và $a=\alpha-\widehat\alpha$. Chênh lệch thật bằng chênh lệch danh nghĩa cộng
+\[
+\sum_i u_ie_i-a(|I|-|J|).
+\]
+Vì $u_i\in\{-1,0,1\}$, infimum của số hạng đầu trên hộp tọa độ bằng $-\sum_i|u_i|\delta_i=-\sum_{I\triangle J}\delta_i$, đạt bằng cách chọn $e_i=-\operatorname{sgn}(u_i)\delta_i$ trên các tọa độ khác nhau. Infimum của số hạng tham số bằng $-\tau\big||I|-|J|\big|$, đạt bằng chọn dấu của $a$ cùng dấu $|I|-|J|$. Vì các tọa độ và tham số biến độc lập trong toàn hộp, hai infimum đạt đồng thời cho cặp $I,J$ này.
+
+Nếu~\eqref{eq:jointbridge} đúng với mọi $J$, chênh lệch thật không âm với mọi $J$ tại mọi hiện thực hóa, nên $I$ tối ưu. Nếu nó sai với một $J$, hiện thực hóa bất lợi vừa dựng làm $J$ thắng $I$, nên $I$ không bền. Không cần một hiện thực hóa duy nhất đồng thời bất lợi nhất cho mọi $J$; lượng từ phản chứng chỉ cần tồn tại một đối thủ và một hiện thực hóa.
+\end{proof}
+Nếu hộp chỉ là bao ngoài của một tập bất định tương quan nhỏ hơn, điều kiện vẫn đủ nhưng có thể không cần. Chẳng hạn, hai sai số tọa độ bằng nhau có thể triệt tiêu trong một chênh lệch, trong khi hộp độc lập cho chúng dấu trái nhau. Tính ``chặt'' phải được gắn với chính tập bất định được tối ưu.
+
+\subsection{Đưa các mẫu khác thời điểm về cùng thời điểm quyết định}
+Cho tọa độ vật lý hoặc tín hiệu mục tiêu $x_i(t)$, được đo tại $t_i$ và dùng tại $t_*\ge t_i$. Giả sử phép đo và mã hóa cho
+\[
+|\widehat x_i-x_i(t_i)|\le\eta_i
+\]
+và đã có cận biến đổi $|x_i(t)-x_i(s)|\le v_i|t-s|$ trong miền/thời gian áp dụng. Bất đẳng thức tam giác cho
+\begin{equation}\label{eq:age}
+|\widehat x_i-x_i(t_*)|\le\eta_i+v_i(t_*-t_i)=:\delta_i(t_*).
+\end{equation}
+Sai số lượng tử hóa, sai số tái dựng từ giao thức, sai số số học và sai số đo có thể nằm trong $\eta_i$ nếu mỗi thành phần có cận và đơn vị phù hợp. Cộng các cận là một bảo đảm đủ; không được gọi tổng đó là sai số thực đã đo.
+
+\begin{corollary}[Chứng chỉ quyết định có thời hạn]\label{cor:deadlinecertificate}
+Nếu các cận~\eqref{eq:age} và cận tham số $\tau(t_*)$ hợp lệ, thay chúng vào~\eqref{eq:jointbridge} cho một chứng chỉ đủ để giữ hành động $I$ tại $t_*$. Với $\tau$ cố định và mọi $v_i\ge0$, vế phải không giảm theo $t_*$, nên một chứng chỉ cho thời điểm muộn cũng chứng nhận mọi thời điểm sớm hơn các cận còn áp dụng và đã có đủ mẫu.
+\end{corollary}
+\begin{proof}
+Bất đẳng thức~\eqref{eq:age} đặt trạng thái thật trong hộp của Định lý~\ref{thm:heterogeneous}; áp chiều đủ. Mỗi hạng $v_i(t_*-t_i)$ không giảm theo $t_*$, nên điều kiện tại thời điểm muộn mạnh hơn. Nếu một mẫu chưa tồn tại tại thời điểm sớm hơn, nó không thể được dùng ở đó; vì vậy mệnh đề thời điểm sớm chỉ áp sau khi đã nhận mọi mẫu được sử dụng.
+\end{proof}
+Tính liên tục không đủ để cung cấp một $v_i$ chung. Trên một khoảng thời gian hữu hạn, các hàm tuyến tính $t\mapsto Mt$ đều liên tục với $M$ lớn tùy ý; không có cận tốc độ hữu hạn đồng đều cho cả họ. Ngay cả liên tục trên compact chỉ cho liên tục đều của từng hàm, không cung cấp một modulus số học đã biết cho bộ điều khiển. Ngược lại, quỹ đạo hằng cũng liên tục. Vì vậy không thể suy rằng mọi quan sát chắc chắn lỗi khác zero, hoặc chắc chắn có cùng tốc độ trôi, chỉ từ phát biểu thực tại biến đổi liên tục.
+
+\subsection{Biên chênh lệch theo hành động và tương quan giữa các hành động}
+\begin{proposition}[Cận đủ theo từng hành động]\label{prop:actionmargin}
+Cho các điểm danh nghĩa $m(a)$ và điểm đích $v(a)$ trên tập hành động $A$. Giả sử $m(a)-\epsilon(a)\le v(a)\le m(a)+\epsilon(a)$ với $\epsilon(a)\ge0$. Nếu với mọi $a\ne a_*$,
+\[
+m(a_*)-m(a)\ge\epsilon(a_*)+\epsilon(a),
+\]
+thì $v(a_*)\ge v(a)$ với mọi $a$. Nếu các sai số hành động độc lập và lấp đầy toàn hộp, điều kiện từng cặp cũng cần cho một bảo đảm worst-case đối với hành động chọn.
+\end{proposition}
+\begin{proof}
+Với $a\ne a_*$, $v(a)\le m(a)+\epsilon(a)\le m(a_*)-\epsilon(a_*)\le v(a_*)$. Trường hợp $a=a_*$ là đẳng thức, không cần áp điều kiện gap. Nếu một cặp vi phạm và hộp sai số hành động đầy đủ, lấy $v(a)=m(a)+\epsilon(a)$ và $v(a_*)=m(a_*)-\epsilon(a_*)$ để đảo so sánh.
+\end{proof}
+Trong tối ưu đoạn, error các điểm dùng chung các tọa độ nên thường tương quan. Cận cộng $\epsilon(I)+\epsilon(J)$ có thể đếm hai lần sai số ở $I\cap J$, trong khi~\eqref{eq:jointbridge} triệt tiêu chúng. Đây là lý do cần giữ hình học nhiệm vụ khi ghép thông tin với tối ưu, thay vì chỉ truyền một scalar error tối đa rồi bỏ hết cấu trúc.
+
+\subsection{Ví dụ quyết định ở cùng thời điểm}
+Cho $\widehat x=(3,1,4)$, $\widehat\alpha=2$. Các điểm của sáu đoạn không rỗng, theo thứ tự $[1]$, $[2]$, $[3]$, $[1,2]$, $[2,3]$, $[1,3]$, là $1,-1,2,0,1,2$. Có hòa danh nghĩa giữa $[3]$ và $[1,3]$. Nếu $\delta_1,\delta_2>0$, không đoạn nào trong hai đoạn hòa này có thể được chứng nhận bằng hộp đầy đủ với sai số dương ở phần khác nhau, vì chênh lệch bằng 0 nhỏ hơn ngân sách nhiễu. Sai số tái dựng nhỏ không tự đủ để chọn một trong hai hành động cố định.
+
+Thay $\widehat x$ bằng $(3,1,5)$ và $\widehat\alpha=5/2$. Đoạn $[3]$ có điểm $5/2$; đối thủ $[1,3]$ có điểm $3/2$, cho chênh lệch bằng 1. Với $\delta_i=1/10$ và $\tau=1/20$, chi phí nhiễu của cặp ấy là $2/10+2/20=3/10<1$. Các đối thủ còn lại cũng có thể được kiểm bằng đúng công thức. Đây là chứng chỉ một trường hợp, không phải một khẳng định về cảm biến cụ thể.

@@ -1,0 +1,51 @@
+\section{Thông tin đủ cho quyết định và xung đột nhiều trạng thái}\label{sec:decision}
+Cho $S$ hữu hạn và tập hành động $A$ hữu hạn. Với mỗi trạng thái $s$, cho tập không rỗng $\mathcal A(s)\subseteq A$ gồm các hành động chấp nhận được. Tập này có thể là tập nghiệm tối ưu, nghiệm có regret bị chặn, hoặc hành động thỏa một tập ràng buộc. Nếu có trạng thái không hành động nào chấp nhận được, bài toán hành động bắt buộc không khả thi ở trạng thái ấy; muốn cho phép từ chối cần thêm một hành động từ chối và quy định rõ điều kiện hợp lệ của nó.
+
+\begin{theorem}[Tiêu chuẩn một ô mã quyết định]\label{thm:actioncell}
+Bộ mã hóa $q:S\to Z$ cho phép bộ giải mã $a:Z\to A$ với $a(q(s))\in\mathcal A(s)$ với mọi $s$ khi và chỉ khi mỗi thớ khác rỗng $C=q^{-1}(z)$ thỏa
+\[
+\bigcap_{s\in C}\mathcal A(s)\ne\varnothing.
+\]
+\end{theorem}
+\begin{proof}
+Nếu bộ giải mã tồn tại, $a(z)$ thuộc tất cả các tập ứng với trạng thái trong thớ, nên nằm trong giao. Ngược lại, chọn một hành động trong giao của mỗi thớ khác rỗng và dùng nó làm bộ giải mã; các mã không dùng có thể gán một hành động tùy ý. Hai chiều dùng đúng một hành động chung cho cả thớ, không cho bộ giải mã biết trạng thái thật sau khi đã nhận cùng mã.
+\end{proof}
+Gọi một tập trạng thái là \emph{tương thích} nếu giao trên khác rỗng. Tính tương thích đóng dưới lấy tập con, nhưng quan hệ từng cặp có thể không bắc cầu. Đồ thị chỉ chứa các cặp không tương thích vì vậy có thể bỏ qua một trở ngại chỉ xuất hiện ở ba hoặc nhiều trạng thái.
+
+\begin{corollary}[Cận mã bằng phủ tương thích]\label{cor:cover}
+Gọi $\chi_{\mathcal A}$ là số tập tương thích ít nhất có hợp bằng $S$. Số bit cố định tối thiểu cho quyết định chính xác là $\ceil{\log_2\chi_{\mathcal A}}$.
+\end{corollary}
+\begin{proof}
+Các thớ của mọi bộ mã hóa đúng tạo một phủ tương thích, nên số mã dùng ít nhất là $\chi_{\mathcal A}$. Ngược lại, từ một phủ tương thích gồm $k$ tập, gán mỗi trạng thái cho tập đầu tiên của phủ chứa nó. Các thớ tạo thành là tập con của các ô phủ nên vẫn tương thích. Theo Định lý~\ref{thm:actioncell}, chúng cho bộ mã hóa đúng dùng không quá $k$ nhãn. Đổi nhãn sang bit cho công thức.
+\end{proof}
+Đây là một bài toán phủ hữu hạn của các tập hợp lệ, có thể mô tả bằng siêu đồ thị các tập không tương thích. Công thức xác định lượng nhãn tối ưu nhưng không khẳng định bài toán tìm phủ tối ưu có thuật toán đa thức.
+
+\subsection{Xung đột có bậc không bị chặn trong tối ưu đoạn}
+Cho $n\ge2$ và $n$ trạng thái $x^{(i)}\in\{0,1\}^n$, trong đó tọa độ $i$ bằng0 và các tọa độ khác bằng1. Hành động là đoạn liên tiếp không rỗng $I\subseteq\{1,\ldots,n\}$; cố định $\alpha=2$ và tối đa hóa
+\[
+f_i(I)=\sum_{j\in I}x_j^{(i)}-2|I|.
+\]
+\begin{theorem}[Bậc xung đột tùy ý]\label{thm:conflict}
+Trong trạng thái $i$, các nghiệm tối ưu đúng là singleton $\{j\}$ với $j\ne i$. Mọi tập con thực sự của $n$ trạng thái có một nghiệm tối ưu chung; toàn bộ $n$ trạng thái không có. Vì vậy không có một số nguyên cố định $k$ sao cho kiểm mọi nhóm không quá $k$ trạng thái đủ bảo đảm một ô mã có hành động tối ưu chung trong mọi bài toán dạng này.
+\end{theorem}
+\begin{proof}
+Singleton $\{j\}$ có điểm $-1$ nếu $j\ne i$, và $-2$ nếu $j=i$. Đoạn dài ít nhất2 có tổng giá trị không quá độ dài, nên điểm không quá $-|I|\le-2$. Vì $n\ge2$ luôn có một singleton khác $i$, tối ưu bằng $-1$ và tập nghiệm là đúng như phát biểu.
+
+Cho tập chỉ số trạng thái $C$ là một tập con thực sự. Chọn $j\notin C$. Khi trạng thái thật là bất kỳ $i\in C$, singleton $\{j\}$ tối ưu. Với toàn bộ trạng thái, mọi singleton $\{j\}$ thất bại tại chính trạng thái $j$, còn mọi đoạn dài hơn thất bại ở tất cả trạng thái. Do đó giao của toàn họ rỗng. Cuối cùng, với một $k$ bất kỳ, chọn $n>k$: mọi nhóm kiểm có nhiều nhất $k$ trạng thái là tập con thực sự, nhưng toàn ô không tương thích.
+\end{proof}
+Với $n=3$, mọi cặp trạng thái có một hành động chung, nên đồ thị bất tương thích cặp không có cạnh; vẫn không thể dùng một mã duy nhất cho cả ba. Không được áp tính Helly của các khoảng trên trục thực vào các \emph{tập các đoạn tối ưu}: mỗi hành động là một khoảng, nhưng tập hành động của một trạng thái là một tập con khác của không gian hành động, không tự là một khoảng trong cùng trục.
+
+\begin{corollary}[Một bit quyết định và ngưỡng regret]\label{cor:onebit}
+Trong họ trên, nguồn biết $i$ và phía nhận biết họ bài toán. Một bit nguồn là cần và đủ để trả nghiệm tối ưu; tái dựng chính xác $i$ cần $\ceil{\log_2n}$ bit. Với regret cộng cho phép $\eta\ge0$, 0 bit đủ khi và chỉ khi $\eta\ge1$.
+\end{corollary}
+\begin{proof}
+0 bit cho cùng hành động ở mọi trạng thái, bị Định lý~\ref{thm:conflict} loại. Để đạt một bit, gửi0 nếu $i=1$ và giải mã thành $\{2\}$; gửi1 nếu $i\ne1$ và giải mã thành $\{1\}$. Cả hai hành động đều tránh tọa độ zero. Tái dựng $i$ phải phân biệt $n$ trạng thái khác nhau, cho cận đếm chuẩn và đạt bằng chỉ số.
+
+Một singleton cố định có regret0 ở mọi trạng thái khác chỉ số của nó và regret1 ở trạng thái đó, nên đạt ngưỡng1. Nếu $\eta<1$, mọi điểm là số nguyên và optimum là $-1$, vì thế hành động có regret không quá $\eta$ buộc phải tối ưu chính xác; trở ngại 0 bit vẫn áp dụng.
+\end{proof}
+Nếu cho phép đoạn rỗng score0, nó thắng mọi hành động không rỗng của ví dụ và 0 bit đủ ngay. Đối chứng này chỉ rõ giả thiết hành động không rỗng là thiết yếu, không một chi tiết hình thức có thể bỏ.
+
+\subsection{Từ quan sát tới quyết định: điều kiện một chiều}
+Một mã tái dựng đủ quan sát $o(s)$ cũng đủ quyết định nếu có một hàm $g$ thỏa $g(o(s))\in\mathcal A(s)$ với mọi $s$. Chứng minh chỉ là ghép bộ giải mã quan sát với $g$. Chiều ngược lại không đúng vì nhiều đầu ra khác nhau có thể cho chung một hành động, như họ một-bit vừa dựng.
+
+Khi có tương tác tương lai, tập hành động cần xét còn phụ thuộc chuỗi sự kiện hoặc lịch sử. Một mã dùng trước chuỗi sự kiện phải giữ một lựa chọn hợp lệ cho mỗi chuỗi sự kiện được phép, với bộ giải mã biết chuỗi sự kiện. Không nên thay yêu cầu này bằng ``có một hành động chung cho toàn bộ mọi chuỗi sự kiện'' trừ khi thực sự muốn cùng một hành động bất kể tương tác. Đổi thứ tự lượng từ từ $\forall w\,\exists a_w$ sang $\exists a\,\forall w$ làm bài toán mạnh hơn.

@@ -1,0 +1,39 @@
+\section{Decision sufficiency and conflicts of arbitrary order}\label{sec:decision}
+Let $S,A$ be finite. For each $s$, specify a nonempty set $\mathcal A(s)\subseteq A$ of acceptable actions. It may describe exact maximizers, an additive regret tolerance, or a feasibility requirement. If a state admits no action, mandatory action there is infeasible. A refusal option, if allowed, needs its own validity predicate.
+
+\begin{theorem}[Common action in a message class]\label{thm:actioncell}
+A code $q:S\to Z$ permits a decoder $a$ with $a(q(s))\in\mathcal A(s)$ for every $s$ exactly when each nonempty fiber $C$ satisfies $\bigcap_{s\in C}\mathcal A(s)\ne\varnothing$.
+\end{theorem}
+\begin{proof}
+The decoder's chosen action on a particular code must belong to every action set on its fiber. Conversely, choose one member of that intersection for each used code. This defines a valid decoder on all states. No extra observation of the state is available after the code has been fixed.
+\end{proof}
+Call such a set of states compatible. Its subsets remain compatible. Pairwise compatibility need not be transitive. Even when every pair in a class shares an answer, the entire class may have none.
+
+\begin{corollary}[A covering number]\label{cor:cover}
+If $\chi_{\mathcal A}$ is the minimum number of compatible sets covering $S$, the optimal fixed content length is $\ceil{\log_2\chi_{\mathcal A}}$.
+\end{corollary}
+\begin{proof}
+The fibers of any valid encoder form a compatible cover. In the opposite direction, order the sets in a minimum cover and assign each state to the first set containing it. Each resulting fiber lies inside a compatible set. Theorem~\ref{thm:actioncell} supplies a decoder. Numbering the fibers attains the claimed bit length.
+\end{proof}
+This characterizes the optimal alphabet. Finding a minimum cover is a separate computational problem.
+
+\subsection{A family of interval decisions}
+For $n\ge2$, state $i$ has vector $x^{(i)}\in\{0,1\}^n$ with a zero at position $i$ and ones elsewhere. An action is a nonempty contiguous interval $I$. Fix $\alpha=2$ and maximize $f_i(I)=\sum_{j\in I}x_j^{(i)}-2|I|$.
+
+\begin{theorem}[Unbounded minimal conflict order]\label{thm:conflict}
+The optimal actions in state $i$ are exactly the singletons $\{j\}$ with $j\ne i$. Every proper subset of the $n$ states has a common optimum. The full family has none. No fixed order of compatibility testing suffices over this class of problems.
+\end{theorem}
+\begin{proof}
+A singleton has score $-1$ away from $i$ and $-2$ at $i$. Any interval of length at least two has score at most $-|I|\le-2$. At least one good singleton exists. In a proper collection of states, choose a position $j$ whose state is absent. Its singleton is optimal throughout the collection. In the full family each singleton fails at its own index and longer intervals always fail. For any prescribed order $k$, taking $n>k$ makes every test of at most $k$ states succeed while the full intersection is empty.
+\end{proof}
+At $n=3$ the pairwise incompatibility graph has no edges. The obstruction still exists. The Helly property of intervals on the line applies to intervals of positions. Each state's set of optimal \emph{actions} belongs to a different underlying space.
+
+\begin{corollary}[One bit and the regret threshold]\label{cor:onebit}
+Assume the source knows $i$ and both parties know the problem family. An exact optimal action needs exactly one bit. Recovering $i$ needs $\ceil{\log_2 n}$ bits. A zero-bit action has worst-case additive regret at most $\eta$ exactly when $\eta\ge1$.
+\end{corollary}
+\begin{proof}
+A constant decoder fails by Theorem~\ref{thm:conflict}. Send zero if $i=1$, decoded as $\{2\}$, and one otherwise, decoded as $\{1\}$. Both branches avoid the zero position. Reconstruction requires $n$ distinct labels and an index attains the counting bound. A fixed singleton loses one point at its own index and none elsewhere. Conversely, all scores are integral, so regret less than one forces exact optimality. If the empty interval were admitted, its score zero would beat every nonempty interval and a constant decoder would work.
+\end{proof}
+
+\subsection{Which decision is made after a message?}
+If $g(o(s))\in\mathcal A(s)$ everywhere, an exact observation code suffices for the action by composing its decoder with $g$. The one-bit family shows why the converse fails. When the decoder subsequently receives an event word, it can choose a different action for each word. For a message class the requirement is then $\forall w\,\exists a_w$ valid at all compatible states for that word. Requiring $\exists a\,\forall w$ gives a stronger task. Neither the shape of an interval nor the length of the transmitted message resolves this quantifier choice.

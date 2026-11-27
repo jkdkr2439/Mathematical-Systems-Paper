@@ -1,0 +1,78 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[inner=29mm,outer=27mm,top=26mm,bottom=27mm,headheight=15pt]{geometry}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}[Scale=0.84]
+\usepackage{amsmath,amssymb,amsthm,booktabs,longtable,array,graphicx,fancyhdr,xcolor}
+\usepackage[hidelinks,bookmarksnumbered]{hyperref}
+\hypersetup{pdftitle={Information, Interaction, and Decision in Dynamical Systems},pdfauthor={Kevin T.N.},pdfsubject={Sufficient representations, observation budgets, and robust interval optimization},pdflang={en}}
+\setlength{\parskip}{3pt}
+\setlength{\parindent}{1.25em}
+\setlength{\emergencystretch}{2em}
+\linespread{1.09}
+\raggedbottom
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newcommand{\R}{\mathbb R}\newcommand{\Q}{\mathbb Q}\newcommand{\Z}{\mathbb Z}\newcommand{\N}{\mathbb N}\newcommand{\F}{\mathbb F_2}
+\newcommand{\rk}{\operatorname{rank}}\newcommand{\rank}{\operatorname{rank}_{\Q}}\newcommand{\spn}{\operatorname{span}}
+\newcommand{\floor}[1]{\left\lfloor #1\right\rfloor}\newcommand{\ceil}[1]{\left\lceil #1\right\rceil}
+\newcommand{\diam}{\operatorname{diam}}\newcommand{\Einf}{E_{\infty}}\newcommand{\cost}{\operatorname{cost}}
+\newcommand{\ind}{\mathbf 1}\newcommand{\argmax}{\operatorname*{arg\,max}}
+\urlstyle{same}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small\itshape Information, Interaction, and Decision}\fancyhead[R]{\small Kevin T.N.}\fancyfoot[C]{\small\thepage}\renewcommand{\headrulewidth}{0.3pt}
+\setcounter{tocdepth}{1}
+\makeatletter
+\renewcommand*\l@section{\@dottedtocline{1}{0pt}{2.4em}}
+\makeatother
+\begin{document}
+\begin{titlepage}\thispagestyle{empty}
+\setlength{\parindent}{0pt}
+\vspace*{18mm}
+{\small\scshape Mathematical monograph\par}
+\vspace{9mm}
+{\fontsize{32}{36}\selectfont Information, Interaction, and\\[2pt] Decision in Dynamical Systems\par}
+\vspace{6mm}
+{\Large\itshape Sufficient representations, observation budgets,\\ arithmetic stability, and semantic transfer\par}
+\vspace{9mm}\noindent\rule{0.27\linewidth}{0.5pt}\par
+\vspace{10mm}
+{\Large Kevin T.N.\par}\vspace{1.5mm}{\normalsize Epistemologist\par}
+\vfill
+\begin{minipage}{.87\linewidth}
+\textit{Which distinctions between states must a representation preserve today if a decision is to remain valid after tomorrow's observation or intervention?}
+\end{minipage}
+\vspace{14mm}
+
+\noindent English edition \hfill 28 November 2026
+\end{titlepage}
+\pagenumbering{roman}
+\section*{Abstract}
+This monograph studies the information needed to reproduce observations and select actions when a system evolves between measurement and use. For a finite deterministic system, the number of distinct future observation profiles gives the exact fixed-length coding cost. If the admissible interactions expand, the largest number of refined classes inside an old class determines the additional information required. For affine dynamics over the binary field, a cost-indexed observability space yields a matching rank bound for arbitrary encoders, together with an explicit compressed update. For decisions with several acceptable answers, sufficiency instead requires a common action in each message class. An interval optimization problem exhibits minimal incompatible families of unbounded size and an exact separation between the costs of deciding and reconstructing.
+
+Two specializations are developed with their converses and constructions. The first counts robust positional optimizers of a parametric interval score. Binary alphabets obey a joint length--precision law. In higher rational rank a Diophantine separation condition suffices for a corresponding law, while a single fixed Liouville alphabet defeats a classification by rank alone. The second specialization gives the exact integer and continuous minimax errors for a source that commits an early label and later sends one of two replies after remeasurement. Coordinatewise error bounds connect reconstruction to interval decisions at a common target time. Further results give conditions for synchronous composition, finite-deadline policy synthesis, and preservation of a certificate under a change of numerical semantics. The supplementary programs check selected logical statements and independently reproduce finite examples. The asymptotic arithmetic bounds and minimax formulas have written proofs.
+
+\noindent\textbf{Keywords.} Observational equivalence, zero-error communication, switched systems, robust optimization, parametric maximum-sum segments, Diophantine approximation, causal coding.
+\newpage{\setlength{\parskip}{3.5pt}\tableofcontents}\clearpage\pagenumbering{arabic}
+\input{english/foundations}
+\input{english/affine}
+\input{english/decision}
+\input{english/arithmetic}
+\input{english/timing}
+\input{english/bridge}
+\input{english/composition}
+\input{english/semantics}
+\input{english/applications}
+\input{english/conclusion}
+\appendix
+\input{english/details}
+\input{english/verification}
+\clearpage\phantomsection\addcontentsline{toc}{section}{References}
+\begingroup\small
+\input{references}
+\endgroup
+\end{document}

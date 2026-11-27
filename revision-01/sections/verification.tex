@@ -1,0 +1,62 @@
+\section{Bản đồ phụ thuộc và phạm vi kiểm chứng}\label{app:verification}
+\subsection{Phụ thuộc chứng minh}
+Bảng dưới mô tả những tiền đề toán học trực tiếp. Nó không biến một liên hệ chủ đề thành một suy diễn.
+\begin{longtable}{p{0.30\textwidth}p{0.61\textwidth}}
+\toprule Kết quả & Các thành phần dùng để chứng minh\\\midrule\endhead
+Cận lớp và mã & Equality output trên mọi từ; factorization qua fiber; đếm mã nhị phân.\\
+Refinement hữu hạn & Bất biến output qua từ dài không quá $j$; số ô tăng hữu hạn; closure tại điểm cố định.\\
+Thông tin bổ sung & Inclusion của hai phân hoạch; số lớp mới trong mỗi lớp cũ; thông tin cũ chung hai bên.\\
+Cận hạng theo budget & Kéo lùi hàng theo đúng thứ tự từ; bias triệt tiêu; rank--nullity trên toàn $\F^n$; cận lớp.\\
+Quyết định một ô & Giao tập action; một decoder chung cho mỗi fiber. Không dùng transitivity của tương thích cặp.\\
+Số đoạn bền & Tiêu chuẩn hộp; đóng gói tham số; laminarity và cây; chữ ký; đếm mật độ; guard.\\
+Trở ngại số học & Phép chuyển biểu diễn; cận chữ ký hữu tỷ có giữ mẫu số; một bảng Liouville cố định.\\
+Đo lại hai nhãn & Phủ tập đích; cản trở bộ ba; bổ đề tập đủ dày; dựng khối tuần hoàn; giới hạn lưới.\\
+Cầu nối quyết định & Cận đo/truyền/độ cũ tại cùng thời điểm; tối thiểu hóa chênh lệch tuyến tính trên hộp.\\
+Ghép hệ & Cổng factor qua biểu diễn; transition commute với projection; quy nạp số bước đồng bộ.\\
+Policy hữu hạn & State đầy đủ; query có duration dương; belief update; phân tích lựa chọn đầu; quy nạp ngược.\\
+Chuyển semantics & Equality/factorization hoặc cận lỗi đã được chứng nhận; margin khi chỉ cần giữ action.\\
+\bottomrule
+\end{longtable}
+
+\subsection{Các chứng chỉ Lean đi kèm}
+Supplement có ba file độc lập, chỉ import thư viện chuẩn của Lean. Lần kiểm được ghim vào version và hash binary trong \texttt{results.json}; người đọc có thể compile lại bằng executable của mình. Không cần truy cập dữ liệu hoặc engine ngoài gói toán.
+\begin{longtable}{p{0.23\textwidth}p{0.08\textwidth}p{0.59\textwidth}}
+\toprule File & Số & Phạm vi declaration đã kiểm\\\midrule\endhead
+\texttt{Observation.lean} &5& Đơn điệu theo budget; residual budget; encoder đúng buộc refinement; không phục hồi phân biệt mới từ mã cũ; phép chiếu qua bước ghép cổng.\\
+\texttt{Policies.lean} &8& Tồn tại policy an toàn khi và chỉ khi feasible theo độ sâu; trở ngại không thể dừng; sáu kết quả về cost đoạn tự nhiên cho họ state có một tọa độ zero.\\
+\texttt{Transfer.lean} &4& Factorization truyền equality; phản ví dụ bác decoder; margin hữu tỷ cho một đối thủ; margin cho toàn tập đối thủ khác action chọn.\\
+\bottomrule
+\end{longtable}
+Tổng cộng17 declaration. Chứng chỉ policy là tồn tại và tính an toàn với độ sâu hữu hạn; nó không hình thức hóa toàn recurrence chi phí tối ưu của Định lý~\ref{thm:bellman}. Chuyên biệt cost đoạn dùng cost tự nhiên $|I|+\ind_{i\in I}$; equality giữa cost đó và âm score của họ ví dụ được chứng minh viết bằng cách đếm số tọa độ bằng1. Chứng chỉ affine quan hệ không bao gồm toàn theorem rank--cardinality. Các cận số học và công thức minimax timing có chứng minh viết trong bản này, không được ghi là đã qua kernel chỉ vì một bổ đề gần chúng đã qua kernel.
+
+Các file không chứa \texttt{sorry}, axiom tự khai hoặc phép chấp nhận dựa trên một evaluator không sinh proof term. Log khai đầy đủ dependency nền; một số declaration không dùng axiom nào, những declaration khác dùng các nền chuẩn được Lean báo. Việc ghim hash bảo vệ khả năng nhận diện artifact, không chứng minh một compiler bất kỳ hoàn toàn không có lỗi. Mô hình, phép dịch từ ký hiệu bài báo sang declaration và hệ thống phần mềm vẫn có phạm vi tin cậy phải được hiểu riêng~\cite{lean}.
+
+\subsection{Các phép kiểm hữu hạn tái lập độc lập}
+Mã \texttt{supplement/verify.py} dùng Python thư viện chuẩn. Các số hữu tỷ dùng \texttt{Fraction}, phép toán trường nhị phân dùng bit vector, và chỉ phản ví dụ operational mới dùng số máy. Kết quả của lần kiểm đi kèm:
+\begin{center}
+\begin{tabular}{p{0.43\textwidth}p{0.48\textwidth}}
+\toprule Phép kiểm & Phạm vi đã chạy\\\midrule
+Hệ affine nhị phân &48 model; 1.440 so sánh state--budget; 1.800 so sánh cập nhật.\\
+Công thức timing nguyên &210 bộ tham số; 8.761 lần kiểm phân hoạch; $n\le7$, $b\le5$, $d\le2$, $k\in\{2,3\}$.\\
+Chứng chỉ nhiễu không đồng nhất &972 ứng viên chứng chỉ; 15.552 realization ở các đỉnh hộp bằng hữu tỷ chính xác.\\
+Tương thích action &501 tập state khác rỗng trong các họ $2\le n\le8$.\\
+Chọn đo có giá &80 instance; so greedy với toàn128 tập con của bảy phép đo.\\
+Operational counterexample &Hai giá trị binary64 khác nhau và dạng hexadecimal; equality hữu tỷ kiểm riêng.\\
+\bottomrule
+\end{tabular}
+\end{center}
+Ở oracle timing, các phân hoạch được sinh không trùng theo thứ tự nhãn xuất hiện đầu tiên. Mỗi bộ tham số kiểm một phân hoạch đạt độ rộng dự kiến và loại tất cả phân hoạch ở độ rộng nhỏ hơn một đơn vị. Tính đơn điệu của khả thi theo độ rộng loại mọi độ rộng còn nhỏ hơn. Đây là vét cạn cho miền nhỏ đã khai; các theorem mọi tham số vẫn dựa vào chứng minh viết.
+
+Ở oracle nhiễu, comparison là giữa công thức margin và đánh giá trực tiếp tại toàn bộ đỉnh của hộp. Vì chênh lệch score là affine, extrema nằm tại đỉnh; phần mã vẫn chỉ kiểm một số hữu hạn instance, còn bước tổng quát affine-on-box đã được chứng minh trong Định lý~\ref{thm:heterogeneous}. Không gọi 15.552 corner instances là dữ liệu cảm biến.
+
+Các model affine là ví dụ tổng hợp seeded và chỉ dùng để kiểm hai đường tính độc lập: recurrence không gian với bảng output của tất cả state và word trong budget. Chúng không đại diện cho mẫu ngẫu nhiên của mọi hệ thực tế. Phiên bản Python, hash source, hash Lean, log theorem và kết quả đầy đủ được giữ trong supplement để việc tái kiểm có đối tượng xác định.
+
+\subsection{Lệnh tái lập và giới hạn artifact}
+Từ thư mục supplement, có thể chạy:
+\begin{verbatim}
+python verify.py --out verification-new
+python verify.py --lean /path/to/lean --out verification-lean-new
+\end{verbatim}
+Thư mục đầu ra mới phải chưa tồn tại. Lệnh thứ nhất chạy các kiểm toán học hữu hạn; lệnh thứ hai thêm compile ba file Lean. Tạo PDF từ nguồn bằng XeLaTeX, chạy hai lần để giải mục lục và tham chiếu. Không yêu cầu mạng cho các phép kiểm sau khi đã có Python, Lean và bộ dàn trang.
+
+Bản tổng hợp này chưa là chứng nhận phản biện bên ngoài hoặc kết quả chấp nhận của một tạp chí. Các bước kiểm artifact bảo đảm tính nhất quán của gói đã giao trong phạm vi được ghi; chúng không xác lập novelty lịch sử hay tính đúng của giả thiết khi áp vào một hệ vật lý.

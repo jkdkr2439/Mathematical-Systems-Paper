@@ -1,0 +1,98 @@
+\section{Không gian quan sát theo ngân sách trong hệ affine}\label{sec:linear}
+Xét trạng thái $x\in\F^n$, đầu ra $Cx\in\F^p$ và các sự kiện
+\[
+T_e(x)=A_ex+a_e,\qquad c_e\in\N_{>0}.
+\]
+Mọi ma trận, bias và chi phí đã biết; chi phí không phụ thuộc trạng thái. Phép cộng và nhân trong phần này đều trên $\F$, không phải phép cộng số nguyên. Với từ $w$, chi phí là tổng chi phí các ký tự và $L_b=\{w:\cost(w)\le b\}$, $b\in\N$. Từ rỗng luôn thuộc $L_b$.
+
+\subsection{Kéo lùi quan sát và thứ tự tích}
+Viết $T_w(x)=A_wx+a_w$. Với $w=ev$, theo quy ước thời gian của Định nghĩa~\ref{def:system},
+\[
+A_{ev}=A_vA_e,\qquad a_{ev}=A_va_e+a_v.
+\]
+Một hàng quan sát $u$ trên trạng thái sau sự kiện $e$ trở thành hàng $uA_e$ trên trạng thái trước sự kiện; bias cho hằng số biết trước $ua_e$. Đây là phép kéo lùi một hàm tuyến tính. Đổi nhầm thứ tự $A_vA_e$ thành $A_eA_v$ sẽ nói về một diễn tiến khác khi các ma trận không giao hoán.
+
+Đặt
+\begin{equation}\label{eq:Wbudget}
+W_b=\spn\left(\operatorname{rows}(C)\cup
+\bigcup_{e:c_e\le b}\{uA_e:u\in W_{b-c_e}\}\right).
+\end{equation}
+Vì $c_e\ge1$, công thức xác định $W_b$ bằng các không gian đã biết ở ngân sách thấp hơn. Không gian $W_0$ là không gian hàng của $C$.
+
+\begin{lemma}[Mô tả theo mọi từ]\label{lem:wordspace}
+Với mọi $b\ge0$,
+\[
+W_b=\spn\{\operatorname{rows}(CA_w):w\in L_b\}.
+\]
+Đặc biệt, $b'\le b$ kéo theo $W_{b'}\subseteq W_b$.
+\end{lemma}
+\begin{proof}
+Quy nạp mạnh theo $b$. Tại $b=0$, chi phí dương khiến từ rỗng là từ duy nhất; $A_{\varnothing}=I_n$ nên hai vế đều là row$(C)$. Với $b>0$, mỗi từ khác rỗng trong $L_b$ có duy nhất ký tự đầu $e$ và suffix $v\in L_{b-c_e}$. Theo giả thiết quy nạp, span các hàng $CA_v$ là $W_{b-c_e}$. Nhân bên phải với $A_e$ là ánh xạ tuyến tính nên span các hàng $CA_vA_e$ bằng $\{uA_e:u\in W_{b-c_e}\}$ rồi lấy span trên mọi $e$ đủ chi phí. Thêm từ rỗng cho đúng~\eqref{eq:Wbudget}. Tính đơn điệu suy ra từ $L_{b'}\subseteq L_b$.
+\end{proof}
+
+\begin{theorem}[Cận thông tin, bộ giải mã và cập nhật]\label{thm:linear}
+Giả sử tập trạng thái khả dĩ là toàn $\F^n$. Đặt $r_b=\dim W_b$ và chọn ma trận $B_b$ gồm một cơ sở hàng của $W_b$. Khi đó:
+\begin{enumerate}
+\item $x\sim_{L_b}y$ khi và chỉ khi $B_bx=B_by$;
+\item có đúng $2^{r_b}$ lớp, nên mọi bộ mã hóa chính xác cần ít nhất $r_b$ bit, kể cả bộ mã hóa phi tuyến;
+\item mã $z=B_bx$ đạt cận; có ma trận $D_b$ với $D_bB_b=C$;
+\item với $c_e\le b$, có $U_{b,e}$ thỏa
+\[
+U_{b,e}B_b=B_{b-c_e}A_e,
+\quad z'=U_{b,e}z+B_{b-c_e}a_e.
+\]
+Mã mới bằng $B_{b-c_e}T_e(x)$ và dùng đúng ngân sách còn lại.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\emph{Bước 1: loại phần affine đã biết.} Với cùng một $w$, hiệu đầu ra tại $x,y$ là $CA_w(x-y)$; bias $Ca_w$ triệt tiêu. Vì vậy đẳng thức đầu ra với mọi $w\in L_b$ tương đương mọi hàng trong span ở Bổ đề~\ref{lem:wordspace} triệt tiêu $x-y$. Kiểm trên một cơ sở đủ và cần, cho kết luận thứ nhất.
+
+\emph{Bước 2: đếm lớp mà không hạn chế bộ mã hóa.} Ma trận $B_b$ có $r_b$ hàng độc lập nên ánh xạ $x\mapsto B_bx$ có hạng $r_b$. Khử Gauss cho thấy với mọi $z\in\F^{r_b}$ có một nghiệm $x$, tức ánh xạ lên toàn bộ. Kernel có chiều $n-r_b$, mỗi thớ là một coset của kernel và chứa $2^{n-r_b}$ phần tử. Do đó số thớ là $2^n/2^{n-r_b}=2^{r_b}$. Định lý~\ref{thm:factor} áp cho mọi bộ mã hóa tất định, không yêu cầu tuyến tính, cho cận dưới $r_b$.
+
+\emph{Bước 3: giải mã hiện tại.} Mỗi hàng của $C$ thuộc $W_b$. Viết tọa độ của từng hàng theo cơ sở $B_b$ và ghép các tọa độ thành $D_b$. Khi đó $D_bB_b=C$ và $D_bz=Cx$.
+
+\emph{Bước 4: tính mã sau sự kiện.} Truy hồi~\eqref{eq:Wbudget} nói rằng mọi hàng của $B_{b-c_e}A_e$ thuộc $W_b$. Viết tọa độ các hàng ấy theo $B_b$ tạo $U_{b,e}$. Thay $z=B_bx$ vào công thức cập nhật được
+$z'=B_{b-c_e}A_ex+B_{b-c_e}a_e=B_{b-c_e}T_e(x)$.
+
+\emph{Bước 5: mọi chuỗi hợp lệ.} Quy nạp theo số sự kiện: ban đầu mã có dạng đã chỉ định; bước 4 bảo toàn bất biến ấy đồng thời giảm ngân sách. Ở mỗi thời điểm bước 3 cho đầu ra đúng. Đây là cấu trúc đạt cận cho mọi từ trong $L_b$, không chỉ cho các từ đã thử bằng máy.
+\end{proof}
+
+\subsection{Miền trạng thái khả dĩ hạn chế và sự kiện miễn phí}
+Nếu chỉ $X\subsetneq\F^n$ khả dĩ, số lớp tại điểm khởi tạo là $|B_bX|$, không nhất thiết là $2^{r_b}$. Ví dụ $X=\{0\}$ chỉ cần 0 bit dù $B_b$ có hạng lớn. Các công thức tuyến tính vẫn cho một mã đủ; nó có thể không tối ưu về bit trên $X$. Khi dùng một quotient tối ưu riêng trên $X$ cho cập nhật, còn phải xét miền trạng thái khả dĩ đạt được sau mỗi từ hoặc yêu cầu $X$ bất biến dưới các sự kiện.
+
+Nếu cho phép $c_e=0$, recurrence có thể tham chiếu $W_b$ ngay ở vế phải. Khi ấy phải lấy điểm cố định nhỏ nhất đóng dưới mọi phép kéo lùi zero-cost, chứ không duyệt ngân sách một lần rồi dừng. Vì chiều không gian nhiều nhất $n$, closure tuyến tính tại một ngân sách vẫn có thể dừng sau hữu hạn lần tăng chiều. Tuy nhiên đó là một thuật toán khác; các cận và mã kiểm kèm theo ở đây yêu cầu chi phí nguyên dương.
+
+\begin{corollary}[Bổ sung thông tin tuyến tính]\label{cor:linearrepair}
+Với hai nhiệm vụ có không gian $W\subseteq W'$ và chiều $r,r'$, giả sử toàn $\F^n$ khả dĩ và nguồn còn trạng thái. Chính xác $r'-r$ bit bổ sung là cần và đủ khi hai bên đã biết mã cơ sở của $W$.
+\end{corollary}
+\begin{proof}
+Mở rộng một cơ sở $B$ của $W$ bằng $r'-r$ hàng thành cơ sở $B'$ của $W'$. Gửi các tích vô hướng mới với $x$ cho cấu trúc đạt cận. Để chứng minh tối thiểu, cố định một giá trị $Bx=z$. Đây là coset chiều $n-r$. Hạn chế các hàng mới lên kernel của $B$ có hạng $r'-r$: nếu một tổ hợp khác không của chúng triệt tiêu kernel thì tổ hợp ấy thuộc row$(B)$, trái với độc lập của cơ sở mở rộng. Vì thế mỗi thớ cũ chứa đúng $2^{r'-r}$ giá trị mã mới. Áp Định lý~\ref{thm:refresh}.
+\end{proof}
+Giảm ngân sách cho phép tính mã nhỏ hơn từ mã lớn hơn vì inclusion không gian. Tăng lại ngân sách không tự phục hồi dữ liệu đã mất. Một hệ đang ở mã $B_{b'}x$ muốn trở lại mã $B_bx$ với $b>b'$ cần có nguồn giữ thông tin bổ sung hoặc một phép đo thích hợp; phép gán lại biến ngân sách không phải một phép truyền thông tin.
+
+\subsection{Ba họ chính xác và đối chứng}
+\begin{proposition}\label{prop:families}
+Cho $n\ge2$. Các kết quả sau đúng trên toàn $\F^n$.
+\begin{enumerate}
+\item Quan sát parity và cho phép reset bất kỳ một tọa độ về zero, mỗi sự kiện chi phí 1: $r_0=1$, $r_b=n$ với $b\ge1$.
+\item Quan sát tọa độ đầu và có một phép dịch vòng chi phí 1: $r_b=\min(n,b+1)$.
+\item Với mọi tập toggle đã biết $T_e(x)=x+a_e$, $W_b=\operatorname{row}(C)$ cho mọi $b$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+(1) Hàng parity là $u=(1,\ldots,1)$. Sau reset $i$, hàng quan sát là $u+e_i$. Trong $W_1$ có cả hai, nên $e_i=u+(u+e_i)$ thuộc $W_1$. Mọi hàng đơn vị đều có, suy ra chiều $n$; chiều không thể vượt $n$ ở ngân sách lớn hơn.
+
+(2) Các từ được phép là dịch vòng $j$ lần với $0\le j\le b$. Hàng quan sát lần lượt là các hàng đơn vị theo vòng, độc lập tới khi đã có đủ $n$ hàng rồi lặp lại. Số hàng khác nhau là $\min(n,b+1)$.
+
+(3) Mọi $A_e=I_n$, nên nhân một hàng với $A_e$ không sinh hàng mới. Quy nạp trong~\eqref{eq:Wbudget} cho đẳng thức. Bias làm đổi đầu ra nhưng được biết nên không tăng số phân biệt giữa hai trạng thái chưa biết.
+\end{proof}
+Kết quả thứ ba là một đối chứng quan trọng: nhiều tương tác hoặc nhiều biến đổi không tự đòi lưu toàn trạng thái. Điều quyết định là các hàm quan sát được kéo lùi qua những biến đổi ấy, chứ không chỉ số lần xảy ra sự kiện.
+
+\subsection{Thuật toán biên dịch và chi phí}
+Có thể biểu diễn một hàng nhị phân dài $n$ bằng một vector bit. Với ngân sách từ0 đến $b$, tạo danh sách hàng của $C$, thêm mọi hàng $uA_e$ từ cơ sở ở $b-c_e$, rồi khử Gauss để giữ một cơ sở. Cùng quá trình khử ghi các tọa độ để tạo $D_b$ và $U_{b,e}$.
+
+Với $m=|E|$, mỗi ngân sách nhận không quá $p+mn$ hàng. Tạo một tích hàng--ma trận theo cách trực tiếp tốn $O(n^2)$ phép bit; khử từng hàng bằng tối đa $n$ pivot, mỗi phép XOR dài $n$, cũng tốn $O(n^2)$. Cận bảo thủ tổng là
+\[
+O\big((b+1)(p+mn)n^2\big)
+\]
+phép bit sơ cấp. Lưu các cơ sở tốn $O((b+1)n^2)$ bit; lưu toàn bộ phép cập nhật có thể tốn $O((b+1)mn^2)$ bit. Các thư viện bitset có thể cải thiện thời gian nhờ chuỗi sự kiện song song, nhưng không khiến độ dài hàng miễn phí. Do đó $r_b<n$ là giảm payload mỗi trạng thái, không phải tự động giảm tổng memory hoặc thời gian xử lý của một workload nhỏ.

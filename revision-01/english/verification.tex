@@ -1,0 +1,59 @@
+\section{Proof dependencies and verification record}\label{app:verification}
+
+\subsection{Dependencies of the principal results}
+\begin{longtable}{p{.31\textwidth}p{.60\textwidth}}
+\toprule Result & Mathematical ingredients\\\midrule\endhead
+Exact code length & Equality of all requested outputs, factorization through fibers, and counting binary codewords.\\
+Finite refinement & Equality on words of length at most $j$, finite growth of the partition, and closure at a fixed point.\\
+Supplementary information & Refinement of the previous partition, the largest number of new cells inside an old cell, and shared access to the old label.\\
+Budgeted rank & Pullbacks in word order, cancellation of affine offsets, rank--nullity on the full binary state space, and the exact code-length result.\\
+Decisions on a cell & Intersection of feasible action sets and a common decoder on each fiber.\\
+Robust interval count & The box criterion, parameter packing, a laminar tree, signature counts, separated densities and a guard sequence.\\
+Arithmetic obstruction & Rational approximation of one fixed alphabet and a signature count retaining dependence on the denominator.\\
+Two-label remeasurement & Covers of reachable targets, the separated-triple obstruction, a density lemma, periodic block constructions and grid restriction.\\
+Decision certificate & Bounds on measurement error and drift at a common decision time, followed by minimization of a linear score difference on a box.\\
+Interconnection & Factorization of the ports, commutation of transitions with projection, and induction on synchronous steps.\\
+Deadline policy & A sufficient state, positive query durations, a belief update, first-action decomposition and backward induction.\\
+Transfer between implementations & Exact factorization or a certified error bound in the chosen semantics, with a strict decision margin for action preservation.\\
+\bottomrule
+\end{longtable}
+
+\subsection{Machine-checked declarations}
+The supplement contains three standalone Lean files using the standard library. The record in \texttt{results.json} identifies the compiler version and the binary used for the recorded run. Each file can be rechecked independently.
+\begin{longtable}{p{.25\textwidth}p{.09\textwidth}p{.56\textwidth}}
+\toprule File & Count & Scope of the checked declarations\\\midrule\endhead
+\texttt{Observation.lean} & 5 & Budget monotonicity, residual budget, necessary refinement for exact encoding, failure to recover newly distinguished states from an old label, and projection of a coupled step.\\
+\texttt{Policies.lean} & 8 & Existence of a safe policy exactly when depth-bounded feasibility holds, an obstruction to stopping, and six results on natural-number interval costs for the single-zero family.\\
+\texttt{Transfer.lean} & 4 & Preservation of equality under factorization, a witness excluding any decoder, and rational margin results for one competitor and for all competitors.\\
+\bottomrule
+\end{longtable}
+Together these files contain 17 checked declarations. The policy proof concerns existence and safety at finite depth. The optimal-cost recurrence in Theorem~\ref{thm:bellman} has a separate written proof. For the single-zero family, the formalized interval cost is $|I|+\ind_{i\in I}$. Counting the entries equal to one identifies that cost with the negative score in the example. The relational budget results also have narrower scope than the written rank and cardinality theorem. The arithmetic growth laws and the general minimax timing formulas have written proofs.
+
+The source files contain no \texttt{sorry} or user-declared axioms. The accompanying Lean logs report their foundational dependencies. Source and compiler hashes identify the checked artifacts. Interpreting a formal result still requires matching its declaration and assumptions to the mathematical question~\cite{lean}.
+
+\subsection{Independent finite checks}
+The Python program uses standard-library integer arithmetic for binary vectors and \texttt{Fraction} for exact rational comparisons. The operational counterexample deliberately uses floating-point arithmetic.
+\begin{longtable}{p{.34\textwidth}p{.57\textwidth}}
+\toprule Check & Coverage of the recorded run\\\midrule\endhead
+Binary affine systems & 48 models, 1,440 state--budget comparisons and 1,800 successor checks.\\
+Integer timing formula & 210 parameter tuples and 8,761 partition checks for $n\le7$, $b\le5$, $d\le2$ and $k\in\{2,3\}$.\\
+Heterogeneous errors & 972 candidate certificates and 15,552 exact rational box-corner evaluations.\\
+Action compatibility & 501 nonempty state cells from the families with $2\le n\le8$.\\
+Priced measurements & 80 instances, each comparing the greedy choice against all 128 subsets of seven measurements.\\
+Operational arithmetic & Two distinct binary64 values, their hexadecimal encodings, and a separate exact rational comparison.\\
+\bottomrule
+\end{longtable}
+
+The timing oracle enumerates partitions canonically in order of first label occurrence. For each parameter tuple it tests attainability at the claimed width and excludes every partition one unit below it when a smaller positive width exists. Feasibility is monotone in width. The enumeration therefore checks optimality throughout the stated finite range.
+
+The perturbation oracle compares the margin formula with direct evaluation at every corner. Affine functions on a box attain their extrema at corners. The general result follows from Theorem~\ref{thm:heterogeneous}, while the finite run checks the implementation on explicit instances. The seeded affine examples compare two constructions, namely row-space recursion and exhaustive output signatures of admissible words. These runs use synthetic mathematical inputs. The supplement identifies the sources, interpreter, compiler and output of the recorded checks.
+
+\subsection{Reproduction}
+From the supplement directory, choose an output directory that does not yet exist and run either command:
+\begin{verbatim}
+python verify.py --out verification-new
+python verify.py --lean /path/to/lean --out verification-lean-new
+\end{verbatim}
+The first command runs the finite checks. The second also compiles all three Lean files. To typeset the monograph, run XeLaTeX on \texttt{paper-en.tex} until the references and contents are stable. All mathematical checks can be run offline once the tools are installed.
+
+The verification record establishes what was tested on the supplied artifacts. Historical priority, external peer review and the validity of a physical model require their own evidence.

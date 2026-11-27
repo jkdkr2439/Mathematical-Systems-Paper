@@ -1,0 +1,54 @@
+\section{Ứng dụng toán học và thiết kế có thể kiểm độc lập}\label{sec:applications}
+Các ứng dụng sau là mô hình thiết kế và ví dụ toán học có thể tái lập. Mỗi ví dụ nêu phần nào đã được bảo đảm bằng định lý và phần nào cần thêm bằng chứng trước một triển khai thật.
+
+\subsection{Giám sát một thanh ghi nhị phân}
+Một trạng thái có $n=16$ bit, quan sát tọa độ đầu. Sự kiện shift dịch vòng một bước; sự kiện toggle cộng một mask đã biết. Mỗi sự kiện chi phí 1, budget3. Họ từ cho phép có tối đa ba shift, nên không gian quan sát được sinh bởi bốn tọa độ đầu theo chiều dịch. Toggle có phần tuyến tính đồng nhất nên không sinh thêm hàng. Theo Định lý~\ref{thm:linear}, cần và đủ4 bit để trả mọi đầu ra cho các chuỗi này, so với16 bit của toàn trạng thái.
+
+Mã4 bit không chứa đủ thông tin cho mọi shift vô hạn. Nếu tăng horizon tới15, có thể cần toàn16 bit. Với horizon còn lại2 sau một sự kiện, phép cập nhật chuyển về mã trong không gian hạng3 hoặc thấp hơn theo các luật đã khai. Một bộ giám sát phải từ chối sự kiện ngoài ngân sách, làm mới thông tin hoặc giảm nhiệm vụ; tự đặt lại bộ đếm mà không nhận dữ liệu mới không phục hồi các tọa độ đã mất.
+
+Lợi ích được theorem chứng minh là payload trạng thái từ16 xuống4 bit trong contract này. Tổng metadata chứa ma trận và phép cập nhật có thể lớn hơn16 bit, nên cần nhiều lần dùng hoặc model chung được chia sẻ để việc giảm payload có lợi. Không suy một mức joule tiết kiệm từ chênh lệch12 bit khi chưa có mô hình thiết bị.
+
+\subsection{Đo bổ sung với các phép đo có giá khác nhau}
+Hệ quả~\ref{cor:linearrepair} đếm bit khi được phép đo mọi tổ hợp tuyến tính cần thiết. Trong một thiết bị, chỉ một số hàng đo có sẵn. Gọi $W\subseteq W'$ là không gian thông tin cũ và đích, và $H=\{h_1,\ldots,h_m\}\subseteq W'$ là các phép đo sẵn có, với giá không âm $a_i$. Giả sử $\spn(W\cup H)=W'$. Bài toán là chọn $J$ sao cho $\spn(W\cup\{h_j:j\in J\})=W'$ với tổng giá nhỏ nhất.
+
+\begin{proposition}[Greedy cho phép đo tuyến tính có chi phí]\label{prop:measurementgreedy}
+Sắp các $h_i$ theo giá không giảm. Bắt đầu từ $W$, thêm một hàng khi và chỉ khi nó làm tăng span, dừng khi đạt $W'$. Thuật toán trả một tập đo có tổng giá nhỏ nhất dưới các giả thiết trên.
+\end{proposition}
+\begin{proof}
+Làm việc trong không gian thương $W'/W$. Các hàng đo chiếu thành vector sinh không gian thương. Một tập đo đủ chứa một cơ sở; bỏ các hàng thừa không tăng giá vì mọi giá không âm. Vì vậy chỉ cần tìm cơ sở có tổng giá nhỏ nhất.
+
+Sau $j$ bước chọn, giả sử có một cơ sở tối ưu $B$ chứa các vector greedy đã chọn trước đó; tại $j=0$ đúng. Gọi $g$ là vector tiếp theo greedy chọn. Nếu $g\in B$, bất biến giữ nguyên. Nếu không, viết $g$ theo cơ sở $B$. Vì $g$ không nằm trong span các vector greedy trước, trong biểu diễn có một hệ số khác zero của một $b\in B$ chưa thuộc tập greedy trước. Thay $b$ bằng $g$ vẫn là một cơ sở: từ biểu diễn có thể giải lại $b$ theo $g$ và các vector còn lại.
+
+Vector $b$ không nằm trong span các vector greedy trước vì chúng là một tập con của cơ sở $B$. Nếu $b$ có giá nhỏ hơn $g$, nó đã được duyệt trước và, do không nằm trong span hiện tại hoặc mọi span trước đó, đã phải được chọn; mâu thuẫn. Do đó giá $b$ không nhỏ hơn giá $g$. Phép thay không tăng tổng giá, nên tạo một cơ sở tối ưu chứa thêm $g$. Quy nạp tới đủ chiều cho kết luận.
+\end{proof}
+Đây là chuyên biệt của nguyên lý greedy cho matroid tuyến tính~\cite{edmonds}, không một thuật toán chọn cảm biến tổng quát mới. Các giả thiết loại những tương tác giá, chi phí phụ thuộc lịch, cảm biến chỉ hoạt động có điều kiện, phép đo phi tuyến hoặc không gian đích chưa biết.
+
+Ví dụ trên $\F^3$, đã biết $x_1$. Có ba phép đo: $x_2$ giá 5, $x_1+x_2$ giá 1 và $x_3$ giá 2. Muốn toàn trạng thái, chọn hai phép sau với tổng giá 3 là tối ưu; từ $x_1$ đã biết suy ra $x_2$. Cận rank cho biết cần thêm2 bit; giá 3 đến từ tập đo cụ thể. Nếu hàng đo rẻ có độ trễ quá lớn so với hạn chót, bài toán có ràng buộc lịch khác và greedy giá đơn thuần không còn đủ.
+
+\subsection{Dung lượng một hệ tích lũy lý tưởng}
+Cho các mức nhu cầu theo slot $x_i$ và mức cung đều $\alpha$. Đặt deficit $d_i=x_i-\alpha$. Tổng thiếu trên một đoạn $I$ là $\sum_{i\in I}d_i$. Trong một mô hình tích lũy lý tưởng có cơ chế cân bằng thích hợp và cho phép đoạn rỗng, đại lượng
+\[
+C_x(\alpha)=\max\left(0,\max_I\sum_{i\in I}d_i\right)
+\]
+là maximum cumulative deficit trên một cửa sổ. Nó là một chỉ tiêu dung lượng hoặc buffer cần kiểm trong mô hình đã chọn. Nếu không khai điều kiện đầu/cuối, khả năng nạp, xả, tổn hao và giới hạn công suất, không được gọi nó là công thức dung lượng pin vật lý phổ quát.
+
+Với cận nhiễu hộp đồng nhất, bao giá trị
+\[
+C_x(\alpha+\varepsilon)\le C_{x+e}(\alpha)\le C_x(\alpha-\varepsilon)
+\]
+vẫn cung cấp khoảng worst-case cho chỉ tiêu ngay cả khi đoạn đạt cực đại thay đổi. Khi mục tiêu vận hành cần chính thời điểm của đoạn thiếu hụt, phải dùng chứng chỉ giữ hành động mạnh hơn. Một thiết kế có thể chịu được thay đổi đoạn cực đại nhưng không chịu được vượt giá trị; thiết kế khác cần biết đúng đoạn để điều phối. Cùng dữ liệu nhưng khác nhiệm vụ dẫn tới lượng thông tin cần khác nhau.
+
+\subsection{Thông tin mới trong một kênh có thời gian truyền}
+Định lý~\ref{B-thm:continuous} cho một công thức vô hướng có thể dùng làm cận thành phần cho một tọa độ của~\eqref{eq:age}, nếu mô hình đo lại và lịch tương ứng đúng. Không được lấy trực tiếp số bit nguồn làm tổng chi phí: câu hỏi từ phía nhận, lấy mẫu mới, bộ nhớ nguồn, header và thời gian chờ có thể chiếm tài nguyên khác.
+
+Đối với một hạn chót cố định, cho phép gửi tối đa thêm bit làm lớp giao thức mở rộng nên tối ưu không thể xấu đi. Đối với các lịch bắt buộc gửi đúng số bit khác nhau và hoàn tất ở thời điểm khác nhau, trạng thái có thể trôi khác nhau; khi đó kết quả mười một bit tốt hơn lịch hai mươi bit trong ví dụ timing là một so sánh hợp lệ nhưng khác bài toán. Phân biệt hai loại ràng buộc này là thiết yếu để tránh kết luận sai rằng thêm năng lực truyền luôn gây hại.
+
+\subsection{Bốn cổng trước khi triển khai}
+Một ứng dụng có thể dùng chuỗi kiểm sau mà không phụ thuộc vào cách các kết quả đã được tìm ra:
+\begin{enumerate}
+\item \emph{Miền}: trạng thái, hành động, phép chuyển, miền trạng thái khả dĩ và sai số có đúng miền theorem hay không?
+\item \emph{Thông tin}: nguồn thực sự có quan sát mà bộ mã hóa dùng, và bộ giải mã thực sự biết model/chuỗi sự kiện/thông tin phụ được giả định hay không?
+\item \emph{Thực thi}: representation, số máy, xử lý lỗi và timing có giữ semantics hoặc cận sai số đã chứng nhận hay không?
+\item \emph{Tài nguyên}: tổng chi phí đo, truyền, tính, lưu và thời gian có được tính cùng ràng buộc; hành động có được phép hay không?
+\end{enumerate}
+Đây là các nghĩa vụ áp dụng theorem, không một phép chứng minh thêm từ danh sách kiểm. Một nghĩa vụ chưa có bằng chứng phải còn là giả thiết hoặc một giới hạn, không được xóa bằng cách gọi hệ là ``tối ưu''.

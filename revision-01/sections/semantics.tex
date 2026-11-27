@@ -1,0 +1,36 @@
+\section{Chuyển từ ngữ nghĩa lý tưởng sang thực thi}\label{sec:semantics}
+Một chứng chỉ thông tin thường được chứng minh cho một họ hàm lý tưởng. Bộ giải mã thực thi có thể dùng số máy, phép đo có độ phân giải hữu hạn, thứ tự tính cụ thể hoặc xử lý lỗi. Để giữ đúng cùng một nhiệm vụ, cần nối hai lớp bằng một phát biểu toán học.
+
+\begin{theorem}[Điều kiện factorization giữa hai quan sát]\label{thm:semanticfactor}
+Cho $q:S\to Z$ và $f:S\to Y$. Có một hàm $d:q(S)\to Y$ thỏa $f=d\circ q$ khi và chỉ khi $f$ không đổi trên mỗi thớ của $q$. Nếu có $s,t$ thỏa $q(s)=q(t)$ nhưng $f(s)\ne f(t)$ thì không bộ giải mã như vậy tồn tại.
+\end{theorem}
+\begin{proof}
+Nếu có $d$, đẳng thức của $q$ kéo theo đẳng thức của $d(q)$, nên $f$ không đổi trên thớ. Nếu $f$ không đổi trên thớ, gán cho mỗi $z\in q(S)$ giá trị duy nhất $f(s)$ với $q(s)=z$; tính duy nhất làm định nghĩa xác định tốt. Với cặp phản ví dụ, đẳng thức cần thiết trực tiếp mâu thuẫn với $f(s)\ne f(t)$.
+\end{proof}
+Đây là nguyên lý ánh xạ nền. Nội dung ứng dụng là chọn đúng $f$: đầu ra lý tưởng, đầu ra số máy, trạng thái lỗi, hành động, chi phí thực thi và trạng thái lưu lại là những hàm khác nhau. Bảo toàn một hàm không tự bảo toàn tất cả các hàm còn lại.
+
+\subsection{Một phản ví dụ nhỏ không dùng overflow}
+Xét biểu thức $g(p,x)=(1/64+p)-(p-x)$. Trên $\Q$ hoặc $\R$, mọi phép toán chính xác cho $g(p,x)=1/64+x$, độc lập với $p$. Khi tính từng phép theo binary64 của cài đặt kiểm kèm theo, với $x$ là giá trị đầu vào 0.1, ta có
+\[
+g(0.1,0.1)=0.115625,
+\qquad g(0.5,0.1)=0.11562499999999998.
+\]
+Các số in ra là biểu diễn thập phân của hai giá trị máy khác nhau, không phải khẳng định 0.1 được lưu chính xác dưới dạng $1/10$. Code kiểm còn lưu dạng hexadecimal để nhận diện giá trị nhị phân. Không có overflow trong ví dụ. Phần nhỏ đã bị làm tròn ở phép trừ bên trong không nhất thiết được phục hồi bởi phép trừ bên ngoài.
+
+Nếu nhiệm vụ là đầu ra đồng nhất từng bit, bỏ $p$ khỏi biểu diễn không hợp lệ cho toàn miền chứa hai đầu vào đó. Nếu nhiệm vụ chỉ cần hành động trong một tolerance, chênh lệch nhỏ có thể vô hại; cần chứng minh tolerance đáp ứng quyết định, chẳng hạn bằng Mệnh đề~\ref{prop:actionmargin}. Không biến một phản ví dụ đẳng thức thành khẳng định mọi xấp xỉ đều nguy hiểm.
+
+Một đối chứng khác là $h(x)=(x+x)-x$. Trên hữu tỷ, $h(x)=x$. Trên cài đặt số máy có overflow, các đầu vào hữu hạn đủ lớn có thể tạo một giá trị trung gian vô hạn. Kết quả phụ thuộc quy tắc xử lý lỗi: một evaluator có thể trả vô hạn, từ chối, hoặc bẫy lỗi. Nhiệm vụ phải khai quy tắc ấy; không được chuyển proof trên $\Q$ sang đẳng thức vận hành bằng cách bỏ qua intermediate trạng thái.
+
+\subsection{Bảo toàn qua phép biến đổi chương trình}
+Cho $P$ là một tập chương trình, $\operatorname{eval}:P\times X\to Y$ và một phép biến đổi $M:P\to P$. Quan hệ $p\equiv q$ nếu cùng evaluation trên mọi đầu vào có thể không là congruence đối với $M$. Cần thêm giả thiết
+\[
+p\equiv q\Longrightarrow M(p)\equiv M(q)
+\]
+cho mỗi phép biến đổi được phép. Ví dụ, đặt $M$ là ``thay literal đầu tiên theo thứ tự duyệt cú pháp bằng1''. Hai biểu thức hằng $2+3$ và $5$ cùng giá trị5, nhưng sau $M$ trở thành $1+3$ và $1$, có giá trị4 và1. Đây là phản ví dụ thuần hình thức cho khả năng một phép biến đổi phụ thuộc cấu trúc làm lộ phân biệt đã bị nén.
+
+Nếu còn cần giữ số bước đánh giá hoặc chi phí tài nguyên, đưa chúng vào đầu ra cần bảo toàn hoặc chứng minh một bất đẳng thức thích hợp. Hai chương trình cùng giá trị có thể dùng số phép toán khác nhau; điều đó không làm proof giá trị sai, nhưng làm nó không đủ cho một mục tiêu về tài nguyên.
+
+\subsection{Phạm vi chứng chỉ hình thức}
+Lean kiểm một term chứng minh có đúng kiểu theorem đã khai hay không. Nếu theorem dùng $\mathrm{Rat}$, nó nói về số hữu tỷ với các phép toán đã định nghĩa trong thư viện. Để áp dụng lên một AST được cung cấp, cần kiểm mapping literal, biến, thứ tự toán tử và miền xác định. Sau đó, để áp lên một cài đặt số máy, còn cần một định lý refinement hoặc một cận sai số operational. Các bước ấy là các nghĩa vụ riêng.
+
+Trong supplement, các declaration về hệ chuyển trạng thái, chính sách và semantic transfer được compile trực tiếp; không dùng proof hole hoặc axiom tự khai. Các dependency nền như propositional extensionality, classical choice và quotient soundness được ghi đúng theo log của Lean. Không dùng sự hiện diện của một chứng chỉ để nhận rằng toàn bộ công trình, mọi chương trình Python hoặc một hệ vật lý đã được hình thức hóa.

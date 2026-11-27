@@ -1,0 +1,138 @@
+\section{Observation, message and error models}
+Write $[k]=\{0,\ldots,k-1\}$. In the integer model, the old source state is $i\in\{0,\ldots,n-1\}$, the receiver observes a signed integer $t$ with $t\leq i\leq t+b$, and the fresh source state is $j\in\Z$ with $|j-i|\leq d$. Here $n,b\geq1$, $d\geq0$ and $k\geq2$ are integers. Every such triple is admissible. In particular, fresh states are not clipped to the old domain.
+
+The source first sends $a(i)\in[k]$. The receiver then reveals $t$. Finally the source sends $c(i,t,j)\in\{0,1\}$, and the receiver outputs $g(t,a(i),c(i,t,j))\in\R$. Unlimited receiver feedback is an information assumption, not a claim of zero physical cost. It includes any smaller query alphabet, because the source can compute a restricted query from $t$ and its own early label. Early encoding cannot depend on $j$ or $t$.
+
+At proposed integer width $w\geq1$, each transcript's set of possible fresh states must have diameter at most $w-1$. Equivalently, midpoint decoding guarantees absolute error at most $(w-1)/2$. The two decoder outputs for a fixed early label and receiver observation correspond to two intervals of at most $w$ integer points. Encoder classes need not be intervals.
+
+The continuous model retains $x\in[0,L]$, $y\in\R$ and a fresh $z\in\R$, with $|x-y|\leq b/2$ and $|z-x|\leq d$, where $L,b>0$ and $d\geq0$ are real. The message order and source alphabets are unchanged. The objective is the infimum over deterministic protocols of the supremum absolute reconstruction error over all admissible triples. No distribution or encoder regularity is imposed. The symbol $d$ is a displacement bound, not a consequence of continuity alone.
+
+\section{The exact integer frontier}
+\begin{theorem}\label{B-thm:integer}
+The least feasible width is
+\begin{equation}\label{B-eq:W}
+W=\min\left\{d+\ceil{\frac{n}{2k}},\ d+\ceil{\frac{b}{2k-2}},\ \ceil{\frac{b+2kd}{2k-1}}\right\}.
+\end{equation}
+The exact minimax error is $(W-1)/2$. More explicitly, put $r=w-2d$ and $s=2w-2d$. Width $w$ is feasible if and only if
+\begin{equation}\label{B-eq:threshold}
+2w\geq2d+1,\qquad n\leq ks\quad\text{or}\quad b\leq(k-1)s+\max(r,0),
+\end{equation}
+where the capacity inequality is required in addition to the disjunction.
+\end{theorem}
+
+We first establish the ingredients of the converse.
+\begin{lemma}\label{B-lem:oneway}
+For the old-state interval relation, a one-way $k$-label code with conditional diameter at most $s-1$, where $s\geq1$, exists exactly when $n\leq ks$ or $b\leq(k-1)s$.
+\end{lemma}
+\begin{proof}
+Consecutive blocks of $s$ integers give the first branch. Periodic labels $\floor{i/s}\bmod k$ give the second: a window of width $b\leq(k-1)s$ cannot meet two blocks with the same label.
+
+For necessity, if both branches fail, restrict to $p=ks+1$ states and windows of width $b_0=(k-1)s+1$. For each cyclic shift $h\in\{0,\ldots,p-1\}$ consider the $k$ points $(h+\ell s)\bmod p$, $0\leq\ell<k$. Their circular gaps are $s,\ldots,s,s+1$, so the ordinary span is at most $p-s=b_0$, and distinct points differ by at least $s$. Each source label can occupy at most one point of each such set. Every state occurs in exactly $k$ shifts. Thus a label class $A$ satisfies $k|A|\leq p$, and hence $|A|\leq s$. The $k$ classes cannot cover $ks+1$ states. The restricted pairs are admissible also when the original $b$ is larger.
+\end{proof}
+
+\begin{lemma}\label{B-lem:local}
+Let $S$ be the old states compatible with one early label and one receiver window. If $r>0$, the dilated target set $S+\{-d,\ldots,d\}$ needs more than two width-$w$ intervals exactly when $S$ contains $u<v<z$ with
+\begin{equation}\label{B-eq:triple}
+v-u\geq r,\qquad z-v\geq r,\qquad z-u\geq s.
+\end{equation}
+If $r\leq0$, feasibility is instead equivalent to $\diam S\leq s-1$ for nonempty $S$, subject to $s\geq1$.
+\end{lemma}
+\begin{proof}
+Greedy covering of an ordered finite set by width-$w$ intervals needs at least three intervals exactly when there are three targets $p<q<h$ with both adjacent differences at least $w$. Their old-state origins are ordered and distinct when $w-2d>0$; pulling back the drift intervals gives~\eqref{B-eq:triple}. Conversely take $p=u-d$ and $h=z+d$. The integer intervals $[v-d,v+d]$ and $[p+w,h-w]$ intersect under~\eqref{B-eq:triple}, supplying a middle target $q$.
+
+If $r\leq0$, then $2w<4d+2$. Two old states at distance $g$ generate a union of $\min(4d+2,g+2d+1)$ integer targets. Two width-$w$ intervals have capacity at most $2w$, forcing $g\leq2w-2d-1=s-1$. The converse follows by covering the expanded hull, whose width is at most $s+2d=2w$. A single old state's $2d+1$ possible targets gives the capacity requirement.
+\end{proof}
+
+The following lemma supplies the missing global obstruction without assuming that early classes are connected.
+\begin{lemma}\label{B-lem:dense}
+Let $s,r$ be integers with $s\geq2r\geq2$. Every $(s+1)$-element subset of $\{0,\ldots,2s\}$ contains three ordered points with both adjacent gaps at least $r$ and total span in $[s,s+r+1]$.
+\end{lemma}
+\begin{proof}
+Call such a triple admissible. Modulo $2s+1$, a set $S$ of size $s+1$ intersects its translate by $s$. Therefore two ordinary selected points $a<c$ satisfy $c-a=s+e$ for $e\in\{0,1\}$. Suppose no admissible triple exists. The following integer intervals, clipped to $[0,2s]$, must be absent from $S$:
+\begin{equation}\label{B-eq:forced}
+F_-=[a-r-1+e,a-r],\quad F_0=[a+r,c-r],\quad F_+=[c+r,c+r+1-e].
+\end{equation}
+Every point in them completes $a,c$ to an admissible triple. The middle interval has $s+e-2r+1$ points. At least $2-e$ external points exist. For $e=1$, either $a\geq r$ supplies the left point, or $a\leq r-1$ gives $c+r\leq s+2r\leq2s$. For $e=0$, $a\geq r+1$ supplies two left points, $a\leq r-1$ supplies two right points, and $a=r$ supplies at least one on each side. Thus their union $F$ has at least $s-2r+3$ points.
+
+For each $j=1,\ldots,r-1$ construct two pairs:
+\begin{align}\label{B-eq:pairs}
+A_j&=\begin{cases}(a-r+j,a+j),&a-r+j\geq0,\\(a+j,c+r+1-e+j),&a-r+j<0,\end{cases}\notag\\
+B_j&=\begin{cases}(c-r+j,c+j),&c+j\leq2s,\\(a-2r-1+e+j,c-r+j),&c+j>2s.\end{cases}
+\end{align}
+All endpoints lie in the domain. In the fallback for $A_j$, $a+j\leq r-1$ bounds its far endpoint by $s+2r\leq2s$. In the fallback for $B_j$, $a\geq s-e-j+1$ bounds its far endpoint below by $s-2r\geq0$. Each $A_j$ together with $c$, and each $B_j$ together with $a$, is admissible. Normal branches have an adjacent gap $r$ and total span between $s$ and $s+r+1$; fallback branches have total span exactly $s+r+1$ and both gaps at least $r$.
+
+The pairs are vertex-disjoint and avoid $F$ and the anchors. Their endpoints occupy six disjoint bands: before $F_-$; $[a-r+1,a-1]$; $[a+1,a+r-1]$; $[c-r+1,c-1]$; $[c+1,c+r-1]$; and after $F_+$. The central bands are disjoint because $c-a\geq2r$. Within each branch the endpoint is injective in $j$. At least one endpoint of each pair must be absent, or its selected anchor would form an admissible triple. The number of absent positions is therefore at least
+\begin{equation}\label{B-eq:contradiction}
+|F|+2(r-1)\geq(s-2r+3)+2(r-1)=s+1.
+\end{equation}
+But $|S|=s+1$ leaves only $s$ absent positions. This contradiction proves the lemma, including $r=1$ when there are no pairs.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{B-thm:integer}]
+For sufficiency, if $n\leq ks$, send the index of a consecutive old-state block of at most $s$ points. Its expanded target hull has at most $s+2d=2w$ points. Otherwise label consecutive blocks of $s$ points periodically with $k$ labels and put $G=(k-1)s$. When $r\leq0$ and $b\leq G$, a receiver window meets at most one block of any given label. When $r>0$, we have $r\leq s/2$, and a window of width at most $G+r$ meets at most two same-label blocks, necessarily consecutive occurrences. If their nonempty portions have $A$ and $C$ points, their span is at least $G+A+C-1$, giving $A+C\leq r+1$. Each portion therefore has at most $r$ points and its dilation fits one width-$w$ reply. For a single portion, split its expanded hull into two replies. Revealing $t$ lets both sides identify these sets.
+
+For necessity, one old state's possible targets force $2w\geq2d+1$. If $r\leq0$, Lemmas~\ref{B-lem:local} and~\ref{B-lem:oneway} give the stated disjunction. If $r>0$ and both branches fail, restrict to $n_0=ks+1$ old states and effective window width $b_0=(k-1)s+r+1$. Some early class contains $s+1$ points. Translate its minimum to zero and let its span be $D$. If $D\leq2s$, apply Lemma~\ref{B-lem:dense}. Otherwise remove $D-2s$ unused integer positions from its gaps; there are $D-s$ unused positions, so this preserves distinctness. Apply the lemma to the compressed set and restore the gaps. Adjacent distances only increase, while total span increases by at most $D-2s\leq(k-2)s$. The resulting triple has span between $s$ and $b_0$ and adjacent gaps at least $r$. It fits one receiver window and violates Lemma~\ref{B-lem:local}. The same signed window start defines admissible pairs in the original wider frame.
+
+Finally, the window condition in~\eqref{B-eq:threshold} is equivalent to
+\begin{equation}\label{B-eq:affine}
+b\leq\max\{(2k-2)(w-d),(2k-1)w-2kd\}.
+\end{equation}
+Solving its two affine alternatives and the finite-domain branch yields~\eqref{B-eq:W}. Each threshold is at least $d+1$, so capacity is automatic. Integer transcript diameters imply that any real error below $(W-1)/2$ would give width below $W$; midpoint decoding attains the bound.
+\end{proof}
+
+For example, $n=9,b=5,d=1,k=2$ gives $W=3$. The early classes $\{0,5,6,7,8\}$ and $\{1,2,3,4\}$ attain it. At $t=0$, the first class has fresh targets $\{-1,0,1,4,5,6\}$, which fit two width-three replies. Filling the gap to use the hull $[-1,6]$ would incorrectly require three. Conditional uncertainty is a set, not automatically its convex hull.
+
+\section{Real-valued states and finite queries}
+\begin{theorem}\label{B-thm:continuous}
+In the continuous model, the exact minimax error with unrestricted receiver feedback is
+\begin{equation}\label{B-eq:E}
+\Einf(L,b,d,k)=\min\left\{\frac d2+\frac{L}{4k},\ \frac d2+\frac{b}{4(k-1)},\ \frac{b+2kd}{2(2k-1)}\right\}.
+\end{equation}
+\end{theorem}
+\begin{proof}
+For $h\downarrow0$, take $n_h=\floor{L/h}+1$, $b_h=\floor{b/h}$ and $d_h=\floor{d/h}$. For sufficiently small $h$, $b_h\geq1$. Embed old states $ih$, receiver observations $(t+b_h/2)h$ and fresh states $jh$. Every discrete admissible triple is continuous-admissible. Restricting the same arbitrary continuous protocol and applying Theorem~\ref{B-thm:integer} gives
+\begin{equation}\label{B-eq:grid}
+E\geq\frac h2\bigl(W(n_h,b_h,d_h,k)-1\bigr).
+\end{equation}
+Since $hn_h\to L$, $hb_h\to b$, $hd_h\to d$ and ceiling errors vanish after multiplication by $h$, this proves the lower bound. No convergence of encoders is assumed.
+
+For attainment put $w=2\Einf$, $r=w-2d$ and $s=2w-2d>0$. Formula~\eqref{B-eq:E} gives either $L\leq ks$ or $b\leq(k-1)s+\max(r,0)$. In the first case use $k$ old-state intervals of length at most $s$; two fresh intervals of length $w$ cover each dilation. Otherwise label half-open cells of length $s$ periodically by $k$ labels, assigning the endpoint $L$ its floor-based label too. For $r\leq0$, a closed receiver window of length at most $(k-1)s$ cannot meet two same-label cells. For $r>0$, it meets at most two; if their portion hull lengths are $A,C\geq0$, then $A+C\leq r$. Each dilation has length at most $r+2d=w$ and receives one final label. A single cell uses two. Closed hulls of half-open portions safely cover their actual targets. Midpoints give error $w/2$, including at boundaries.
+\end{proof}
+
+\begin{proposition}\label{B-prop:finitequery}
+Let $E_F$ be the optimum with at most $F\geq1$ receiver query labels. Then
+\begin{equation}\label{B-eq:finitequery}
+\Einf(L,b,d,k)\leq E_F\leq\Einf\!\left(L,b+\frac{L+b}{F},d,k\right),
+\end{equation}
+and $0\leq E_F-\Einf\leq(L+b)/(4(k-1)F)$.
+\end{proposition}
+\begin{proof}
+Every admissible $y$ lies in $[-b/2,L+b/2]$. Quantize this interval into $F$ equal bins and send the bin index. Its midpoint $\widehat y$ satisfies $|y-\widehat y|\leq(L+b)/(2F)$, so $|x-\widehat y|\leq[b+(L+b)/F]/2$. Use Theorem~\ref{B-thm:continuous}'s construction designed from the start for that enlarged width. The receiver can ignore its extra precision. Unlimited feedback supplies the lower bound. Each affine expression in~\eqref{B-eq:E} has slope in $b$ at most $1/(4(k-1))$; their minimum has the same Lipschitz bound. This gives the gap estimate.
+\end{proof}
+This is an approximation guarantee, not an exact finite-query formula. Fixed binary implementation uses $\ceil{\log_2F}$ query bits, $\ceil{\log_2k}$ early source bits and one final source bit. Unused binary words are permitted.
+
+\section{Causal allocation and transmission time}
+\begin{corollary}\label{B-cor:late}
+If all $2k$ source labels may instead be sent after the fresh observation and the revelation of $y$, at the same observation times, the exact error is
+\begin{equation}\label{B-eq:late}
+E_{\mathrm{late}}=\frac{\min(L,b)+2d}{4k}.
+\end{equation}
+It is strictly smaller than $\Einf$ exactly when $d>0$ or $b<L$. Moreover, for fixed $L,b,d$, $\Einf\to d/2$ as $k\to\infty$, whereas $E_{\mathrm{late}}\to0$.
+\end{corollary}
+\begin{proof}
+At fixed $y$, the fresh target set is an interval of length at most $\min(L,b)+2d$, with equality for some $y$. Dividing it into $2k$ cells attains~\eqref{B-eq:late}; $2k$ error intervals of length $2E$ cannot cover the longest interval with smaller error. Put $E_0=\min(L/(4k),b/(2(2k-1)))$. Every term of~\eqref{B-eq:E} has slope in $d$ at least $1/2$, hence $\Einf\geq E_0+d/2$. Since $E_0\geq\min(L,b)/(4k)$, the gap is at least $(k-1)d/(2k)$ when $d>0$. At $d=0$, direct comparison gives strictness exactly for $b<L$. The limits follow from~\eqref{B-eq:E} and~\eqref{B-eq:late}.
+\end{proof}
+The alphabet product is the same, but its causal availability differs. For power-of-two $k$, both schedules use $\log_2k+1$ source bits. Equality of alphabet budgets and observation times does not imply equality of physical transmission costs.
+
+To expose a timing cost, consider a separate contract. A query contains exactly $q\geq0$ bits, sent at rate $R>0$. The fresh sample is acquired after $\tau(q)=\tau_0+q/R$, where $\tau_0\geq0$ includes preparation and early communication. All displacements of magnitude at most $d(q)=v\tau(q)$ are admissible, with $v>0$. A final transmission interval $\rho\geq0$ permits a further independent displacement in $[-v\rho,v\rho]$, with no new transmitted observation. At the completion time $\tau(q)+\rho$, define
+\begin{align}\label{B-eq:timing}
+\mathcal L(q)&=\Einf(L,b,d(q),k)+v\rho,\notag\\
+\mathcal U(q)&=\Einf(L,b+(L+b)2^{-q},d(q),k)+v\rho.
+\end{align}
+These bound the best error for the mandatory schedule from below and above. The additive term is exact under the stated independence: for any fresh state $z$ and estimate $u$, the worst subsequent error is $|z-u|+v\rho$. Piecewise straight trajectories with the stated speed bound realize the allowed displacements.
+
+Take $L=100$, $b=1$, $k=2$, $v=1/10$, $\tau_0=1$, $R=10$ and $\rho=1/10$. Exact rational evaluation gives
+\begin{equation}\label{B-eq:example}
+\mathcal U(11)=\frac{96733}{307200}+\frac1{100}<\frac{113}{300}=\mathcal L(20).
+\end{equation}
+Thus an eleven-query-bit construction has smaller worst-case error than every mandatory twenty-query-bit design in this frame. Completion times are $11/5$ and $31/10$, respectively. The construction's bound is minimized at $q=11$: checking $0\leq q\leq2500$ suffices because the lower bound $d(q)/2+v\rho$ excludes all larger values. This does not solve the exact finite-query optimum or compare equal deadlines. At a fixed deadline and with identical observations, an at-most-$q+1$-bit class includes the at-most-$q$-bit class, so allowing more bits cannot worsen the optimum.

@@ -1,0 +1,55 @@
+\section{Câu hỏi trung tâm và phạm vi công trình}
+Một bộ xử lý có thể nhận đúng câu trả lời cho câu hỏi hiện tại mà vẫn thiếu dữ liệu cho câu hỏi tiếp theo. Một bộ nhớ có thể giữ đúng trạng thái quan sát được hiện tại nhưng không giữ được tác động của phép can thiệp chưa xảy ra. Một công thức tối ưu có thể đúng với các giá trị đầu vào được cung cấp nhưng không còn chứng nhận cùng hành động khi các giá trị ấy đã cũ. Ba vấn đề này cùng đòi hỏi xác định tập phân biệt mà nhiệm vụ thực sự cần, song chúng không phải cùng một bài toán mã hóa.
+
+Câu hỏi xuyên suốt là: \emph{với mô hình biến đổi, tập quan sát, mục tiêu và ngân sách đã khai, những trạng thái nào được phép dùng chung một biểu diễn mà vẫn giữ bảo đảm cần thiết?} Câu trả lời phụ thuộc vào nhiệm vụ. Tái dựng mọi quan sát tương lai dẫn tới một quan hệ tương đương. Chọn một hành động tối ưu có thể chỉ cần một giao không rỗng của các tập đáp án. Tái dựng một giá trị thực với sai số cho phép dẫn tới bài toán phủ các tập khả thi. Nếu thay các nhiệm vụ này cho nhau, cận thông tin thu được có thể đúng về mặt đại số nhưng sai về đối tượng.
+
+\subsection{Vị trí trong nghiên cứu hiện có}
+Quan hệ không phân biệt được qua các chuỗi đầu vào gắn trực tiếp với tối thiểu hóa máy hữu hạn; thuật toán hiệu quả của Hopcroft là một tiền lệ nền~\cite{hopcroft}. Việc thêm phân biệt để phép trừu tượng hóa giữ đủ thông tin cho phép toán đã có một lý thuyết sâu trong abstract interpretation~\cite{giacobazzi}. Chúng tôi chỉ dùng các kết quả này để đặt phạm vi; các chứng minh hữu hạn cần thiết được trình bày riêng, không dựa vào một phép đồng nhất chưa được chứng minh giữa mọi loại abstraction.
+
+Với động lực tuyến tính chuyển mạch, các hàng quan sát sau chuỗi tích ma trận là đối tượng chuẩn của observability và hiện thực hóa theory~\cite{petreczky}. Phần affine nhị phân dưới đây dùng cùng cơ chế, thêm chi phí sự kiện nguyên dương và phép đếm thông tin trên toàn miền hữu hạn. Ngôn ngữ ``không gian quan sát'' vì vậy có nghĩa tuyến tính cụ thể, không chỉ là ẩn dụ về tri thức.
+
+Phân biệt thông điệp gửi trước hay sau khi biết câu hỏi là nội dung cơ bản của communication complexity~\cite{roughgarden}. Interactive communication đã được nghiên cứu với các tài nguyên theo chiều và thứ tự truyền~\cite{ahlswede1997}. Mã hóa nhân quả, thông tin phụ, tái dựng không trễ và ước lượng qua kênh có độ trễ đều có các mô hình riêng~\cite{kaspi2013,mayekar2021,sun2019}. Công thức đo lại ở đây áp cho một giao thức xác định; không được gọi là nghiệm của mọi bài toán thông tin theo thời gian.
+
+Nhánh tối ưu đoạn kế thừa bài toán maximum-sum segment with offsets~\cite{sakai,jo}; cận theo ngân sách chữ ký có liên hệ với hình học của tối ưu có tham số~\cite{gusfield}. Kiểm tính bền trước nhiễu hàm mục tiêu thuộc phân tích độ nhạy của tối ưu tổ hợp~\cite{chak}. Điều kiện khó xấp xỉ đối ngẫu và phép dựng chuẩn đại số là kiến thức số học có trước~\cite{fgm}. Các phát biểu về bậc số nghiệm bền dưới những điều kiện ấy được phát biểu với đầy đủ lượng từ, thay vì nhận một ý tưởng nền là mới.
+
+Cuối cùng, đồng nhất thức trên số thực hoặc hữu tỷ không tự bảo toàn thứ tự tính và làm tròn của số máy. Đây là một vấn đề số học máy cổ điển~\cite{goldberg}. Chúng tôi đưa nó vào điều kiện sử dụng chứng chỉ vì một bộ mã hoặc phép nén được chứng minh đúng ở ngữ nghĩa lý tưởng vẫn có thể sai đối với đầu ra thực thi được yêu cầu.
+
+\subsection{Cấu trúc logic của các kết quả}
+Các nhánh được tổ chức theo quan hệ tiền đề, không theo thứ tự thời gian tìm ra ý tưởng:
+\begin{enumerate}
+\item Định nghĩa mô hình và tính đủ của biểu diễn; chứng minh bằng ánh xạ và các lớp không phân biệt.
+\item Chuyên biệt hữu hạn và tuyến tính; suy ra cận thông tin và cấu trúc đạt cận bằng đếm lớp, hạng và khử Gauss.
+\item Chuyển từ tái dựng đầu ra sang quyết định; khai tập hành động hợp lệ và chứng minh vì sao kiểm từng cặp chưa đủ.
+\item Phân tích tối ưu đoạn với nhiễu và cấu trúc số học; phân tích đo lại với giao thức nhân quả.
+\item Ghép cận sai số của quan sát vào điều kiện giữ quyết định tại cùng thời điểm; thêm điều kiện ghép hệ và thực thi.
+\end{enumerate}
+Không có suy luận từ tính đúng của một nhánh sang mọi nhánh khác. Chẳng hạn, cận hạng của hệ nhị phân không chứng minh công thức Diophantine cho các bảng giá trị thực; phần Diophantine cũng không cung cấp một cận tốc độ vật lý cho cảm biến.
+
+\subsection{Quy ước bằng chứng và lượng từ}
+``Định lý'' trong bài chỉ một phát biểu tổng quát có chứng minh dưới giả thiết đã nêu; tên gọi đó không tự tuyên bố quyền ưu tiên lịch sử. ``Kiểm Lean'' chỉ áp cho declaration thực sự có trong supplement. ``Kiểm đầy đủ'' là vét cạn một miền hữu hạn được khai. ``Ví dụ tính toán'' chỉ là một trường hợp hoặc một họ trường hợp. Các lớp bằng chứng này không được thay thế nhau.
+
+Mọi bộ mã trong các cận bit một lần là tất định, độ dài cố định, không có kênh phụ bằng thời điểm hoặc sự im lặng, trừ khi định nghĩa khác được nêu. Mô tả mô hình và codebook được chia sẻ trước. Cận bit không bao gồm kích thước chương trình, thời gian biên dịch hoặc năng lượng thiết bị. Khi miền trạng thái bị thu hẹp, khi thông tin phụ được giữ riêng ở một phía, hoặc khi dùng nhiều bản sao có xác suất, cần lập lại bài toán thay vì tái sử dụng cận dưới một cách máy móc.
+
+\section{Mô hình hệ chuyển trạng thái và thông tin}
+\begin{definition}[Hệ xác định có quan sát]\label{def:system}
+Một hệ là bộ $\mathcal S=(S,E,(T_e)_{e\in E},O,o)$, trong đó $S\ne\varnothing$ là tập trạng thái, $E$ là tập sự kiện, $T_e:S\to S$ là ánh xạ toàn phần, và $o:S\to O$ là quan sát cần tái tạo. Một từ $w=e_1\cdots e_k$ tác động theo thứ tự thời gian
+\[
+T_w=T_{e_k}\circ\cdots\circ T_{e_1},\qquad T_{\varnothing}=\operatorname{id}_S.
+\]
+Một họ $L\subseteq E^*$ chỉ định những từ mà bảo đảm phải đúng.
+\end{definition}
+Nếu một sự kiện không luôn được phép, có hai cách mô hình hóa minh bạch: thêm trạng thái lỗi và giữ phép chuyển toàn phần, hoặc định nghĩa một hệ có điều kiện bảo vệ và đưa tính hợp lệ vào quan sát/nhiệm vụ. Trong các định lý cơ sở dưới đây, chúng tôi dùng ánh xạ toàn phần; không âm thầm loại một chuỗi bất lợi vì nó làm thất bại một kết luận.
+
+\begin{definition}[Biểu diễn đủ cho họ quan sát]\label{def:sufficient}
+Bộ mã hóa $q:S\to Z$ đủ cho $(o,T,L)$ khi có bộ giải mã $d:Z\times L\to O$ thỏa
+\[
+d(q(s),w)=o(T_w(s))\quad\text{với mọi }s\in S,w\in L.
+\]
+Nguồn biết $s$ khi tạo mã; phía dùng mã biết $w$ khi giải mã. Bộ mã hóa chưa biết từ tương lai cụ thể, nhưng biết hệ và họ $L$.
+\end{definition}
+Định nghĩa không đòi tái dựng $s$. Nó chỉ đòi trả mọi đầu ra thuộc nhiệm vụ. Khi đầu ra chứa toàn trạng thái, bài toán trở thành tái dựng trạng thái; khi đầu ra là một bit, lượng tin cần giữ vẫn có thể lớn vì những sự kiện khác nhau có thể làm lộ các bit khác nhau.
+
+\begin{definition}[Ba mức chính xác]
+Với loss $\ell:O\times O\to[0,\infty]$, có thể yêu cầu đẳng thức chính xác, loss không quá một ngưỡng, hoặc chỉ yêu cầu hành động cuối thuộc tập hợp lệ. Ba điều kiện ấy lần lượt bảo toàn đầu ra, bảo toàn mức xấp xỉ và bảo toàn quyết định. Chúng trùng nhau chỉ khi đã chứng minh một quan hệ tương ứng cho loss và hành động được chọn.
+\end{definition}
+Ví dụ, hai sai số tái dựng cùng bằng $0.1$ có thể có hậu quả khác nhau nếu một trường hợp ở gần ranh giới đổi nghiệm và trường hợp kia có biên chênh lệch lớn. Ngược lại, tái dựng trạng thái rất khác nhau vẫn có thể cho cùng một hành động tối ưu. Do đó thông tin phải được đánh giá đối với một nhiệm vụ đã chỉ định.

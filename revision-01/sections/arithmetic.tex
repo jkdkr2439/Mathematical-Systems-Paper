@@ -1,0 +1,222 @@
+\section{Mô hình quan sát và sai số được khai báo}
+Cố định $n\ge1$ và $x\in\R^n$. Gọi $\mathcal I_n$ là tập mọi đoạn liên tiếp không rỗng theo vị trí trong $[1,n]$. Đặt
+\begin{equation}\label{A-eq:score}
+\ell(I)=|I|,\qquad S_x(I)=\sum_{i\in I}x_i,\qquad
+f_{x,\alpha}(I)=S_x(I)-\alpha\ell(I).
+\end{equation}
+Đơn vị của $\alpha$ và bán kính sai số $\varepsilon$ là đơn vị của một phần tử. Đoạn $I$ là \emph{$\varepsilon$-bền tại $\alpha$} nếu tối đa hóa~\eqref{A-eq:score} với mọi dãy hiện thực hóa $x+\delta$ thỏa $|\delta_i|\le\varepsilon$ độc lập cho từng $i$. Đây là tối ưu yếu trên toàn bộ hộp đóng trong $\R^n$. Hộp không bị cắt tại không, kể cả khi các phần tử danh nghĩa không âm. Cho phép hòa ở những hiện thực hóa bất lợi. Chính một đoạn theo vị trí phải dùng được cho mọi hiện thực hóa; định nghĩa không chỉ tối ưu minimax hay lựa chọn đáp án sau khi đã thấy sai số.
+
+Gọi $R_x(\varepsilon;[a,b])$ là số đoạn bền phân biệt; mỗi đoạn được tính một lần nếu có ít nhất một $\alpha\in[a,b]$ chứng nhận nó. Với bảng hữu hạn không âm cố định $\Sigma$ chứa không và một giá trị dương, đặt $B=\max\Sigma$ và
+\begin{equation}\label{A-eq:count}
+R_\Sigma(n,\varepsilon)=\max_{x\in\Sigma^n}R_x(\varepsilon;[0,B]),
+\qquad r=\dim_\Q\operatorname{span}_\Q\Sigma.
+\end{equation}
+Bảng được cố định trước khi thay đổi $n,\varepsilon$. Đây là số đếm cực đại trên các dãy, không phải bảo đảm cho từng dãy hay cận dưới bộ nhớ theo bit cho mọi biểu diễn ngầm. Chỉ cho phép đoạn rỗng ở những chỗ nói rõ.
+
+\section{Độ bền, khoảng cách tham số và cận giá trị}
+\begin{lemma}[Tiêu chuẩn hộp đã có tiền lệ]\label{A-lem:box}
+Đoạn $I$ là $\varepsilon$-bền tại $\alpha$ khi và chỉ khi
+\begin{equation}\label{A-eq:margin}
+f_{x,\alpha}(I)-f_{x,\alpha}(J)\ge\varepsilon|I\mathbin{\triangle}J|
+\quad\text{với mọi }J\in\mathcal I_n.
+\end{equation}
+Với $\varepsilon>0$, một đoạn bền là nghiệm danh nghĩa duy nhất.
+\end{lemma}
+\begin{proof}
+Chênh lệch nhỏ nhất sau nhiễu khi so với $J$ thu được bằng cách trừ $\varepsilon$ trên $I\setminus J$ và cộng nó trên $J\setminus I$. Giá trị nhỏ nhất ấy bằng vế trái của~\eqref{A-eq:margin} trừ vế phải. Hơn nữa, chỉ một dãy tạo bằng cách trừ $\varepsilon$ trên toàn $I$ và cộng nó ngoài $I$ đã đồng thời đạt mọi chênh lệch bất lợi này. Điều đó chứng minh tính cần và đủ. Với $J\ne I$, vế phải dương khi $\varepsilon>0$, suy ra tính duy nhất danh nghĩa.
+\end{proof}
+Vì thế một phép quét đoạn tổng cực đại trên dãy bất lợi cho chứng nhận dùng $O(n)$ phép toán, hoặc trả lại đoạn cạnh tranh vi phạm nếu không đạt. Với nghiệm danh nghĩa có ít nhất một đối thủ, bán kính bằng giá trị nhỏ nhất của chênh lệch điểm chia cho $|I\triangle J|$. Khi $n=1$, không có đoạn không rỗng nào khác để cạnh tranh nên bán kính là vô hạn. Đây là chuyên biệt hóa các ý tưởng độ nhạy đã có~\cite{chak}, không phải kết quả đếm mới.
+
+\begin{proposition}[Đóng gói trên miền tham số]\label{A-prop:packing}
+Với $\varepsilon>0$,
+\begin{equation}\label{A-eq:packing}
+R_x(\varepsilon;[a,b])\le\floor{\frac{b-a}{2\varepsilon}}+1.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Giả sử $I,J$ phân biệt và bền tại $\alpha<\beta$. Cộng~\eqref{A-eq:margin} theo hai chiều cho
+\begin{equation}\label{A-eq:separation}
+(\beta-\alpha)(\ell(I)-\ell(J))\ge2\varepsilon|I\triangle J|>0.
+\end{equation}
+Suy ra $\ell(I)>\ell(J)$ và $\beta-\alpha\ge2\varepsilon$, vì $|I\triangle J|\ge\ell(I)-\ell(J)$. Chọn một tham số chứng nhận cho mỗi đoạn rồi sắp thứ tự chúng. Khoảng cách này chứng minh cận.
+\end{proof}
+
+Lập luận trên dùng được cho mọi họ tập con hữu hạn. Cấu trúc đoạn được dùng trong cận mạnh hơn theo độ dài ở phần sau. Tối ưu danh nghĩa và tối ưu bền là hai yêu cầu khác nhau.
+
+
+Đặt $F_x(\alpha)=\max(0,\max_I f_{x,\alpha}(I))$, lần này nói rõ là cho phép đoạn rỗng. Tính đơn điệu theo từng tọa độ cho bao giá trị chính xác
+\begin{equation}\label{A-eq:value}
+F_x(\alpha+\varepsilon)\le F_{x+\delta}(\alpha)\le F_x(\alpha-\varepsilon),
+\qquad |F_{x+\delta}(\alpha)-F_x(\alpha)|\le n\varepsilon.
+\end{equation}
+Các nhiễu đồng loạt $-\varepsilon$ và $+\varepsilon$ đạt hai đầu bao. Các bất đẳng thức vẫn đúng nếu không có đoạn rỗng. Bao giá trị có thể còn hữu ích khi không đoạn cố định nào giữ tối ưu trên toàn hộp; nó không phải khoảng tin cậy thống kê.
+
+\section{Cận trên chính xác làm nền}
+Xét mọi độ lệch thực, gọi $H_x$ là số đỉnh trên đường bao lồi trên nghiêm ngặt của các điểm $(|I|,S_x(I))$. Giữ tổng lớn nhất ở mỗi độ dài và bỏ những điểm thẳng hàng trung gian. Mọi đoạn bền với sai số dương là nghiệm danh nghĩa duy nhất, nên kiểu của nó là một đỉnh như vậy; hai đoạn bền phân biệt không thể có cùng kiểu.
+
+\begin{lemma}[Ngân sách chữ ký và cận theo hạng]\label{A-lem:rank}
+Gọi $\Phi_x(m)$ là số cặp phân biệt $(|A|,\sum_{i\in A}x_i)$ trên các tập con không rỗng $A\subseteq[1,n]$ có kích thước không quá số nguyên $m\ge1$. Khi đó
+\begin{equation}\label{A-eq:budget}
+H_x\le4\Phi_x(m)+2n/m-1.
+\end{equation}
+Với mỗi bảng cố định có hạng hữu tỷ $r$, đồng đều trên mọi $x\in\Sigma^n$,
+\begin{equation}\label{A-eq:rank}
+H_x=O_\Sigma(n^{(r+1)/(r+2)}).
+\end{equation}
+\end{lemma}
+\begin{proof}
+Chọn một đoạn đại diện cho mỗi đỉnh nghiêm ngặt và một tham số làm kiểu ấy tối ưu duy nhất. Các đỉnh phân biệt có độ dài khác nhau. Nếu $I,J$ tối ưu tại $\alpha<\beta$, cộng hai bất đẳng thức tối ưu cho $|I|\ge|J|$. Nếu chúng giao nhau và $J\not\subseteq I$, so sánh $I$ với $I\cup J$ tại $\alpha$, rồi $J$ với $I\cap J$ tại $\beta$. Với $C=J\setminus I$, ta được $f_{x,\alpha}(C)\le0$ và $f_{x,\beta}(C)\ge0$, trái với $f_{x,\beta}(C)=f_{x,\alpha}(C)-(\beta-\alpha)|C|<0$. Ở đây điểm số được mở rộng cộng tính cho các tập con. Vậy các đoạn đại diện rời nhau hoặc lồng nhau.
+
+Toàn dãy là một đại diện khi độ lệch đủ âm. Chọn đoạn đại diện chứa nghiêm ngặt nhỏ nhất làm cha của mỗi đoạn còn lại. Ta có một cây có gốc. Nếu $L,U,D$ lần lượt đếm nút lá, nút một con và nút phân nhánh, đếm cạnh cho $D\le L-1$ và $H_x\le2(L+U)-1$. Gán cho mỗi lá toàn đoạn của nó, còn cho cha một con $P$ phần chênh lệch với con duy nhất $Q$. Các phần được gán này không rỗng và đôi một rời nhau: mọi hậu duệ thực sự được đại diện của một cha một con đều nằm trong con duy nhất ấy; các nhánh khác nhau rời nhau. Tổng kích thước được gán không quá $n$.
+
+Chữ ký của các lá phân biệt. Chữ ký của nút một con là gia số dây cung giữa các đỉnh đường bao trên. Hai dây cung phân biệt có cùng độ rộng ngang dương có gia số đứng khác nhau. Thật vậy, nội suy tuyến tính đường bao lõm. Hệ số góc không tăng và giảm nghiêm ngặt tại mỗi đỉnh trong. Với hai dây cung cùng độ rộng bắt đầu tại $u<v$, hiệu các gia số là tổng hữu hạn của chênh lệch hệ số góc nhân độ dài, tất cả không âm. Một đỉnh nghiêm ngặt nằm giữa điểm đầu thứ nhất và điểm cuối thứ hai làm một số hạng dương: dùng $v$ nếu các dây cung chồng nhau, còn không thì dùng điểm cuối thứ nhất. Vì thế không thể bằng nhau. Cùng điểm đầu và độ rộng thì là cùng dây cung.
+
+Do đó một chữ ký xuất hiện nhiều nhất trong một phần gán cho lá và một phần gán cho nút một con. Có nhiều nhất $2\Phi_x(m)$ phần kích thước không quá $m$, và nhiều nhất $n/m$ phần lớn hơn. Bất đẳng thức cây chứng minh~\eqref{A-eq:budget}. Các phần được gán không nhất thiết liên tiếp, nên $\Phi$ phải đếm tập con.
+
+Chọn cơ sở hữu tỷ $b_1,\ldots,b_r$ cho không gian sinh bởi bảng cố định. Có mẫu chung $D_0>0$ và số nguyên cố định $C\ge1$ sao cho $a=D_0^{-1}\sum_j z_j(a)b_j$, với các hệ số nguyên $|z_j(a)|\le C$ cho mọi ký hiệu $a$. Tập con có nhiều nhất $m$ phần tử có không quá $m(2Cm+1)^r$ mã chữ ký. Vì thế
+\begin{equation}\label{A-eq:finite-rank}
+H_x\le4m(2Cm+1)^r+2n/m-1.
+\end{equation}
+Lấy $m=\ceil{n^{1/(r+2)}}$ suy ra~\eqref{A-eq:rank}. Mọi hằng số được chọn trước độ dài $n$ và dãy.
+\end{proof}
+
+Miền mọi đoạn và trọng số đơn vị dương được dùng thiết yếu trong so sánh hợp/giao. Tính rời nhau hoặc lồng nhau không có nghĩa tất cả tạo thành một chuỗi bao hàm. Phần này được chứng minh bằng lập luận viết; các chứng chỉ hình thức kèm theo được giới hạn đúng như bảng phạm vi ở cuối công trình.
+
+\section{Các quy luật độ bền có cận khớp nhau}
+\begin{theorem}[Bảng nhị phân]\label{A-thm:binary}
+Có các hằng số tuyệt đối $c,C>0$ sao cho với mọi $B>0$, số nguyên $n\ge22528$ và $0<\varepsilon\le B/1024$,
+\begin{equation}\label{A-eq:binary}
+c\min(n^{2/3},B/\varepsilon)\le R_{\{0,B\}}(n,\varepsilon)
+\le C\min(n^{2/3},B/\varepsilon).
+\end{equation}
+\end{theorem}
+\begin{proof}
+Đổi tỷ lệ đưa về một bảng nhị phân cố định để chứng minh cận trên, suy ra từ Bổ đề~\ref{A-lem:rank} và Mệnh đề~\ref{A-prop:packing}. Với cận dưới, cố định $m\ge8$ và lấy các cặp nguyên thủy $(c_0,c_1)$ có $\ceil{m/10}\le c_j\le m$. Số cặp $M$ ít nhất là $(3/50)m^2$: hộp có ít nhất $(9m/10)^2$ điểm, còn chặn bằng tổng loại nhiều nhất $m^2\sum_{d\ge2}d^{-2}\le3m^2/4$ điểm không nguyên thủy. Bất đẳng thức cuối dùng $1/4+\int_2^\infty t^{-2}\,dt$.
+
+Các khối $0^{c_0}B^{c_1}$ có mật độ phân biệt $Bc_1/(c_0+c_1)$, cách nhau ít nhất $B/(4m^2)$ và nằm trong $[B/20,19B/20]$. Sắp chúng theo mật độ giảm dần; nếu phần thân có độ dài $N$, thêm đầu dãy $21N$ bản sao của $B$ làm khối bảo vệ. Tại trung điểm mỗi khoảng mật độ, mọi khối có $|d-\alpha|\ge B/(8m^2)$. Nếu $\varepsilon\le B/(16m^2)$, mọi hậu tố của khối dương vẫn dương, còn mọi tiền tố của khối âm vẫn âm. Mọi tiền tố trong khối bảo vệ đều dương. Tiền tố đi vào phần thân có tổng sau nhiễu ít nhất $BN/20-22N\varepsilon>0$ khi $m\ge8$. Vì thế nghiệm duy nhất trước mọi hiện thực hóa là tiền tố kết thúc ngay sau các khối dương. Có $M-1\ge3m^2/100$ đoạn như vậy, trong độ dài không quá $44m^3$.
+
+Đặt $m=\floor{\min((n/44)^{1/3},(B/(16\varepsilon))^{1/2})}$. Các giả thiết bảo đảm $m\ge8$, và lấy phần nguyên làm mất nhiều nhất hệ số hai. Nối các số không để đạt độ dài $n$; giá trị đã trừ độ lệch của chúng sau nhiễu đều âm vì $\alpha\ge B/20>\varepsilon$. Suy ra~\eqref{A-eq:binary}, chẳng hạn với $c=3/6400$.
+\end{proof}
+
+Cho quy luật hạng cao hơn, đặt $r\ge2$, $d=r-1$, $k=r+1$ và cố định các số dương $\theta_1,\ldots,\theta_d$. Giả sử có hằng số cố định $0<\kappa\le1/2$ thỏa
+\begin{equation}\label{A-eq:BA}
+\|\theta\cdot e\|_{\R/\Z}\ge\kappa\|e\|_\infty^{-d}
+\quad(e\in\Z^d\setminus\{0\}).
+\end{equation}
+Ký hiệu $\|\cdot\|_{\R/\Z}$ chỉ khoảng cách đến số nguyên gần nhất. Đây là tính khó xấp xỉ đối ngẫu của một dạng tuyến tính. Nó không phải điều kiện từng tọa độ, cũng không phải tính khó xấp xỉ dạng nhân. Điều kiện này suy ra độc lập hữu tỷ của $1,\theta_1,\ldots,\theta_d$.
+
+\begin{theorem}[Quy luật có điều kiện ở mọi hạng]\label{A-thm:BA}
+Với $\Sigma=\{0,1,\theta_1,\ldots,\theta_d\}$ thỏa~\eqref{A-eq:BA}, có $c,C,\varepsilon_0>0$ và $n_0$, chỉ phụ thuộc bảng cố định và một $\kappa$ hợp lệ, sao cho với mọi số nguyên $n\ge n_0$ và mọi $0<\varepsilon\le\varepsilon_0$,
+\begin{equation}\label{A-eq:main}
+c\min(n^{(r+1)/(r+2)},B/\varepsilon)\le R_\Sigma(n,\varepsilon)
+\le C\min(n^{(r+1)/(r+2)},B/\varepsilon).
+\end{equation}
+\end{theorem}
+
+\subsection{Đếm các mật độ gần nhau}
+Ta chứng minh cận dưới mà không giả định khoảng cách nhỏ nhất đồng đều. Trước hết, với số nguyên $L\ge1$ và $\delta\ge0$, số cặp $(a,e)\in\Z\times\Z^d$ thỏa $\|e\|_\infty\le L$ và $|a+\theta\cdot e|\le\delta$ không quá
+\begin{equation}\label{A-eq:residues}
+C_d(1+\delta L^d/\kappa),\qquad C_d=8\cdot3^d.
+\end{equation}
+Khi $\delta<1/2$, mỗi $e$ cho phép nhiều nhất một $a$. Các phần dư phân biệt có khoảng cách trên đường tròn ít nhất $\kappa/(2L)^d$. Xếp chúng vào cung dài $2\delta$ quanh không cho nhiều nhất $1+2\delta(2L)^d/\kappa$ điểm. Lập luận bao gồm $\delta=0$. Khi $\delta\ge1/2$, có nhiều nhất $4\delta$ số nguyên $a$ cho mỗi véc-tơ và $(3L)^d$ véc-tơ. Cả hai ước lượng đều cho~\eqref{A-eq:residues}.
+
+Đặt $h=\ceil{m/10}$ và lấy mọi véc-tơ số lượng $\mathcal T_m=\{h,\ldots,m\}^k$, không đòi hỏi nguyên thủy. Với $c\in\mathcal T_m$, đặt
+\begin{equation}\label{A-eq:density}
+q_c=\sum_{j=0}^r c_j,\qquad
+b_c=\frac{c_1+\sum_{j=1}^d\theta_jc_{j+1}}{q_c},\qquad
+M=|\mathcal T_m|\ge(9m/10)^k.
+\end{equation}
+Gọi $E_m(t)$ là số cặp có thứ tự $(c,c')$ thỏa $|b_c-b_{c'}|\le t$, kể cả mật độ bằng nhau và các cặp trên đường chéo. Ta có
+\begin{equation}\label{A-eq:pairs}
+E_m(t)\le C_*(m^k+t m^{2k}),\qquad
+C_*=11^r\,8\cdot3^{r-1}k^{r+3}/\kappa.
+\end{equation}
+Cố định các độ dài $q,q'$ và $g=\gcd(q,q')$. Các định thức $c_jq'-c_j'q$ chia hết cho $g$. Viết định thức thứ nhất là $ga$, còn $d$ định thức kia là $ge_j$. Các cận của chúng cho $|e_j|\le km^2/g$, và mật độ gần nhau suy ra $|a+\theta\cdot e|\le tqq'/g\le tk^2m^2/g$. Áp dụng~\eqref{A-eq:residues} với $L=\floor{km^2/g}\ge1$ chặn số bộ định thức bởi
+\begin{equation}\label{A-eq:determinants}
+C_d\left(1+\frac{t k^{r+1}m^{2r}}{\kappa g^r}\right).
+\end{equation}
+Với một bộ cố định, đặt $u=q/g,v=q'/g$. Phương trình $vc_j-uc_j'=a_j$ có tập nghiệm nguyên một tham số vì $\gcd(u,v)=1$. Giao của nó với $[h,m]^2$ chứa nhiều nhất $1+m/\max(u,v)\le1+10g/k\le11g$ điểm. Vì thế $r$ tọa độ ký hiệu dương cho phép nhiều nhất $(11g)^r$ cặp. Các tọa độ số không sau đó được xác định; bỏ các hạn chế còn lại của chúng chỉ làm tăng số đếm.
+
+Với $Q=km$ và $r\ge2$,
+\begin{equation}\label{A-eq:gcd}
+\sum_{q,q'\le Q}\gcd(q,q')^r
+\le\sum_{a=1}^Q a^r\floor{Q/a}^2
+\le Q^2\sum_{a=1}^Q a^{r-2}\le Q^{r+1}.
+\end{equation}
+Bất đẳng thức đầu đếm dư các ước số. Cộng~\eqref{A-eq:determinants} nhân $(11g)^r$ trên nhiều nhất $Q^2$ cặp độ dài chứng minh~\eqref{A-eq:pairs}. Không hề giả định ánh xạ mật độ là đơn ánh.
+
+\subsection{Chọn khối, dựng dãy và khép các lượng từ}
+Giả sử $\varepsilon m^k\le1$. Chia trục thực thành các ô nửa mở rộng $4\varepsilon$, và gọi $a_j$ là số véc-tơ trong ô $j$. Các cặp cùng ô gần nhau, nên $\sum_j a_j^2\le E_m(4\varepsilon)\le5C_*m^k$. Nếu có $J$ ô chứa điểm, Cauchy--Schwarz cho $M^2\le J\sum_j a_j^2$. Ít nhất một nửa số ô ấy có chỉ số cùng tính chẵn lẻ. Chọn một véc-tơ từ mỗi ô thuộc nhóm đó. Các mật độ cách nhau nghiêm ngặt hơn $4\varepsilon$, và số lượng $K$ thỏa
+\begin{equation}\label{A-eq:selection}
+K\ge\beta m^k,\qquad \beta=(9/10)^{2k}/(10C_*),\qquad K\le m^k.
+\end{equation}
+Sắp các ký hiệu trong từng khối đã chọn, rồi sắp các khối theo mật độ giảm dần. Tổng độ dài của chúng là $N\le kmK$. Thêm đầu dãy $(10k+1)N$ bản sao của $B$. Mọi mật độ nằm giữa $1/(10k)$ và $B-B/(10k)$. Tại trung điểm mỗi cặp mật độ liên tiếp, mọi khối đã chọn đều có $|b_c-\alpha|>2\varepsilon$. Yêu cầu
+\begin{equation}\label{A-eq:guard}
+\varepsilon\le\varepsilon_g:=\min\left(\frac{B}{20k(10k+2)},\frac1{20k}\right),
+\qquad A=k(10k+2).
+\end{equation}
+Các tiền tố trong khối bảo vệ vẫn dương. Tiền tố đi vào phần thân có điểm danh nghĩa ít nhất $BN/(10k)$ và mất nhiều nhất $(10k+2)N\varepsilon$, nên còn ít nhất $BN/(20k)>0$. Vậy mọi nghiệm tối ưu bắt đầu tại vị trí đầu. Trong một khối đã sắp có mật độ dương sau khi trừ độ lệch, mọi hậu tố dài $s$ có tổng danh nghĩa ít nhất $s(b_c-\alpha)$; nó vẫn dương sau nhiễu. Trong khối có mật độ âm sau khi trừ độ lệch, mọi tiền tố không rỗng có tổng nhiều nhất $s(b_c-\alpha)$; nó vẫn âm. Vì thế nghiệm duy nhất trước mọi hiện thực hóa kết thúc ngay sau các khối dương. Nhiễu không cần bảo toàn thứ tự bên trong khối. Có $K-1$ tiền tố bền phân biệt trong độ dài nhiều nhất $A m^{k+1}$. Các số không nối thêm có giá trị sau nhiễu và trừ độ lệch nhiều nhất $\varepsilon-\alpha<0$, nên không thay đổi những nghiệm dương ấy.
+
+Chọn số nguyên $m_0$ thỏa $\beta m_0^k\ge2$ và đặt
+\begin{equation}\label{A-eq:quantifiers}
+n_0=\ceil{A(2m_0)^{k+1}},\quad
+\varepsilon_0=\min(\varepsilon_g,(2m_0)^{-k}),\quad
+m=\floor{\min((n/A)^{1/(k+1)},\varepsilon^{-1/k})}.
+\end{equation}
+Với $n,\varepsilon$ đã nêu, lựa chọn này cho $m\ge m_0$, mất nhiều nhất hệ số hai so với giá trị nhỏ nhất và thỏa cả ngân sách độ dài lẫn sai số. Nối số không để đạt đúng $n$. Do đó
+\begin{equation}\label{A-eq:lower}
+K-1\ge\frac{\beta}{2^{k+1}}\min((n/A)^{k/(k+1)},1/\varepsilon)
+\ge\frac{\beta}{2^{k+1}A^{k/(k+1)}B}\min(n^{k/(k+1)},B/\varepsilon).
+\end{equation}
+Ở đây $A,B\ge1$. Điều này chứng minh cận dưới của Định lý~\ref{A-thm:BA}; Bổ đề~\ref{A-lem:rank} và Mệnh đề~\ref{A-prop:packing} cho cận trên. Các hằng số được chọn cố ý rộng và không khẳng định một ngưỡng hữu ích cho dữ liệu hữu hạn.
+
+\begin{corollary}[Ví dụ ở mọi hạng]\label{A-cor:algebraic}
+Với mỗi số nguyên $r\ge2$, đặt $\rho=2^{1/r}$. Bảng cố định $\{0,1,\rho,\ldots,\rho^{r-1}\}$ thỏa Định lý~\ref{A-thm:BA}.
+\end{corollary}
+\begin{proof}
+Theo Eisenstein tại 2, $X^r-2$ bất khả quy. Với $e\in\Z^{r-1}$ khác không, đặt $H=\|e\|_\infty$, chọn số nguyên $a$ gần $-\sum e_j\rho^j$ nhất và đặt $P(X)=a+\sum e_jX^j$. Giá trị của nó tại $\rho$ là số nguyên đại số khác không. Tích trên $r$ liên hợp là số nguyên khác không. Vì $|a|\le H\sum\rho^j+1/2$ và mỗi $\rho^j<2$, mọi liên hợp khác có môđun không quá $4rH$. Suy ra $|P(\rho)|\ge(4rH)^{-(r-1)}$, tức~\eqref{A-eq:BA} với $\kappa=(4r)^{-(r-1)}$. Giá trị tuyệt đối xử lý cả liên hợp phức. Cơ chế chuẩn này là cổ điển~\cite{fgm}; hệ quả về số đoạn được suy ra dưới đúng các giả thiết đã nêu.
+\end{proof}
+
+\section{Vì sao riêng hạng không phân loại được độ bền}
+\begin{lemma}[Chuyển biểu diễn và truy vấn]\label{A-lem:transfer}
+Nếu $I$ là $\varepsilon$-bền cho $x$ tại $\alpha$, $\|x-y\|_\infty\le\delta$, $|\alpha-\beta|\le\tau$ và $\delta+\tau<\varepsilon$, thì $I$ là $(\varepsilon-\delta-\tau)$-bền cho $y$ tại $\beta$.
+\end{lemma}
+\begin{proof}
+Mọi dãy được phép sau nhiễu và trừ độ lệch $y+\zeta-\beta$ khác $x-\alpha$ theo từng tọa độ nhiều nhất $\delta+(\varepsilon-\delta-\tau)+\tau=\varepsilon$. Áp dụng định nghĩa độ bền ban đầu. Khi bán kính còn lại dương, tính duy nhất danh nghĩa suy ra từ Bổ đề~\ref{A-lem:box}.
+\end{proof}
+
+Cố định số vô tỷ $\theta\in(1,2)$. Nếu $q\ge1$, $p\in\Z$, $0\le p\le2q$ và $|\theta-p/q|<\varepsilon$, thay mọi $\theta$ bằng $p/q$ trong một dãy bất kỳ trên $\{0,1,\theta\}$. Bổ đề chuyển biểu diễn ánh xạ đơn ánh các đoạn bền của nó vào các kiểu nghiêm ngặt của dãy hữu tỷ hóa $y$. Tổng tập con dài nhiều nhất $m$ nằm trên lưới $1/q$ trong $[0,2m]$, nên $\Phi_y(m)\le m(2qm+1)\le3qm^2$. Bổ đề~\ref{A-lem:rank} cho $H_y\le12qm^2+2n/m-1$. Lấy $m=\ceil{(n/q)^{1/3}}$ khi $n\ge q$, và dùng $H_y\le n$ nếu ngược lại, thu được
+\begin{equation}\label{A-eq:approx}
+R_{\{0,1,\theta\}}(n,\varepsilon)\le50q^{1/3}n^{2/3}.
+\end{equation}
+Sự phụ thuộc vào mẫu số được ghi tường minh; không thể giấu nó trong một hằng số đồng đều khi thay đổi các xấp xỉ.
+
+\begin{theorem}[Trở ngại từ một bảng cố định]\label{A-thm:obstruction}
+Có một bảng hạng hai cố định $\Sigma$ mà không hằng số dương $c_\Sigma$ nào cho cận dưới $c_\Sigma\min(n^{3/4},B/\varepsilon)$ với mọi $n$ đủ lớn và mọi $\varepsilon$ dương đủ nhỏ.
+\end{theorem}
+\begin{proof}
+Dùng phép dựng Liouville cổ điển
+\begin{equation}\label{A-eq:liouville}
+\theta=1+\sum_{j=1}^{\infty}10^{-j!},\qquad
+q_k=10^{k!},\qquad \frac{p_k}{q_k}=1+\sum_{j=1}^k10^{-j!}\quad(k\ge2).
+\end{equation}
+Phần đuôi dương nhỏ hơn $2q_k^{-(k+1)}$. Nếu $\theta=a/b$ hữu tỷ, khoảng cách khác không của nó đến $p_k/q_k$ ít nhất là $1/(bq_k)$, mâu thuẫn với cận đuôi khi $k$ lớn. Vậy $\theta\in(1,2)$ vô tỷ và $\Sigma=\{0,1,\theta\}$ có hạng hai. Đặt $n_k=q_k^8$, $\varepsilon_k=3q_k^{-(k+1)}$. Cận~\eqref{A-eq:approx} cho $R_\Sigma(n_k,\varepsilon_k)\le50q_k^{17/3}$. Khi $k\ge6$, giá trị nhỏ nhất trong công thức dự kiến là $q_k^6$, nên
+\begin{equation}\label{A-eq:obstruction}
+\frac{R_\Sigma(n_k,\varepsilon_k)}{\min(n_k^{3/4},\theta/\varepsilon_k)}
+\le50q_k^{-1/3}\longrightarrow0.
+\end{equation}
+Không hằng số cận dưới dương nào giữ được. Bảng luôn cố định trong toàn bộ lập luận.
+\end{proof}
+Điều này không mâu thuẫn với cận hạng chính xác . Nhiều miền nghiệm chính xác có thể có độ chênh dưới mức sai số đã khai báo. Bản thân số Liouville cổ điển không phải phép dựng mới; trở ngại cụ thể suy ra từ~\eqref{A-eq:approx}. Định lý cũng không chứng minh rằng cứ không thỏa~\eqref{A-eq:BA} thì quy luật độ bền hai phía thất bại. Điều kiện đủ và trở ngại này còn để ngỏ một lớp số học trung gian.
+
+\section{Chứng nhận hữu hạn trên các giá trị cung cấp}
+Có thể dùng chứng minh mà không suy ra một tính chất Diophantine ở mọi thang. Cố định bảng được cung cấp $\Sigma=\{0,a_1,\ldots,a_{k-1}\}$ có các phần tử dương, và gọi $a$ là phần tử dương nhỏ nhất. Với $m$ đã chọn, tạo mọi véc-tơ số lượng trong $\{\ceil{m/10},\ldots,m\}^k$ và tính mật độ của chúng. Gọi $K_0$ là giá trị lớn hơn giữa số ô chẵn có điểm và số ô lẻ có điểm, với độ rộng ô $4\varepsilon$. Đặt
+\begin{equation}\label{A-eq:finite-design}
+A=k(10k+2),\qquad K=\min(K_0,\floor{n/(Am)}),\qquad
+0<\varepsilon\le\min\left(\frac{B}{20k(10k+2)},\frac{a}{20k}\right).
+\end{equation}
+Nếu $K\ge2$, chọn một khối từ mỗi ô trong $K$ ô cùng tính chẵn lẻ ấy. Chứng minh khối bảo vệ và nối số không ở trên cho một dãy độ dài $n$ dựng được tường minh, với ít nhất $K-1$ đoạn bền duy nhất trên toàn hộp. Trước khi nối, độ dài không quá $AmK$. Đây là chứng nhận thiết kế, không phải thuật toán thiết kế tối ưu hay dự báo cho mọi dãy quan sát. Các giá trị hữu tỷ chính xác cho phép kiểm chính xác ngay cả khi bảng có hạng một.
+
+Ở một $m$ cụ thể, chứng minh đếm số học chỉ dùng~\eqref{A-eq:BA} với $0<\|e\|_\infty\le2km^2$. Một hằng số tách biệt được kiểm trên miền hữu hạn ấy đủ dùng ở thang đó, nhưng không xác lập điều kiện toàn cục. Cách khác là dùng trực tiếp số ô thực sự có điểm để chứng nhận hữu hạn. Bổ đề~\ref{A-lem:transfer} tính cả sai số làm tròn giá trị và sai số làm tròn truy vấn, tránh âm thầm coi biểu diễn đã làm tròn là mô hình số thực chính xác.
+
+Khi đổi đơn vị theo $x'=sx+t$, $\alpha'=s\alpha+t$, $\varepsilon'=s\varepsilon$ với $s>0$, điểm sau khi trừ độ lệch được nhân $s$ và các hộp sai số tương ứng với nhau. Quyết định bền được bảo toàn khi cả miền tham số cũng được chuyển đổi. Lượng tử hóa không phải một phép đổi đơn vị khả nghịch như vậy. Đặc biệt, bảng thập phân hữu hạn cố định có hạng hữu tỷ một, dù trông giống các hằng số vô tỷ đến đâu.

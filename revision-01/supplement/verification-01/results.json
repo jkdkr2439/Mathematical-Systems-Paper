@@ -1,0 +1,123 @@
+{
+  "affine": {
+    "models": 48,
+    "state_budget_comparisons": 1440,
+    "update_comparisons": 1800
+  },
+  "timing": {
+    "parameter_cases": 210,
+    "partition_checks": 8761,
+    "n_max": 7,
+    "b_max": 5,
+    "d_max": 2,
+    "k": [
+      2,
+      3
+    ]
+  },
+  "robust": {
+    "certificates": 972,
+    "corner_instances": 15552,
+    "scope": "Finite exact rational corner checks, not proof by enumeration"
+  },
+  "conflict": {
+    "n_max": 8,
+    "nonempty_cells": 501
+  },
+  "measurement": {
+    "instances": 80,
+    "subsets_per_instance": 128
+  },
+  "floating_point": {
+    "first": 0.115625,
+    "second": 0.11562499999999998,
+    "first_hex": "0x1.d99999999999ap-4",
+    "second_hex": "0x1.d999999999998p-4",
+    "scope": "Observed Python binary64 operations; not all IEEE implementations"
+  },
+  "lean": {
+    "version": "Lean (version 4.34.0-rc1, x86_64-w64-windows-gnu, commit 3447a668783dbce1a8fdb97101dd067687b2b418, Release)",
+    "binary_sha256": "12f2fa14016363697cdb4506439756bbd1bdff86bbe0e762c31445a11f9f58fa",
+    "receipts": [
+      {
+        "file": "Observation.lean",
+        "source_sha256": "981d1f4011cc91845fd34f036f2cf4b4a5588c7490a7625404a40961da6ca819",
+        "log_sha256": "95932f03b9d1794d62a063800fedc513f799e003cdb822eed72db48b718e83a4",
+        "declarations": 5,
+        "axioms": {
+          "InteractionInformation.budget_monotone": [],
+          "InteractionInformation.residual_budget": [],
+          "InteractionInformation.encoding_requires_refinement": [],
+          "InteractionInformation.new_observation_cannot_be_recovered": [],
+          "InteractionInformation.coupled_projection": []
+        }
+      },
+      {
+        "file": "Policies.lean",
+        "source_sha256": "36fae9f03d67a545c68a9f5e83f613c864edb180b450a48373991a39f9e171fc",
+        "log_sha256": "ced6e5b55775a734fa850a838efe70416c6347bd3a035d035e8e435d9e4b6c36",
+        "declarations": 8,
+        "axioms": {
+          "DecisionPolicies.feasible_iff_safe": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "DecisionPolicies.interval_cost_lower_bound": [
+            "propext",
+            "Quot.sound"
+          ],
+          "DecisionPolicies.interval_cost_one_iff": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "DecisionPolicies.state_has_minimizer": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "DecisionPolicies.proper_cell_common_minimizer": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "DecisionPolicies.full_cell_no_common_minimizer": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "DecisionPolicies.two_label_decision": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "DecisionPolicies.no_information_no_stop": []
+        }
+      },
+      {
+        "file": "Transfer.lean",
+        "source_sha256": "a210708d7ba68d50af28da36962a833fa68d37ae06c5bb444c80e2bd9d525eee",
+        "log_sha256": "f693069c100080d9013d33dd8b709b1f02a1ff87351a206547e4897a2c228db5",
+        "declarations": 4,
+        "axioms": {
+          "SemanticTransfer.robust_choice": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "SemanticTransfer.robust_maximizer": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "SemanticTransfer.information_transfer": [],
+          "SemanticTransfer.obstruction_to_transfer": []
+        }
+      }
+    ]
+  },
+  "status": "PASS",
+  "python": "3.12.14",
+  "source_sha256": "66e1e220f8773abca619ad2b871c380c148018d44d523f28c80f1a854da8fe2d"
+}

@@ -1,0 +1,29 @@
+\section{Transferring certificates to an implementation}\label{sec:semantics}
+An ideal calculation and its implementation can have different observable outputs. The mathematical question is whether the representation proved sufficient in the ideal model still determines the implementation's required output.
+
+\begin{theorem}[Semantic factorization]\label{thm:semanticfactor}
+For maps $q:S\to Z$ and $f:S\to Y$, a decoder $d:q(S)\to Y$ with $f=d\circ q$ exists exactly when $f$ is constant on every fiber of $q$. A pair $s,t$ with $q(s)=q(t)$ and $f(s)\ne f(t)$ rules out every such decoder.
+\end{theorem}
+\begin{proof}
+Equal arguments to $d$ have equal outputs, which proves necessity. For each $z$ in the image of $q$, assign the unique $f$-value attained on the fiber at $z$. Constancy gives uniqueness and membership in the image gives existence. This defines the decoder. The asserted pair contradicts the necessary condition.
+\end{proof}
+The choice of $f$ determines what this result protects. One may ask for an ideal value, a machine value, an error status, a final control action, the cost of computing it, or the retained state. Two objects can agree under one of these maps and differ under another.
+
+\subsection{Cancellation on finite inputs}
+Consider
+\[
+g(p,x)=(1/64+p)-(p-x).
+\]
+In exact rational arithmetic cancellation gives $g(p,x)=1/64+x$ for all $p,x$. Evaluate each operation separately using the binary64 arithmetic in the supplied example. Fix $x$ at the binary value represented by the literal $0.1$. The outputs are
+\[
+ g(0.1,0.1)=0.115625,\qquad g(0.5,0.1)=0.11562499999999998.
+\]
+The decimal strings display the machine results. The supplement gives their exact hexadecimal encodings. In the exact rational comparison it uses the actual stored binary literals as rational numbers. Thus the distinction persists even after agreeing on the interpretation of the input literal. Rounding at an intermediate operation changes the cancellation. This example uses ordinary finite inputs and involves no overflow.
+
+If the target is exact machine output, the discarded coordinate $p$ can matter. If only the maximizing action matters, a discrepancy of this size may be acceptable. Proposition~\ref{prop:actionmargin} provides a way to use a validated numerical error bound for that weaker requirement. A second example, $(x+x)-x$, illustrates a different mechanism. For sufficiently large finite machine $x$ the addition can overflow even though the exact expression equals $x$. Whether the target records infinity, a rejection, or a trap belongs to the operational specification~\cite{goldberg}.
+
+\subsection{Equivalence under changes to a program}
+Let $P$ be a set of expressions with evaluator $\operatorname{eval}:P\times X\to Y$. Define $p\equiv q$ by equality of evaluations at every input. A transformation $M:P\to P$ preserves this equivalence when $p\equiv q$ implies $M(p)\equiv M(q)$. This implication must hold for every admissible transformation if later evaluations are part of the task. For instance, let $M$ replace the first literal visited in syntax order by one. The expressions $2+3$ and $5$ both evaluate to five. Their transformed versions evaluate to four and one. Their original evaluations give insufficient information about this subsequent operation. If evaluation cost is observable as well, it can be included in the output or separately bounded.
+
+\subsection{What a formal proof certifies}
+A Lean proof establishes the proposition expressed by its type. A rational identity must first be related to the supplied expression by a correct interpretation of literals, variables, operators, and domains. Its use on a machine implementation then requires a refinement result or a numerical error bound. The supplement records the dependencies of each of its declarations. In particular, the sufficient direction of semantic factorization and the distinguishing-pair obstruction are formalized, while the construction on the image above also supplies the converse as a written proof.

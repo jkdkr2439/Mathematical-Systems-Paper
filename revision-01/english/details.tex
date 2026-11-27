@@ -1,0 +1,95 @@
+\section{Technical details for the arithmetic bounds}\label{app:arithproof}
+
+\subsection{Equal-width chords of a concave envelope}
+\begin{lemma}\label{lem:chorddetail}
+Let $F$ be continuous and piecewise linear, with a strict decrease in slope at each retained interior vertex. Suppose $a,a+d,b,b+d$ are vertices, $d>0$ and $a<b$. Then
+\[
+ F(a+d)-F(a)>F(b+d)-F(b).
+\]
+\end{lemma}
+\begin{proof}
+Write $m$ for the slope away from the finitely many vertices and set $h=b-a$. Subtract the two increments. Translation gives the integral
+\[
+ \int_a^{a+d}\bigl(m(u)-m(u+h)\bigr)\,du.
+\]
+This integral is a finite sum of lengths multiplied by constants. Its integrand is nonnegative because the slopes decrease. If $b<a+d$, then every $u\in(a,b)$ satisfies $u<b<u+h$, so the comparison crosses the strict drop at $b$. If $b\ge a+d$, then for every $u\in(a,a+d)$ the comparison crosses the strict drop at $a+d$, an interior vertex since $a+d\le b<b+d$. In either case a set of positive length contributes strictly positively.
+\end{proof}
+In the tree of optimal intervals, the horizontal increment on a child-to-parent edge at a unary node is the positive number of positions assigned to that node. Equal signatures give equal horizontal and vertical increments. The lemma forces equal starting vertices, hence equal endpoint pairs and the same tree edge. Thus two distinct unary nodes cannot carry the same signature. A leaf may carry that signature as well, which accounts for the factor of two in the count of small assigned parts.
+
+\subsection{From sorted blocks to a unique robust optimum}
+Consider a nondecreasing block of length $q$ and mean $b$. Every suffix has mean at least $b$. Indeed, all terms of the omitted prefix are at most all terms of the suffix, and the block mean is a convex combination of their means. The same argument gives the reverse inequality for prefix means.
+
+Fix a query $\alpha$ and coordinate errors bounded by $\varepsilon$. If $b-\alpha>\varepsilon$, a nonempty suffix of length $s$ has perturbed score at least $s(b-\alpha-\varepsilon)>0$. If $b-\alpha<-\varepsilon$, every nonempty prefix has score at most $s(b-\alpha+\varepsilon)<0$. These two inequalities hold even when perturbations change the order within the block.
+
+Place blocks in decreasing order of mean. Choose $\alpha$ between adjacent selected means with the prescribed clearance. In a positive block, ending a prefix at the end of the block strictly improves on every earlier position within it because the remaining suffix has positive score. Each complete positive block increases the cumulative score. In a negative block, every nonempty prefix decreases the score from the preceding boundary, and that boundary score decreases with each subsequent complete block. The maximizing prefix of the block construction therefore ends uniquely after the last positive block.
+
+The initial guard ensures that the cumulative scores $P_j$ of the unpadded sequence are strictly positive for every admissible perturbation. An interval $[i,j]$ with $i>1$ scores $P_j-P_{i-1}<P_j$, so the prefix ending at $j$ strictly dominates it. The guard itself has positive increments. These facts promote the prefix optimum to a unique interval optimum. Finally, each padding zero contributes at most $\varepsilon-\alpha<0$. An interval confined to the padding loses to the positive constructed optimum. An interval crossing into the padding improves upon truncation at the boundary. Padding preserves the optimum without requiring every padded cumulative score to stay positive.
+
+\subsection{Multiplicity, cell occupancy and common divisors}
+Count vectors need not have distinct densities. A vector and an integer multiple already illustrate the issue. If $a_j$ vectors fall in cell $j$, $M=\sum_j a_j$, and $J$ cells are occupied, then
+\[
+ M^2\le J\sum_j a_j^2\le J E_m(4\varepsilon).
+\]
+The middle sum counts ordered pairs in a common cell, including each diagonal pair. At least $M^2/E_m(4\varepsilon)$ cells are occupied. Retain the larger parity class of cell indices and choose one representative per retained cell. Distinct retained indices differ by at least two. With half-open cells of width $4\varepsilon$ their representatives differ strictly by more than $4\varepsilon$, giving the required clearance.
+
+For the denominator sum, the common divisors of $q,q'$ include their greatest common divisor. Hence, for $r\ge2$,
+\[
+ \sum_{q,q'\le Q}\gcd(q,q')^r
+ \le \sum_{a\le Q}a^r\floor{Q/a}^2
+ \le Q^2\sum_{a\le Q}a^{r-2}\le Q^{r+1}.
+\]
+The last inequality uses $r\ge2$. The binary case has its own primitive-pair count.
+
+\subsection{A fixed alphabet in the Liouville obstruction}
+In Theorem~\ref{A-thm:obstruction} the infinite series specifies one number $\theta$ and hence one alphabet. For each $k$, approximation by $p_k/q_k$ supplies a comparison alphabet. Since $|\theta-p_k/q_k|<\varepsilon_k$, rationalization gives an admissible perturbation of each original sequence. Each robust optimum is therefore a unique nominal optimum at its witnessing query on the rationalized sequence. The interval of positions maps to itself, so distinct robust optima stay distinct in this count.
+
+At $n_k=q_k^8$, the rational-alphabet upper bound has exponent $1/3+16/3=17/3$ in $q_k$. The putative $n_k^{3/4}$ rate has exponent $6$. The ratio is $O(q_k^{-1/3})$ and tends to zero. Keeping the factor $q_k^{1/3}$ is necessary because the comparison alphabet varies even though the original alphabet is fixed.
+
+\section{Technical details for causal remeasurement}\label{app:timingproof}
+\subsection{Greedy covers and separated triples}
+For finite nonempty $Y\subseteq\Z$ and integer width $w\ge1$, start a covering interval $[p,p+w-1]$ at the smallest point $p$ still uncovered. Any width-$w$ interval covering $p$ can be moved to start at $p$ without losing a remaining point to its left, and the move weakly extends coverage to its right. Induction on the remaining points proves optimality. Thus two intervals fail precisely when there exist $p<q<h$ in $Y$ with $q-p\ge w$ and $h-q\ge w$. Greedy interval starts supply such a triple upon the third start. Conversely, one interval can cover at most one member of the triple.
+
+\subsection{Pulling a target triple back to earlier states}
+Suppose $p,q,h$ arise from earlier states $u,v,z$, each within distance $d$ of its target. The separated-triple inequalities imply
+\[
+ v-u\ge r,\qquad z-v\ge r,\qquad z-u\ge s,
+ \qquad r=w-2d,\quad s=2w-2d.
+\]
+For $r>0$ this also proves the order of the earlier states. Conversely choose $p=u-d$ and $h=z+d$. An admissible middle target belongs to
+\[
+ [v-d,v+d]\cap[p+w,h-w].
+\]
+The two adjacent-spacing inequalities put each left endpoint at most at the other interval's right endpoint. The span inequality makes the second interval nonempty. All endpoints are integers, so the intersection contains an integer. This completes the converse in Lemma~\ref{B-lem:local}.
+
+\subsection{Compression of empty positions}
+Translate $s+1$ selected integers to have minimum zero and maximum $D$. There are $D-s$ unselected positions. If $D>2s$, delete $D-2s$ unselected positions. Each deletion shifts all later positions left by one and keeps selected positions distinct. Both endpoints were selected, so the maximum becomes $2s$. Restoring the deleted positions can only increase distances between selected points. Two gaps at least $r$ in a compressed triple remain at least $r$, while the triple's span increases by at most $D-2s$. This last upper bound also holds if some deletions were outside the triple.
+
+\subsection{A grid limit without a limit of codes}
+Fix any continuous-domain protocol in Theorem~\ref{B-thm:continuous} and denote its worst-case error by $E$. Restrict it to the admissible inputs of each finite grid in turn. Restriction preserves both causality and the message alphabet, so the discrete lower bound gives an inequality for the same $E$ on every grid. Taking the limit of these numerical lower bounds gives the continuous lower bound. This reasoning requires the protocol to be defined at the grid points and places no measurability or connectedness condition on its cells. Achievability comes from the explicit continuous construction and its endpoint conventions.
+
+\subsection{Additional capacity and compulsory schedules}
+For nested feasible protocol classes $\mathcal P_q\subseteq\mathcal P_{q+1}$ with a common input set and loss,
+\[
+ \inf_{P\in\mathcal P_{q+1}}\sup\ell(P)
+ \le\inf_{P\in\mathcal P_q}\sup\ell(P).
+\]
+A compulsory extra transmission that changes the sampling time or completion time changes the comparison itself. The timing example specifies which events are compulsory and when loss is evaluated.
+
+\section{Terminology}
+\begin{longtable}{p{.30\textwidth}p{.61\textwidth}}
+\toprule Term & Meaning in this work\\\midrule\endhead
+State space & States sufficient to specify the stated transitions, observations and constraints.\\
+Observation map & The output to be reproduced. Its value can differ from the complete state and from a raw instrument reading.\\
+Observational equivalence & Equality of outputs after every admissible word.\\
+Sufficient representation & A code from which a decoder can solve the task on its entire specified domain.\\
+Refinement & A partition that preserves every previous distinction and may introduce more.\\
+Observability subspace & The row space generated by pulling observations back through matrix products.\\
+Information state & The states compatible with the history and the model. A probability law is an additional assumption.\\
+Robust optimizer & An action that stays optimal for every realization in a specified uncertainty set.\\
+Minimax reconstruction & Minimization of the largest reconstruction error over a stated protocol class.\\
+Causal protocol & Each message depends only on observations and records available by its transmission time.\\
+Operational semantics & The rules of execution, including arithmetic, evaluation order and error handling.\\
+Content bits & The rounded-up binary logarithm of the number of labels, with model, headers and timing accounted for separately.\\
+Resource budget & A quantity with specified units and a stated accumulation or update rule.\\
+\bottomrule
+\end{longtable}

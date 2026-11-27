@@ -1,0 +1,79 @@
+\section{Ghép hệ qua cổng và điều kiện bảo toàn}\label{sec:composition}
+Hai hệ độc lập có thể được nén đúng cho đầu ra riêng nhưng ghép sai khi một biến đã bỏ trở thành tín hiệu đi vào hệ kia. Vì vậy ranh giới quan sát của mỗi chứng chỉ phải chứa những cổng mà tương tác sử dụng.
+
+Cho trạng thái $s\in S$, $t\in T$, cổng ra $h_S:S\to U$, $h_T:T\to V$ và cập nhật cục bộ $f_S:S\times V\to S$, $f_T:T\times U\to T$. Bước đồng bộ sử dụng cổng ở đầu bước:
+\[
+F(s,t)=\bigl(f_S(s,h_T(t)),f_T(t,h_S(s))\bigr).
+\]
+Cho biểu diễn $p:S\to A$, $q:T\to B$.
+
+\begin{theorem}[Ghép đồng bộ của các biểu diễn đủ]\label{thm:composition}
+Giả sử tồn tại $\bar h_S,\bar h_T,\bar f_S,\bar f_T$ sao cho
+\begin{align*}
+h_S&=\bar h_S\circ p,& h_T&=\bar h_T\circ q,\\
+p(f_S(s,v))&=\bar f_S(p(s),v),&
+q(f_T(t,u))&=\bar f_T(q(t),u)
+\end{align*}
+với mọi trạng thái và mọi giá trị cổng được phép. Khi đó $(p\times q)\circ F=\bar F\circ(p\times q)$, trong đó
+\[
+\bar F(a,b)=\bigl(\bar f_S(a,\bar h_T(b)),\bar f_T(b,\bar h_S(a))\bigr).
+\]
+Mọi số hữu hạn bước ghép và mọi đầu ra tính được từ $p\times q$ được bảo toàn.
+\end{theorem}
+\begin{proof}
+Tọa độ thứ nhất của $(p\times q)F(s,t)$ là
+\[
+p(f_S(s,h_T(t)))=\bar f_S(p(s),h_T(t))
+=\bar f_S(p(s),\bar h_T(q(t))).
+\]
+Tọa độ thứ hai được thay tương tự. Hai tọa độ ghép lại cho đẳng thức một bước. Nếu đẳng thức đúng sau $k$ bước, áp đẳng thức một bước vào trạng thái tại bước $k$ cho đẳng thức sau $k+1$; bước0 là đồng nhất. Ghép với hàm đầu ra của biểu diễn cho đẳng thức đầu ra.
+\end{proof}
+
+\begin{example}[Đầu ra riêng không đủ cho cổng]
+Hệ thứ nhất chứa bit $x$, đầu ra riêng luôn0. Hệ thứ hai chứa bit $y$, đầu ra là $y$, và cập nhật đồng bộ đặt $y'=x$. Một mã hằng của hệ thứ nhất đủ cho mọi đầu ra riêng nếu không có tác động khác. Nhưng từ cùng mã hằng, trạng thái $x=0$ và $x=1$ tạo đầu ra hệ thứ hai khác nhau ngay sau một bước. Cổng $h_S(x)=x$ không factor qua mã hằng, nên giả thiết đầu tiên của định lý thất bại đúng nơi cần thiết.
+\end{example}
+
+\subsection{Các biên không được bỏ khi mở rộng}
+Nếu sự kiện hoặc lịch cập nhật phụ thuộc vào một phần trạng thái ẩn, scheduler là một phần của trạng thái hoặc môi trường đầu vào. Định lý đồng bộ không áp nguyên dạng cho cập nhật bất đồng bộ, vì một hệ có thể đọc cổng mới trong khi hệ kia đọc cổng cũ. Tương tự, nếu hai hệ dùng cùng một tài nguyên tổng, chứng chỉ cục bộ ``mỗi hệ đủ ngân sách'' không tự chứng nhận tổng: hai lần chi cùng một đơn vị là một xung đột sổ sách, không một hiệu ứng được xử lý bởi bảo toàn đầu ra.
+
+Một đồ thị nhiều hệ có thể được ghép bằng cùng lập luận tọa độ nếu toàn bộ cổng liên hệ và quy tắc lịch đã khai. Không cần giả các hệ độc lập về xác suất; đây là đẳng thức tất định. Nhưng các cổng không được khai hoặc sự kiện ngoài họ cho phép nằm ngoài bảo đảm. Tính mở rộng của định lý là theo những điều kiện ghép đã chứng minh, không theo lời khẳng định rằng mọi domain đều là một hệ.
+
+\section{Chính sách quan sát dưới hạn chót và tài nguyên}\label{sec:policies}
+Cho $S,A,Q,O$ hữu hạn. Trạng thái bao gồm mọi biến ẩn cần thiết để xác định các phép chuyển và điều kiện tương lai. Một tập trạng thái khả dĩ $B\subseteq S$, $B\ne\varnothing$, là tập tất cả trạng thái còn tương thích với lịch sử đã quan sát. Không gán xác suất lên $B$.
+
+Mỗi truy vấn $q$ có thời lượng nguyên $d(q)\ge1$, chi phí nội dung $c(q)\ge0$ và quan hệ $R_q(s)\subseteq S\times O$. Quan hệ không rỗng ở mọi trạng thái mà truy vấn được phép. Nó mô tả cả biến đổi trong lúc hỏi lẫn quan sát trả về; không giả quan sát là trạng thái mới nhất. Với đầu ra $o$, đặt
+\begin{equation}\label{eq:belief}
+B_{q,o}=\{s':\exists s\in B,\ (s',o)\in R_q(s)\}.
+\end{equation}
+Chỉ những $o$ cho tập khác rỗng mới là nhánh khả dĩ.
+
+Cho vị từ $\mathrm{Stop}(s,t,a)$ và $\mathrm{Ask}(s,t,q)$ chứa các điều kiện tác vụ cần giữ. Vị từ có thể bao gồm hạn chót, quyền điều khiển được cấp, giới hạn thiệt hại và tài nguyên; tính đúng vật lý hoặc tổ chức của vị từ là một giả thiết mô hình, không kết luận của quy hoạch động. Truy vấn được bật trên $B$ khi nó được phép ở mọi $s\in B$ và mọi phép chuyển có thể của nó thỏa các ràng buộc trên đường đi đã khai. Không bỏ nhánh gây hại khỏi $R_q$ để biến một truy vấn thành hợp lệ.
+
+\begin{theorem}[Truy hồi minimax hữu hạn]\label{thm:bellman}
+Cho hạn chót nguyên $D$. Gọi $V(B,t)$ là chi phí nội dung lớn nhất trên đường đi, nhỏ nhất qua các chính sách chắc chắn dừng hợp lệ trước hoặc tại $D$. Nếu không có chính sách như vậy, đặt $V=\infty$. Khi $t\le D$,
+\begin{align}\label{eq:bellman}
+V(B,t)=\min\Bigl(&\{0:\exists a\ \forall s\in B,\ \mathrm{Stop}(s,t,a)\}\notag\\
+&\cup\{c(q)+\max_{o:B_{q,o}\ne\varnothing}V(B_{q,o},t+d(q)):\notag\\
+&\hspace{26mm}q\text{ bật trên }B,\quad t+d(q)\le D\}\Bigr).
+\end{align}
+Quy ước $\min\varnothing=\infty$ và $c+\infty=\infty$.
+\end{theorem}
+\begin{proof}
+Quy nạp ngược theo $D-t$. Tại $t=D$, không truy vấn nào có thời lượng dương đủ thời gian; chỉ có thể dừng, và điều kiện dừng chung là cần và đủ.
+
+Xét một chính sách ở thời điểm sớm hơn. Nếu nó dừng ngay, hành động phải hợp lệ cho mọi trạng thái trong $B$, do đó chỉ có lựa chọn đầu tiên trong~\eqref{eq:bellman} và chi phí còn lại0. Nếu nó hỏi, truy vấn đầu phải bật và hoàn tất trước hạn chót. Môi trường có thể tạo bất kỳ observation khả dĩ. Sau mỗi observation, tập trạng thái chính xác là~\eqref{eq:belief}; theo giả thiết quy nạp, nhánh ấy cần ít nhất $V$ tương ứng. Vì đo chi phí worst-path, mọi chính sách hỏi truy vấn đó có chi phí ít nhất $c(q)+\max_oV$. Nếu một nhánh vô nghiệm, truy vấn không cho bảo đảm.
+
+Ngược lại, tập truy vấn và observation hữu hạn nên khi giá trị nhỏ nhất hữu hạn, có một lựa chọn đạt nó. Nếu dừng, dùng hành động chứng nhận. Nếu hỏi, gắn ở mỗi observation khả dĩ một chính sách tối ưu do giả thiết quy nạp cung cấp. Thời lượng dương làm thời gian còn lại giảm nghiêm ngặt, nên cây ghép hữu hạn và dừng đúng hạn. Nó đạt chi phí vế phải. Nếu vế phải vô hạn, phân tích lựa chọn đầu đã loại mọi chính sách. Hai chiều chứng minh đẳng thức.
+\end{proof}
+
+\subsection{Nâng trạng thái để giữ tài nguyên và lịch sử}
+Nếu tiêu hao phụ thuộc trạng thái, chỉ dùng một $c(q)$ không mô tả đủ tài nguyên. Thêm biến tài nguyên $r$ vào trạng thái, cập nhật theo $r'=r-g(s,q,s',o)$ với $g\ge0$ đã khai, và chỉ cho phép phép chuyển khi $r'\ge0$. Một tập trạng thái khả dĩ khi ấy chứa các cặp $(s,r)$, có thể phản ánh cả bất định về tài nguyên. Bằng quy nạp, mọi đường đi được cho phép đều giữ $r\ge0$. Ngược lại, nếu tài nguyên không nằm trong trạng thái và chính sách chỉ nhớ $s$, hai lịch sử có cùng $s$ nhưng ngân sách còn khác nhau có thể bị gộp sai.
+
+Tương tự, hại tích lũy, tham số môi trường cố định nhưng chưa biết, hoặc quyền chỉ được dùng một lần phải nằm trong trạng thái đủ hoặc trong lịch sử chưa bị xóa. Điều kiện Markov ở đây là tính đầy đủ đối với mô hình: mọi tương lai được xác định bởi trạng thái đã giữ và truy vấn, không có biến quá khứ liên quan bị bỏ.
+
+Số tập trạng thái khả dĩ có thể tới $2^{|S|}-1$; recurrence không tự là một thuật toán quy mô lớn. Nó cung cấp ngữ nghĩa tối ưu và một oracle nhỏ để kiểm các heuristic. Chi phí nội dung, thời gian, joule và mức hại không được cộng thành một scalar nếu chưa có đơn vị và hàm mục tiêu được chấp nhận. Có thể dùng một đại lượng làm mục tiêu và các đại lượng khác làm ràng buộc, hoặc xét tập Pareto; đó là các bài toán khác cần được ghi rõ.
+
+\subsection{Tại sao quan sát cũ và chần chừ có thể đổi tính khả thi}
+Giả sử trạng thái là một bit. Truy vấn đầu đọc bit cũ nhưng trong lúc truyền, môi trường được phép đặt bit mới về0 hoặc1 độc lập. Dù observation tiết lộ hoàn hảo bit cũ, tập trạng thái khả dĩ của bit mới vẫn là $\{0,1\}$. Nếu hành động phải bằng bit mới, truy vấn ấy không làm việc dừng trở nên khả thi. Một recurrence nhầm $R_q(s)=\{(s,o(s))\}$ sẽ cho đáp án sai vì đã bỏ động lực trong lúc hỏi.
+
+Ngược lại, nếu truy vấn trả bit hiện tại với đủ thời gian và không có thay đổi sau đó, tập trạng thái khả dĩ trở thành singleton và hành động đúng khả thi. Cả hai thông điệp có cùng một bit nội dung. Phân biệt nằm ở quan hệ nhân quả và trạng thái mà bit mô tả. Việc chờ thêm chỉ hữu ích khi lợi ích thông tin vượt mất mát về thời gian hoặc thay đổi trạng thái theo chính tiêu chí đã khai; không có một quy luật phổ quát ``hỏi thêm luôn tốt'' hoặc ``hỏi thêm luôn xấu''.

@@ -1,0 +1,34 @@
+\section{Applications and worked designs}\label{sec:applications}
+\subsection{A monitor for a binary register}
+Consider a 16-bit register. Its output is the first bit. A unit-cost event can perform a cyclic shift or add a known toggle mask. With budget three, at most three shifts can occur. The observable rows consist of the initial unit row and its first three shifts. Toggle offsets are known, and their linear parts are identities. The observable rank is four, so Theorem~\ref{thm:linear} gives an exact four-bit message in place of the full sixteen-bit state. Reading all sixteen coordinates would be possible with a shift horizon of fifteen. The shorter code only covers the declared horizon.
+
+After one event, the updater computes the code for residual budget two. Extending the horizon requires either a retained source of additional measurements or a weaker task if some required distinctions have already been lost. The saving of twelve bits applies to a state payload. A deployment must also account for the description of the matrices, update tables, computation, and the number of times the deployment reuses them.
+
+\subsection{Supplemental measurements with unequal prices}
+Corollary~\ref{cor:linearrepair} counts bits when arbitrary required linear measurements can be taken. Suppose a device instead offers rows $H=\{h_1,\ldots,h_m\}\subseteq W'$ at prices $a_i\ge0$. The old space is $W\subseteq W'$ and $\spn(W\cup H)=W'$. We seek a minimum-price subset whose addition spans the target.
+
+\begin{proposition}[Greedy measurement selection]\label{prop:measurementgreedy}
+Process rows in nondecreasing price order, starting from $W$. Retain a row exactly when it increases the current span and stop upon reaching $W'$. The resulting total price is minimum.
+\end{proposition}
+\begin{proof}
+Pass to the quotient space $W'/W$. Every feasible measurement set spans it, hence contains a basis. Removing redundant measurements cannot increase the price. It suffices to find a minimum-price basis among the projected rows.
+
+Assume a minimum-price basis contains all greedy rows chosen thus far. This is true before the first choice. Let $g$ be the next greedy row. If it is already in that basis there is nothing to change. Otherwise express it in the basis. Some nonzero coefficient belongs to a basis row $h$ outside the greedy prefix, since $g$ is independent of that prefix. Replacing $h$ by $g$ gives another basis because the same relation solves for $h$. At the time $g$ was selected, $h$ was independent of the greedy prefix, as a member of a basis containing it. Had $h$ been cheaper, it would have been considered earlier and selected. Therefore $a_h\ge a_g$. The exchange preserves optimality and extends the prefix contained in an optimal basis. Induction proves the claim.
+\end{proof}
+This is the linear-matroid case of the greedy basis theorem~\cite{edmonds}. It assumes additive, nonnegative prices and linear measurements in the target space. For example, if $x_1$ is known, acquiring $x_2$, $x_1+x_2$, and $x_3$ costs five, one, and two units respectively. To recover all of $\F^3$, acquire the latter two rows at total price three. The known $x_1$ then recovers $x_2$. The rank difference accounts for two additional bits. The available measurements determine their price. If a cheap measurement misses a deadline, a price-only basis problem is insufficient.
+
+\subsection{A cumulative deficit over a contiguous period}
+For a demand sequence $x_i$ and constant supply level $\alpha$ expressed in the same per-slot units, put $d_i=x_i-\alpha$. An idealized buffer calculation uses
+\[
+ C_x(\alpha)=\max\bigl(0,\max_I\textstyle\sum_{i\in I} d_i\bigr).
+\]
+This is the greatest accumulated deficit over one contiguous window, including an empty window. Interpreting it as required physical storage requires the relevant initial and terminal conditions, charging rules, losses, and power limits. Under homogeneous coordinate errors, monotonicity gives the attainable bounds
+\[
+ C_x(\alpha+\varepsilon)\le C_{x+e}(\alpha)\le C_x(\alpha-\varepsilon).
+\]
+They can protect a value threshold even if the worst interval changes identity. A controller that must schedule the precise interval needs the stronger positional certificate. The two requirements can use the same demand measurements.
+
+\subsection{A new sample acquired during communication}
+Theorem~\ref{B-thm:continuous} can supply a reconstruction error in~\eqref{eq:age} when its protocol and sampling times hold for the coordinate under consideration. The source's reply uses content bits, while the receiver's question, the extra sample, retained memory, and delay may have separate costs. A comparison at a common deadline differs from a comparison between two schedules that must use different question lengths and finish at different times. Under a common deadline a protocol allowed an extra bit can ignore it. In the worked mandatory-duration model the later finish changes how much drift the target admits.
+
+For deployment, the mathematical checks have concrete inputs. The state and transition domain determine which theorem applies. The encoder must have access to its stated measurements and the decoder to its stated side information when each is used. Rounding and failure handling determine the target implementation loss. Finally, sensing, transmission, storage, computation, deadlines and authority determine whether a certified action can actually be carried out. Where a quantity has only been assumed, the application has a conditional guarantee.

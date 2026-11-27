@@ -1,0 +1,4 @@
+'SemanticTransfer.information_transfer' does not depend on any axioms
+'SemanticTransfer.obstruction_to_transfer' does not depend on any axioms
+'SemanticTransfer.robust_choice' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SemanticTransfer.robust_maximizer' depends on axioms: [propext, Classical.choice, Quot.sound]

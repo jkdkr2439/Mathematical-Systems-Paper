@@ -1,0 +1,103 @@
+\section{Các bước kỹ thuật mở rộng cho nhánh số học}\label{app:arithproof}
+Phần này làm tường minh những chuyển bước có thể bị bỏ qua khi chỉ đọc công thức bậc tăng trưởng. Nó dùng các định nghĩa của phần tối ưu đoạn và không thêm giả thiết về dữ liệu vật lý.
+
+\subsection{Dây cung cùng độ rộng trên đường bao lõm}
+\begin{lemma}\label{lem:chorddetail}
+Cho $F$ là hàm liên tục tuyến tính từng đoạn trên một khoảng, có hệ số góc giảm nghiêm ngặt tại mọi đỉnh trong được giữ lại. Nếu $a,a+d,b,b+d$ là các đỉnh, $d>0$, $a<b$, thì
+\[
+F(a+d)-F(a)>F(b+d)-F(b).
+\]
+\end{lemma}
+\begin{proof}
+Gọi $m(u)$ là hệ số góc của đoạn tuyến tính chứa $u$, bỏ qua hữu hạn điểm đỉnh. Vì $F$ lõm, $m$ không tăng. Đặt $h=b-a>0$. Hiệu hai gia số bằng
+\[
+\int_a^{a+d}\bigl(m(u)-m(u+h)\bigr)\,du.
+\]
+Tích phân ở đây chỉ là tổng hữu hạn độ dài nhân hằng số, nên không cần giả thiết khả vi tại đỉnh. Mỗi số hạng không âm.
+
+Nếu $b<a+d$, chọn $u$ trong khoảng $(a,b)$, có độ dài dương. Khi đó $u<b<u+h$, nên hai điểm nằm hai phía của đỉnh trong $b$; hệ số góc giảm nghiêm ngặt khi đi qua đỉnh ấy. Do đó $m(u)>m(u+h)$ ngoại trừ hữu hạn điểm. Nếu $b\ge a+d$, với mọi $u\in(a,a+d)$, điểm $u+h$ nằm sau hoặc bên phải đỉnh $a+d$, trong khi $u$ nằm bên trái. Đỉnh $a+d$ là đỉnh trong vì $a+d\le b<b+d$; một lần giảm nghiêm ngặt cũng bị vượt qua. Tích phân dương trong cả hai trường hợp.
+\end{proof}
+Trong cây các đoạn tối ưu, gia số từ con tới cha có độ rộng dương bằng số phần tử được gán cho nút một con. Nếu hai phần ấy có cùng chữ ký, các dây cung có cùng độ rộng và cùng gia số đứng. Bổ đề loại trường hợp hai dây cung khác nhau. Cùng điểm đầu và độ rộng thì cùng cặp đỉnh và cùng cạnh cây. Vì vậy không có hai nút một con khác nhau mang cùng chữ ký. Một chữ ký vẫn có thể xuất hiện thêm ở một lá; hệ số2 trong đếm phần nhỏ giữ đúng khả năng này.
+
+\subsection{Từ khối đã sắp tới nghiệm bền duy nhất}
+Cho một khối dài $q$, các giá trị danh nghĩa đã sắp không giảm, có mật độ trung bình $b$. Với mọi hậu tố dài $s$, trung bình hậu tố không nhỏ hơn trung bình toàn khối; nếu không, trung bình tiền tố bị bỏ phải lớn hơn trung bình hậu tố dù mọi phần tử tiền tố không lớn hơn mọi phần tử hậu tố. Tương tự, trung bình mọi tiền tố không lớn hơn $b$.
+
+Tại truy vấn $\alpha$, nếu $b-\alpha>\varepsilon$, mọi hậu tố không rỗng sau nhiễu hộp có tổng ít nhất $s(b-\alpha)-s\varepsilon>0$. Nếu $b-\alpha<-\varepsilon$, mọi tiền tố không rỗng có tổng nhiều nhất $s(b-\alpha)+s\varepsilon<0$. Lập luận không yêu cầu nhiễu giữ thứ tự các phần tử; nó chỉ dùng các tổng danh nghĩa và cận tổng nhiễu $s\varepsilon$.
+
+Sắp các khối theo mật độ giảm. Với $\alpha$ nằm giữa hai mật độ đã chọn, các khối dương đứng trước các khối âm. Trong một khối dương, mọi tiền tố kết thúc sớm có score nhỏ hơn tiền tố kết thúc cuối khối vì phần hậu tố còn lại dương. Đi qua một khối dương hoàn chỉnh tăng score. Trong một khối âm, mọi tiền tố đi vào nó giảm score so với đầu khối; đi qua trọn khối cũng giảm score. Bởi vậy, trong phần thân, prefix đạt score lớn nhất duy nhất tại ranh giới sau khối dương cuối cùng.
+
+Khối bảo vệ ở đầu dãy được chọn đủ dài để mọi prefix của toàn dãy dương dưới mọi nhiễu được phép. Khi mọi prefix $P_j$ đều dương, một đoạn bắt đầu sau vị trí1 và kết thúc tại $j$ có score $P_j-P_{i-1}<P_j$. Nó bị prefix $[1,j]$ trội nghiêm ngặt. Do đó nghiệm đoạn toàn cục phải là prefix, và lập luận trên xác định endpoint duy nhất. Các bất đẳng thức guard trong phần chính chính là điều kiện số lượng bảo đảm bước này.
+
+Khi nối các số không, giá trị sau trừ truy vấn và nhiễu không quá $\varepsilon-\alpha<0$. Prefix đang thắng không tăng khi đi vào phần nối. Một đoạn chỉ nằm trong phần nối có score âm trong khi nghiệm đã dựng có score dương. Một đoạn cắt ngang ranh giới phần nối tăng điểm khi ta bỏ đuôi âm của nó. Vì thế nối số không không tạo một đối thủ thắng mới.
+
+\subsection{Mômen bậc hai và tránh giả định mật độ đơn ánh}
+Các vector số lượng khác nhau có thể tạo cùng mật độ, chẳng hạn một vector và bội nguyên của nó. Vì thế cần đếm cặp gần nhau, kể cả đường chéo, thay vì chỉ đếm số vector rồi nhận tất cả mật độ phân biệt.
+
+Nếu $a_j$ vector nằm trong ô $j$ và có $J$ ô không rỗng, Cauchy--Schwarz cho
+\[
+\left(\sum_j a_j\right)^2\le J\sum_j a_j^2.
+\]
+Vế trái biết bằng $M^2$. Vế phải dùng một cận tổng cặp cùng ô, được khống chế bởi $E_m(4\varepsilon)$. Do đó số ô thật sự có điểm ít nhất $M^2/E_m(4\varepsilon)$, bất kể multiplicity của mỗi mật độ. Chọn parity nhiều ô hơn giữ ít nhất một nửa; các ô cùng parity khác nhau cách ít nhất một ô trống về chỉ số. Với ô nửa mở rộng $4\varepsilon$, mọi điểm ở hai ô như vậy cách nhau nghiêm ngặt hơn $4\varepsilon$. Chọn một đại diện mỗi ô tạo khoảng giữa mật độ đủ cho guard.
+
+Ở bước tổng gcd, bất đẳng thức
+\[
+\gcd(q,q')^r\le\sum_{a\mid q,\ a\mid q'}a^r
+\]
+đúng vì vế phải chứa hạng $a=\gcd(q,q')$ và các hạng đều dương. Đổi thứ tự tổng cho $\sum_{a\le Q}a^r\floor{Q/a}^2$. Với $r\ge2$, $a^{r-2}\le Q^{r-2}$ và có $Q$ hạng, nên tổng không quá $Q^{r+1}$. Điều kiện $r\ge2$ được dùng ở chính bước này; trường hợp nhị phân dùng phép đếm nguyên thủy riêng.
+
+\subsection{Tính cố định của bảng trong trở ngại Liouville}
+Trong Định lý~\ref{A-thm:obstruction}, số $\theta$ được chọn một lần bằng chuỗi vô hạn; các xấp xỉ $p_k/q_k$ không thay bảng gốc. Mỗi $k$ chỉ cung cấp một phép so sánh của cùng họ dãy trên bảng ấy với một bảng hữu tỷ lân cận. Điều kiện $|\theta-p_k/q_k|<\varepsilon_k$ cho phép chuyển mọi nghiệm $\varepsilon_k$-bền của dãy gốc thành nghiệm danh nghĩa duy nhất của dãy hữu tỷ hóa. Ánh xạ từ đoạn vị trí sang chính đoạn đó là đơn ánh; không cần một lựa chọn decoder mới theo từng nhiễu.
+
+Với $n_k=q_k^8$, số mũ của cận hữu tỷ là $1/3+16/3=17/3$, còn số mũ dự kiến $3/4$ cho $n_k$ là6. Chênh lệch số mũ $17/3-6=-1/3$ tạo tỷ số về0. Không được bỏ hệ số $q_k^{1/3}$ trước khi lấy giới hạn; bỏ nó sẽ làm sai phạm vi cận theo bảng xấp xỉ thay đổi.
+
+\section{Các bước kỹ thuật mở rộng cho nhánh đo lại}\label{app:timingproof}
+\subsection{Phủ tham lam và ba đích cách nhau}
+Cho $Y\subseteq\Z$ hữu hạn và độ rộng nguyên $w\ge1$. Bắt đầu tại $p=\min Y$, phủ $[p,p+w-1]$; nếu còn điểm, bắt đầu khoảng tiếp ở điểm chưa phủ nhỏ nhất, rồi lặp. Thuật toán là tối ưu về số khoảng: một khoảng đầu trong bất kỳ phủ nào phải chứa $p$, và có thể dịch đầu trái về $p$ mà không mất điểm nào của $Y$ ở bên trái $p$; khi ấy nó không phủ xa hơn $p+w-1$. Áp dụng cùng lập luận cho tập còn lại.
+
+Vì vậy cần ít nhất ba khoảng đúng khi có ba điểm $p<q<h$ với $q-p\ge w$ và $h-q\ge w$. Nếu có bộ ba, không khoảng nào chứa hai điểm kề; hai khoảng không đủ. Nếu tham lam cần ba, ba điểm bắt đầu các khoảng là bộ ba như thế. Đây là một đặc trưng theo tập đích thực sự, không phải theo đường kính của bao lồi của nó.
+
+\subsection{Từ ba đích về ba state cũ khi $r>0$}
+Giả sử $p,q,h$ lần lượt sinh từ các state cũ $u,v,z$, với sai lệch không quá $d$. Từ $q-p\ge w$ suy ra $v-u\ge w-2d=r>0$; tương tự $z-v\ge r$. Vì $h-p\ge2w$, suy ra $z-u\ge2w-2d=s$. Như vậy các state cũ có thứ tự và thỏa ba bất đẳng thức trong Bổ đề~\ref{B-lem:local}; tính có thứ tự không cần giả định riêng.
+
+Ngược lại, đặt $p=u-d$, $h=z+d$. Một đích giữa cần thuộc cả hai khoảng
+\[
+[v-d,v+d]\quad\text{và}\quad[p+w,h-w].
+\]
+Các điều kiện $v-u\ge r$, $z-v\ge r$ lần lượt cho đầu phải khoảng thứ nhất không nhỏ hơn đầu trái khoảng thứ hai và đầu trái khoảng thứ nhất không lớn hơn đầu phải khoảng thứ hai. Điều kiện $z-u\ge s$ cho khoảng thứ hai không rỗng. Các đầu mút nguyên nên giao khác rỗng chứa một điểm nguyên. Điểm ấy làm đích giữa, chứng minh chiều ngược lại không chỉ bằng hình vẽ.
+
+\subsection{Vì sao nén khoảng trống trong bổ đề mật độ hợp lệ}
+Một tập gồm $s+1$ số nguyên, sau dịch, có min0 và max$D$. Trong $D+1$ vị trí có $s+1$ điểm chọn, nên có $D-s$ vị trí không chọn. Nếu $D>2s$, cần xóa $D-2s$ vị trí không chọn để đưa độ trải về $2s$; lượng này không vượt $D-s$. Xóa một vị trí không chọn dịch các điểm phía sau một đơn vị và không nhập hai điểm chọn thành một. Vì các điểm biên được chọn, mọi vị trí bị xóa nằm giữa min và max.
+
+Khôi phục khoảng trống chỉ tăng các khoảng cách giữa điểm chọn. Một bộ ba trong tập nén có hai gap ít nhất $r$ vẫn có các gap ấy sau khôi phục. Độ trải của bộ ba tăng không quá tổng số vị trí đã xóa, dù có thể nhiều vị trí nằm ngoài bộ ba. Đây là cận trên đủ cho cửa sổ hiệu dụng; không cần giả vị trí các khoảng trống phân bố đều.
+
+\subsection{Giới hạn lưới không cần giới hạn của bộ mã}
+Trong Định lý~\ref{B-thm:continuous}, bắt đầu với \emph{một protocol liên tục tùy ý} có worst-case error $E$. Với mỗi $h$, hạn chế protocol đó lên một tập input hợp lệ hữu hạn. Protocol hạn chế vẫn tuân mọi phụ thuộc nhân quả và số nhãn ban đầu, nên cận dưới rời rạc áp dụng. Mỗi $h$ cho một bất đẳng thức với cùng $E$. Lấy supremum giới hạn các cận số học cho cận dưới liên tục.
+
+Không có bước chọn một dãy encoder tối ưu rồi giả nó hội tụ. Không giả các ô mã liên thông hoặc đo được để chứng minh cận dưới; chỉ cần protocol được định nghĩa tại các điểm lưới. Chiều đạt cận được dựng riêng bằng các ô nửa mở và giải mã khoảng, với xử lý đầu mút được nêu rõ. Hai chiều này phải được tách để tránh một lập luận compactness không có giả thiết.
+
+\subsection{Tối ưu dưới ràng buộc tối đa và lịch bắt buộc}
+Nếu hai lớp protocol $\mathcal P_q\subseteq\mathcal P_{q+1}$ được đánh giá trên cùng tập input, cùng deadline và cùng loss, thì
+\[
+\inf_{P\in\mathcal P_{q+1}}\sup\ell(P)\le
+\inf_{P\in\mathcal P_q}\sup\ell(P).
+\]
+Đây chỉ là tính đơn điệu của infimum theo tập khả thi. Nó không áp khi tăng số bit bắt buộc đồng thời làm thay thời điểm lấy mẫu hoặc thời điểm hoàn tất, vì khi ấy tập input đích hoặc loss theo thời gian đã đổi. Ví dụ timing trong phần chính giữ rõ sự khác biệt này; không suy rằng một nguồn tài nguyên được cho thêm có thể làm optimum xấu đi nếu vẫn được phép bỏ qua nó.
+
+\section{Bảng thuật ngữ và phân biệt kiểu đại lượng}
+\begin{longtable}{p{0.29\textwidth}p{0.64\textwidth}}
+\toprule Thuật ngữ chuẩn & Nghĩa sử dụng trong công trình\\\midrule\endhead
+State space & Tập trạng thái đủ cho các transition, observation và constraint đã khai.\\
+Observation map & Hàm lấy output cần tái tạo; có thể khác state thật hoặc số đọc thiết bị.\\
+Observational equivalence & Equality của toàn họ output sau các từ được phép.\\
+Sufficient representation & Encoder cho phép decoder trả đúng nhiệm vụ trên toàn miền quy định.\\
+Refinement & Tách các lớp hoặc tăng phân biệt khi mở nhiệm vụ/quan sát.\\
+Observability subspace & Không gian hàng sinh bởi các quan sát kéo lùi qua tích ma trận.\\
+Information state / belief set & Tập state còn khả dĩ theo lịch sử và model, không mặc định phân phối xác suất.\\
+Robust optimizer & Cùng action tối ưu trước mọi realization của một tập bất định đã khai.\\
+Minimax reconstruction & Tối thiểu hóa sai số lớn nhất qua lớp protocol và tập input xác định.\\
+Causal protocol & Mỗi thông điệp chỉ phụ thuộc các quan sát và bản ghi đã có trước thời điểm gửi.\\
+Operational semantics & Quy tắc thực thi gồm thứ tự tính, biểu diễn số và xử lý lỗi.\\
+Content bits & Logarithm làm tròn của số nhãn; không tự gồm header, model hoặc timing.\\
+Resource budget & Đại lượng được định nghĩa cùng đơn vị và luật cộng/cập nhật; bit, giây và joule khác nhau.\\
+\bottomrule
+\end{longtable}

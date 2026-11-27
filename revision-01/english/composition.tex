@@ -1,0 +1,56 @@
+\section{Composition through observable ports}\label{sec:composition}
+Suppose two systems have states $s\in S,t\in T$, output ports $h_S:S\to U,h_T:T\to V$, and updates $f_S:S\times V\to S,f_T:T\times U\to T$. Both read the other's port at the beginning of a synchronous step. Their joint transition is
+\[
+ F(s,t)=(f_S(s,h_T(t)),f_T(t,h_S(s))).
+\]
+A local output may conceal information that the neighbor consumes through a port.
+
+\begin{theorem}[Synchronous composition]\label{thm:composition}
+Let $p:S\to A,q:T\to B$. Suppose $h_S=\bar h_S\circ p$ and $h_T=\bar h_T\circ q$. For every admissible input suppose also that
+\[
+p(f_S(s,v))=\bar f_S(p(s),v),\qquad q(f_T(t,u))=\bar f_T(q(t),u).
+\]
+Then $(p\times q)F=\bar F(p\times q)$, where
+$\bar F(a,b)=(\bar f_S(a,\bar h_T(b)),\bar f_T(b,\bar h_S(a)))$.
+Consequently every finite iteration preserves outputs computable from the paired representation.
+\end{theorem}
+\begin{proof}
+The first projected coordinate is $p(f_S(s,h_T(t)))=\bar f_S(p(s),h_T(t))=\bar f_S(p(s),\bar h_T(q(t)))$. The two assumptions for $T$ give the corresponding second coordinate. This is the one-step equation. The zero-step equation is the identity, and application of the one-step equation to the states after $k$ steps gives the result at $k+1$. Composing with an output map on $A\times B$ proves output preservation.
+\end{proof}
+
+\begin{example}[A port hidden by a local output]
+System $S$ stores a bit $x$ and its private observation is always zero. System $T$ stores and outputs $y$, with coupled update $y'=x$. The constant representation for $S$ preserves its private output. States $x=0,1$ having that same representation give different outputs of $T$ one step later. The port $x$ cannot factor through the constant representation.
+\end{example}
+An asynchronous schedule can permit one subsystem to read a newly updated port. Such a schedule must enter the state or the event model. Similarly, a pair of local budget checks can both approve expenditure of the same shared unit. A joint resource ledger requires a compatible accounting rule in the composed system. For a larger network, the coordinate proof applies when the specified ports and the timing convention cover all interactions on which the joint output depends.
+
+\section{Observation policies under deadlines and resources}\label{sec:policies}
+Let $S,A,Q,O$ be finite sets of states, actions, queries, and observations. At any observable history a nonempty belief set $B\subseteq S$ contains precisely the currently possible states. The state is assumed sufficient for every future transition, observation, and validity test. No prior probability is required.
+
+A query $q$ has integer duration $d(q)\ge1$, content cost $c(q)\ge0$, and a relation $R_q(s)\subseteq S\times O$ which is nonempty wherever the query is enabled. Its outputs describe both what happens during the query and what the receiver learns. In particular, the response can describe an older state. Upon receiving $o$ the updated belief is
+\begin{equation}\label{eq:belief}
+B_{q,o}=\{s':\exists s\in B,\ (s',o)\in R_q(s)\}.
+\end{equation}
+Branches with empty updated belief cannot occur. A terminal action must satisfy $\mathrm{Stop}(s,t,a)$ for all $s\in B$. A query must be permitted throughout $B$ and must satisfy any declared constraints on each of its possible transitions. If an actual query can cause an adverse outcome, removing that outcome from the relation would give a different decision problem. Authority, cumulative damage and resource constraints enter through the declared predicates and state variables.
+
+\begin{theorem}[Finite-deadline minimax recursion]\label{thm:bellman}
+At integer time $t\le D$, let $V(B,t)$ be the minimum worst-path further communication cost among policies guaranteed to terminate validly by $D$. Set $V=\infty$ if no such policy exists. Then
+\begin{align}\label{eq:bellman}
+V(B,t)=\min\bigl(&\{0:\exists a\ \forall s\in B,\ \mathrm{Stop}(s,t,a)\}\notag\\
+ &{}\cup\{c(q)+\max_{o:B_{q,o}\ne\varnothing}V(B_{q,o},t+d(q)):\notag\\
+ &\hspace{24mm}q\text{ enabled on } B,\quad t+d(q)\le D\}\bigr),
+\end{align}
+where the minimum of the empty set is infinity and a finite cost plus infinity is infinity.
+\end{theorem}
+\begin{proof}
+Induct backwards on $D-t$. At the deadline a positive-duration query cannot finish in time. A common valid stopping action is necessary and sufficient. For the induction step, examine the first decision. If the policy stops it must use one action valid across $B$ and incurs no further content cost. If it asks $q$, any feasible observation can occur. The induction hypothesis applies at each updated belief. The policy must succeed on every such branch, so its worst cost is at least $c(q)$ plus the largest child value. A single infeasible child prevents a guarantee.
+
+Conversely, finiteness gives a minimizing choice whenever the right side is finite. For a query, attach a minimizing child policy at each possible observation, or use the witnessing action if the choice is to stop. Each child has less remaining time since durations are positive. The assembled policy terminates and attains the displayed value. If the right side is infinite, the first-decision analysis rules out every feasible policy.
+\end{proof}
+
+\subsection{When the state must retain history}
+For state-dependent consumption, append a resource component $r$ and update it by $r'=r-g(s,q,s',o)$, with specified $g\ge0$. Require the action to respect $r'\ge0$ on every possible outcome. Induction along a valid policy then gives a nonnegative balance along every path. Beliefs now contain pairs $(s,r)$. Two histories sharing $s$ but differing in $r$ can have different feasible decisions. The same issue arises for a persistent unknown parameter, a one-use permission, or accumulated harm. The assumption that future possibilities depend only on the retained state is substantive.
+
+There may be $2^{|S|}-1$ nonempty beliefs. The recursion gives an exact finite oracle, but tractability requires additional structure. Transmission time, content bits and joules can be separate coordinates of a constraint. Combining them in one objective requires a specified conversion or preference.
+
+\subsection{An exact old observation can be useless for a current action}
+Let the starting state be a bit. A query reports the old bit exactly, but during transmission the new bit can become either zero or one, independently of the old bit. After either observation the set of possible current states is still $\{0,1\}$. If the action must equal the current bit, the query cannot authorize stopping. A query that reveals the current bit with no subsequent drift gives a singleton belief and an exact action. Each response carries one bit. Their relations $R_q$ and thus their decision values differ.

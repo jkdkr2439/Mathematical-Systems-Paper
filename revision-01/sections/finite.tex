@@ -1,0 +1,68 @@
+\section{Tương đương quan sát và cận thông tin hữu hạn}\label{sec:finite}
+\begin{definition}
+Đặt $s\sim_L t$ khi $o(T_w(s))=o(T_w(t))$ với mọi $w\in L$. Ký hiệu $[s]_L$ là lớp của $s$ và $S/{\sim_L}$ là tập các lớp.
+\end{definition}
+Quan hệ này phản xạ vì một giá trị bằng chính nó; đối xứng vì đẳng thức đối xứng; bắc cầu vì với mỗi $w$, hai đẳng thức liên tiếp ghép được. Tính tương đương được suy từ nhiệm vụ tái tạo cùng một họ hàm, không từ một giả định rằng mọi quan hệ ``tương tự'' đều bắc cầu.
+
+\begin{theorem}[Định lý phân tích qua các lớp]\label{thm:factor}
+Bộ mã hóa $q$ đủ theo Định nghĩa~\ref{def:sufficient} khi và chỉ khi
+\[
+q(s)=q(t)\Longrightarrow s\sim_L t.
+\]
+Nếu $S$ hữu hạn và có $N$ lớp, độ dài nhị phân cố định tối thiểu là $\ceil{\log_2N}$, trong đó $N=1$ cho phép 0 bit.
+\end{theorem}
+\begin{proof}
+\emph{Chiều cần.} Giả sử có bộ giải mã đúng. Nếu $q(s)=q(t)$, với một $w$ tùy ý, hai lần gọi bộ giải mã có cùng hai đối số. Bởi tính tất định,
+$o(T_w(s))=d(q(s),w)=d(q(t),w)=o(T_w(t))$. Vì $w$ tùy ý nên $s\sim_Lt$.
+
+\emph{Chiều đủ.} Trước hết chỉ cần định nghĩa bộ giải mã trên $q(S)\times L$. Với $z\in q(S)$, chọn $s_z$ sao cho $q(s_z)=z$ và đặt $d(z,w)=o(T_w(s_z))$. Nếu chọn đại diện khác, giả thiết cho cùng đầu ra ở mọi $w$, nên bộ giải mã xác định tốt. Với các mã không xuất hiện có thể trả $o(s_0)$ của một $s_0\in S$ đã cố định. Khi $S$ hữu hạn, chỉ có hữu hạn lựa chọn; với tập tổng quát, cách chọn đại diện có thể dùng tiên đề chọn hoặc làm việc trực tiếp với ánh xạ xác định trên các thớ.
+
+\emph{Cận dưới.} Chọn một đại diện từ mỗi lớp. Hai đại diện khác lớp không được cùng mã. Một chuỗi $\ell$ bit có không quá $2^\ell$ giá trị nên $2^\ell\ge N$.
+
+\emph{Đạt cận.} Đánh số các lớp từ $0$ đến $N-1$, dùng biểu diễn nhị phân dài $\ceil{\log_2N}$ và bộ giải mã vừa dựng. Khi $N=1$, bộ mã hóa trả từ rỗng. Lập luận không cho rằng tìm các lớp hoặc tính mã là miễn phí.
+\end{proof}
+
+\subsection{Cập nhật mã và ngôn ngữ còn lại}
+Cho sự kiện $e$, đặt $e^{-1}L=\{v:ev\in L\}$. Nếu $s\sim_Lt$ thì
+\[
+T_e(s)\sim_{e^{-1}L}T_e(t),
+\]
+vì $T_{ev}=T_v\circ T_e$. Đây là điều kiện chính xác để cập nhật lớp khi cùng lúc thay nhiệm vụ thành phần còn lại. Không nhất thiết có $T_e(s)\sim_LT_e(t)$ với một $L$ hữu hạn bất kỳ: làm thêm sự kiện có thể tiêu hết horizon đã chứng nhận.
+
+Khi $L=E^*$, mọi suffix đều còn được phép nên quan hệ là một congruence đối với mỗi $T_e$. Phép chuyển trên lớp $\overline T_e([s])=[T_e(s)]$ xác định tốt. Nếu từ rỗng thuộc $L$, đầu ra hiện tại cũng tính được từ lớp. Khi từ rỗng không thuộc $L$, nhiệm vụ có thể không đòi bảo toàn đầu ra hiện tại; phải tránh thêm yêu cầu ấy mà không nhận ra đã đổi bài toán.
+
+\begin{proposition}[Refinement hữu hạn]\label{prop:refinement}
+Với $S,E$ hữu hạn và $L=E^*$, bắt đầu bằng phân hoạch theo $o(s)$. Mỗi lượt tách các trạng thái theo tuple gồm lớp hiện tại và lớp của mọi $T_e(s)$. Lặp tới khi không đổi. Phân hoạch cuối bằng $S/{\sim_{E^*}}$.
+\end{proposition}
+\begin{proof}
+Gọi $P_j$ là phân hoạch sau $j$ lượt. Quy nạp cho thấy hai trạng thái ở cùng một ô của $P_j$ đúng khi chúng có cùng đầu ra qua mọi từ dài không quá $j$. Trường hợp $j=0$ là định nghĩa. Ở lượt tiếp theo, cùng lớp hiện tại giữ mọi từ ngắn; cùng lớp successor cho mọi $e$ giữ các từ $ev$ với $|v|\le j$. Chiều ngược lại dùng cùng phép phân tích từ đầu tiên.
+
+Mỗi lượt thay đổi làm tăng nghiêm ngặt số ô, không vượt $|S|$. Vì vậy có hữu hạn lượt và nhiều nhất $|S|-|P_0|$ lượt tách thực sự. Ở điểm cố định, các successor của một ô luôn nằm trong cùng ô tương ứng; quy nạp theo độ dài từ cho mọi đầu ra tương lai bằng nhau. Mặt khác, hai trạng thái có mọi đầu ra tương lai bằng nhau chưa bao giờ bị tách theo bất biến đã chứng minh. Hai chiều cho kết quả.
+\end{proof}
+Đây là refinement kiểu Moore đơn giản. Một cài đặt xử lý mọi trạng thái và sự kiện trong mỗi lượt có cận bảo thủ $O(|E||S|^2)$ phép truy cập lớp trước chi phí sắp xếp/hash tuple. Chúng tôi không gán cho cài đặt này cận $O(n\log n)$ của thuật toán Hopcroft~\cite{hopcroft}.
+
+\begin{proposition}[Từ phân biệt hữu hạn]\label{prop:witness}
+Nếu hai trạng thái của máy hữu hạn không tương đương, tìm kiếm theo chiều rộng trên các cặp successor trả một từ ngắn nhất làm đầu ra khác nhau. Một từ ngắn nhất như vậy có độ dài nhỏ hơn $|S|^2$.
+\end{proposition}
+\begin{proof}
+Đồ thị cặp có đỉnh $(s,t)$ và cạnh $e$ tới $(T_e(s),T_e(t))$. Đích là các cặp có đầu ra khác nhau. Một đường đi gắn nhãn $w$ tới đích tương đương chính xác với một từ phân biệt. BFS thăm các đỉnh theo khoảng cách nên trả độ dài nhỏ nhất. Trên đường đi ngắn nhất, không đỉnh nào lặp: nếu lặp thì bỏ vòng giữa hai lần lặp vẫn tới cùng đích. Có nhiều nhất $|S|^2$ đỉnh, suy ra số cạnh không quá $|S|^2-1$.
+\end{proof}
+
+\section{Mở rộng nhiệm vụ và thông tin bổ sung}\label{sec:refresh}
+Giả sử $L\subseteq L'$. Mọi điều kiện đẳng thức của $L$ nằm trong $L'$, do đó mỗi lớp mới nằm trong một lớp cũ. Gọi $K(C)$ là số lớp mới trong lớp cũ $C$ và $K=\max_CK(C)$ khi $S$ hữu hạn.
+
+\begin{theorem}[Chi phí refinement có thông tin chung]\label{thm:refresh}
+Nếu hai phía đều biết lớp cũ và nguồn còn truy cập được trạng thái, số bit bổ sung cố định tối thiểu trong trường hợp xấu nhất để xác định lớp mới là $\ceil{\log_2 K}$. Nếu một lớp cũ bị tách thành ít nhất hai lớp mới, không ánh xạ nào chỉ đọc mã lớp cũ có thể trả đúng mã lớp mới trên toàn $S$.
+\end{theorem}
+\begin{proof}
+Chọn một lớp cũ $C_*$ chứa $K$ lớp mới. Khi điều kiện chung là $C_*$, bộ giải mã phải phân biệt $K$ khả năng; mã bổ sung cần ít nhất $K$ giá trị. Cận bit theo nguyên lý chuồng bồ câu.
+
+Để đạt cận, đánh số các lớp mới bên trong từng $C$ từ $0$ đến $K(C)-1$. Nguồn gửi số thứ tự tương ứng với trạng thái thật bằng độ dài chung $\ceil{\log_2K}$. Phía nhận dùng lớp cũ đã biết để chọn đúng bảng giải mã. Không cần dùng một mã toàn cục phân biệt mọi lớp mới vì lớp cũ là thông tin chung.
+
+Với mệnh đề không thể khôi phục, lấy $s,t$ cùng lớp cũ nhưng khác lớp mới. Mọi hàm của mã cũ trả cùng giá trị ở $s,t$, còn đáp án mới yêu cầu khác giá trị. Đây là mâu thuẫn trực tiếp, không một khẳng định về giới hạn tốc độ máy tính.
+\end{proof}
+Nếu chỉ người nhận biết lớp cũ mà nguồn không biết, phép đánh số phụ thuộc $C$ ở chiều đạt cận không còn tự hợp lệ. Nếu nguồn đã xóa thông tin phân biệt, không thể giải quyết chỉ bằng tăng thời gian tính. Một phép đo mới có thể phục hồi thông tin, nhưng khi đó trạng thái hoặc quan hệ quan sát đã đổi và phải được mô hình hóa riêng.
+
+\begin{example}[Một bit hiện tại chưa đủ sau can thiệp]
+Cho $S=\F^n$ và $o(x)=x_1+\cdots+x_n$ trong $\F$. Nếu không có sự kiện, chỉ cần một bit parity. Nếu cho phép reset một tọa độ bất kỳ về zero trước quan sát, parity cũ và parity sau reset $i$ xác định $x_i$. Vì mọi $i$ đều được phép, một biểu diễn gửi trước lựa chọn sự kiện phải phân biệt toàn bộ $2^n$ trạng thái. Phần sau chứng minh kết quả này bằng hạng và chỉ ra một đối chứng trong đó tương tác không tăng lượng tin.
+\end{example}

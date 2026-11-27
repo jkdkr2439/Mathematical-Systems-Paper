@@ -1,0 +1,138 @@
+\section{Mô hình quan sát, thông điệp và sai số}
+Viết $[k]=\{0,\ldots,k-1\}$. Trong mô hình nguyên, trạng thái nguồn cũ là $i\in\{0,\ldots,n-1\}$, phía nhận quan sát số nguyên có dấu $t$ thỏa $t\leq i\leq t+b$, còn trạng thái nguồn mới là $j\in\Z$ thỏa $|j-i|\leq d$. Ở đây $n,b\geq1$, $d\geq0$ và $k\geq2$ là số nguyên. Mọi bộ ba như vậy đều được phép. Đặc biệt, trạng thái mới không bị cắt về miền trạng thái cũ.
+
+Nguồn trước hết gửi $a(i)\in[k]$. Phía nhận sau đó tiết lộ $t$. Cuối cùng nguồn gửi $c(i,t,j)\in\{0,1\}$, và phía nhận xuất $g(t,a(i),c(i,t,j))\in\R$. Phản hồi không giới hạn từ phía nhận là giả thiết về thông tin, không phải khẳng định chi phí vật lý bằng không. Nó bao hàm mọi bảng nhãn câu hỏi nhỏ hơn, vì nguồn có thể tính câu hỏi hạn chế từ $t$ và nhãn sớm của chính nó. Mã sớm không được phụ thuộc vào $j$ hoặc $t$.
+
+Với độ rộng nguyên đề xuất $w\geq1$, tập trạng thái mới tương ứng mỗi bản ghi giao tiếp phải có đường kính không quá $w-1$. Tương đương, giải mã bằng trung điểm bảo đảm sai số tuyệt đối không quá $(w-1)/2$. Hai đầu ra giải mã ứng với một nhãn sớm và một quan sát phía nhận xác định hai khoảng, mỗi khoảng chứa không quá $w$ điểm nguyên. Lớp mã không nhất thiết là khoảng.
+
+Mô hình liên tục giữ $x\in[0,L]$, $y\in\R$ và trạng thái mới $z\in\R$, với $|x-y|\leq b/2$ và $|z-x|\leq d$, trong đó $L,b>0$ và $d\geq0$ là số thực. Thứ tự thông điệp và bảng nhãn nguồn được giữ nguyên. Mục tiêu là infimum theo các giao thức tất định của supremum sai số tái dựng tuyệt đối trên mọi bộ ba được phép. Không áp đặt phân phối hay tính chính quy của bộ mã. Ký hiệu $d$ là cận dịch chuyển, không phải hệ quả riêng của tính liên tục.
+
+\section{Công thức tối ưu chính xác trên miền nguyên}
+\begin{theorem}\label{B-thm:integer}
+Độ rộng khả thi nhỏ nhất là
+\begin{equation}\label{B-eq:W}
+W=\min\left\{d+\ceil{\frac{n}{2k}},\ d+\ceil{\frac{b}{2k-2}},\ \ceil{\frac{b+2kd}{2k-1}}\right\}.
+\end{equation}
+Sai số minimax chính xác là $(W-1)/2$. Cụ thể hơn, đặt $r=w-2d$ và $s=2w-2d$. Độ rộng $w$ khả thi khi và chỉ khi
+\begin{equation}\label{B-eq:threshold}
+2w\geq2d+1,\qquad n\leq ks\quad\text{or}\quad b\leq(k-1)s+\max(r,0),
+\end{equation}
+trong đó bất đẳng thức sức chứa phải được thỏa đồng thời với phép tuyển, và ``or'' có nghĩa là ``hoặc''.
+\end{theorem}
+
+Trước hết, chúng tôi thiết lập các thành phần của cận dưới.
+\begin{lemma}\label{B-lem:oneway}
+Với quan hệ khoảng của trạng thái cũ, mã một chiều có $k$ nhãn và đường kính có điều kiện không quá $s-1$, với $s\geq1$, tồn tại đúng khi $n\leq ks$ hoặc $b\leq(k-1)s$.
+\end{lemma}
+\begin{proof}
+Các khối liên tiếp gồm $s$ số nguyên cho nhánh thứ nhất. Nhãn tuần hoàn $\floor{i/s}\bmod k$ cho nhánh thứ hai: cửa sổ có độ rộng $b\leq(k-1)s$ không thể gặp hai khối cùng nhãn.
+
+Để chứng minh tính cần thiết, nếu cả hai nhánh đều sai, hạn chế về $p=ks+1$ trạng thái và cửa sổ rộng $b_0=(k-1)s+1$. Với mỗi dịch chuyển vòng $h\in\{0,\ldots,p-1\}$, xét $k$ điểm $(h+\ell s)\bmod p$, $0\leq\ell<k$. Các khoảng cách vòng là $s,\ldots,s,s+1$, nên độ trải thông thường không quá $p-s=b_0$, và hai điểm khác nhau cách nhau ít nhất $s$. Mỗi nhãn nguồn chỉ được chiếm tối đa một điểm trong mỗi tập như vậy. Mỗi trạng thái xuất hiện trong đúng $k$ dịch chuyển. Do đó lớp nhãn $A$ thỏa $k|A|\leq p$, suy ra $|A|\leq s$. Toàn bộ $k$ lớp không thể phủ $ks+1$ trạng thái. Các cặp hạn chế vẫn được phép khi $b$ ban đầu lớn hơn.
+\end{proof}
+
+\begin{lemma}\label{B-lem:local}
+Gọi $S$ là các trạng thái cũ tương thích với một nhãn sớm và một cửa sổ phía nhận. Nếu $r>0$, tập đích giãn $S+\{-d,\ldots,d\}$ cần hơn hai khoảng độ rộng $w$ đúng khi $S$ chứa $u<v<z$ với
+\begin{equation}\label{B-eq:triple}
+v-u\geq r,\qquad z-v\geq r,\qquad z-u\geq s.
+\end{equation}
+Nếu $r\leq0$, tính khả thi tương đương với $\diam S\leq s-1$ cho $S$ khác rỗng, kèm điều kiện $s\geq1$.
+\end{lemma}
+\begin{proof}
+Phép phủ tham lam tập hữu hạn có thứ tự bằng các khoảng độ rộng $w$ cần ít nhất ba khoảng đúng khi có ba đích $p<q<h$ với cả hai hiệu kề nhau ít nhất $w$. Các trạng thái cũ sinh ra chúng có thứ tự và khác nhau khi $w-2d>0$; truy ngược qua các khoảng trôi cho~\eqref{B-eq:triple}. Ngược lại, lấy $p=u-d$ và $h=z+d$. Hai khoảng nguyên $[v-d,v+d]$ và $[p+w,h-w]$ giao nhau dưới~\eqref{B-eq:triple}, cung cấp đích giữa $q$.
+
+Nếu $r\leq0$ thì $2w<4d+2$. Hai trạng thái cũ cách nhau $g$ sinh hợp gồm $\min(4d+2,g+2d+1)$ đích nguyên. Hai khoảng độ rộng $w$ có sức chứa không quá $2w$, buộc $g\leq2w-2d-1=s-1$. Chiều ngược lại theo phép phủ khoảng bao đã giãn, có độ rộng không quá $s+2d=2w$. Riêng $2d+1$ đích khả dĩ từ một trạng thái cũ đã cho điều kiện sức chứa.
+\end{proof}
+
+Bổ đề sau cung cấp trở ngại toàn cục còn thiếu mà không giả định lớp mã sớm liên thông.
+\begin{lemma}\label{B-lem:dense}
+Cho các số nguyên $s,r$ thỏa $s\geq2r\geq2$. Mọi tập con gồm $(s+1)$ phần tử của $\{0,\ldots,2s\}$ chứa ba điểm có thứ tự, với cả hai khoảng cách kề ít nhất $r$ và độ trải tổng thuộc $[s,s+r+1]$.
+\end{lemma}
+\begin{proof}
+Gọi bộ ba như vậy là chấp nhận được. Theo modulo $2s+1$, tập $S$ có kích thước $s+1$ giao với bản dịch của chính nó một đoạn $s$. Vì thế có hai điểm được chọn theo thứ tự thông thường $a<c$ thỏa $c-a=s+e$ với $e\in\{0,1\}$. Giả sử không có bộ ba chấp nhận được. Các khoảng nguyên sau, cắt về $[0,2s]$, đều phải vắng khỏi $S$:
+\begin{equation}\label{B-eq:forced}
+F_-=[a-r-1+e,a-r],\quad F_0=[a+r,c-r],\quad F_+=[c+r,c+r+1-e].
+\end{equation}
+Mỗi điểm trong chúng hoàn thành $a,c$ thành bộ ba chấp nhận được. Khoảng giữa có $s+e-2r+1$ điểm. Có ít nhất $2-e$ điểm ở hai khoảng ngoài. Với $e=1$, hoặc $a\geq r$ cung cấp điểm bên trái, hoặc $a\leq r-1$ cho $c+r\leq s+2r\leq2s$. Với $e=0$, trường hợp $a\geq r+1$ cung cấp hai điểm trái, $a\leq r-1$ cung cấp hai điểm phải, còn $a=r$ cung cấp ít nhất một điểm mỗi bên. Do đó hợp $F$ có ít nhất $s-2r+3$ điểm.
+
+Với mỗi $j=1,\ldots,r-1$, dựng hai cặp:
+\begin{align}\label{B-eq:pairs}
+A_j&=\begin{cases}(a-r+j,a+j),&a-r+j\geq0,\\(a+j,c+r+1-e+j),&a-r+j<0,\end{cases}\notag\\
+B_j&=\begin{cases}(c-r+j,c+j),&c+j\leq2s,\\(a-2r-1+e+j,c-r+j),&c+j>2s.\end{cases}
+\end{align}
+Mọi đầu mút đều nằm trong miền. Trong nhánh thay thế của $A_j$, điều kiện $a+j\leq r-1$ chặn đầu mút xa phía trên bởi $s+2r\leq2s$. Trong nhánh thay thế của $B_j$, điều kiện $a\geq s-e-j+1$ chặn đầu mút xa phía dưới bởi $s-2r\geq0$. Mỗi $A_j$ cùng với $c$, và mỗi $B_j$ cùng với $a$, đều chấp nhận được. Nhánh thường có một khoảng cách kề bằng $r$ và độ trải tổng từ $s$ đến $s+r+1$; nhánh thay thế có độ trải đúng $s+r+1$ và cả hai khoảng cách ít nhất $r$.
+
+Các cặp không chung đỉnh và tránh $F$ cùng hai điểm neo. Đầu mút của chúng nằm trong sáu dải rời nhau: trước $F_-$; $[a-r+1,a-1]$; $[a+1,a+r-1]$; $[c-r+1,c-1]$; $[c+1,c+r-1]$; và sau $F_+$. Hai dải gần giữa rời nhau vì $c-a\geq2r$. Trong mỗi nhánh, đầu mút phụ thuộc đơn ánh vào $j$. Ít nhất một đầu mút của mỗi cặp phải vắng mặt, nếu không điểm neo đã được chọn sẽ tạo bộ ba chấp nhận được. Vì vậy số vị trí vắng mặt ít nhất là
+\begin{equation}\label{B-eq:contradiction}
+|F|+2(r-1)\geq(s-2r+3)+2(r-1)=s+1.
+\end{equation}
+Nhưng $|S|=s+1$ chỉ để lại $s$ vị trí vắng mặt. Mâu thuẫn này chứng minh bổ đề, kể cả $r=1$ khi không có cặp nào.
+\end{proof}
+
+\begin{proof}[Chứng minh Định lý~\ref{B-thm:integer}]
+Về tính đủ, nếu $n\leq ks$, gửi chỉ số khối trạng thái cũ liên tiếp gồm không quá $s$ điểm. Khoảng bao đích sau giãn có không quá $s+2d=2w$ điểm. Nếu không, gán nhãn tuần hoàn cho các khối liên tiếp gồm $s$ điểm bằng $k$ nhãn và đặt $G=(k-1)s$. Khi $r\leq0$ và $b\leq G$, cửa sổ phía nhận gặp tối đa một khối của mỗi nhãn. Khi $r>0$, ta có $r\leq s/2$, và cửa sổ rộng không quá $G+r$ gặp tối đa hai khối cùng nhãn, nhất thiết là hai lần xuất hiện liên tiếp. Nếu các phần khác rỗng của chúng có $A$ và $C$ điểm, độ trải ít nhất là $G+A+C-1$, cho $A+C\leq r+1$. Do đó mỗi phần có không quá $r$ điểm và phần giãn của nó vừa một phản hồi độ rộng $w$. Với một phần đơn lẻ, chia khoảng bao đã giãn thành hai phản hồi. Tiết lộ $t$ giúp cả hai bên xác định các tập này.
+
+Về tính cần thiết, các đích khả dĩ từ một trạng thái cũ buộc $2w\geq2d+1$. Nếu $r\leq0$, Bổ đề~\ref{B-lem:local} và~\ref{B-lem:oneway} cho phép tuyển đã nêu. Nếu $r>0$ và cả hai nhánh đều sai, hạn chế về $n_0=ks+1$ trạng thái cũ và cửa sổ hiệu dụng rộng $b_0=(k-1)s+r+1$. Một lớp mã sớm nào đó chứa $s+1$ điểm. Dịch điểm nhỏ nhất về không và gọi độ trải là $D$. Nếu $D\leq2s$, áp dụng Bổ đề~\ref{B-lem:dense}. Nếu không, xóa $D-2s$ vị trí nguyên không được chọn trong các khoảng trống; có $D-s$ vị trí như vậy nên thao tác giữ các điểm khác nhau. Áp dụng bổ đề cho tập đã nén rồi khôi phục khoảng trống. Các khoảng cách kề chỉ tăng, còn độ trải tổng tăng không quá $D-2s\leq(k-2)s$. Bộ ba thu được có độ trải từ $s$ đến $b_0$ và khoảng cách kề ít nhất $r$. Nó vừa trong một cửa sổ phía nhận và vi phạm Bổ đề~\ref{B-lem:local}. Cùng điểm bắt đầu cửa sổ có dấu ấy xác định các cặp được phép trong khung ban đầu rộng hơn.
+
+Cuối cùng, điều kiện cửa sổ trong~\eqref{B-eq:threshold} tương đương với
+\begin{equation}\label{B-eq:affine}
+b\leq\max\{(2k-2)(w-d),(2k-1)w-2kd\}.
+\end{equation}
+Giải hai nhánh affine cùng nhánh miền hữu hạn cho~\eqref{B-eq:W}. Mỗi ngưỡng ít nhất là $d+1$, nên điều kiện sức chứa tự được thỏa. Đường kính nguyên của tập đích theo bản ghi giao tiếp khiến mọi sai số thực nhỏ hơn $(W-1)/2$ dẫn đến độ rộng nhỏ hơn $W$; giải mã trung điểm đạt cận.
+\end{proof}
+
+Chẳng hạn, $n=9,b=5,d=1,k=2$ cho $W=3$. Hai lớp sớm $\{0,5,6,7,8\}$ và $\{1,2,3,4\}$ đạt kết quả này. Tại $t=0$, lớp thứ nhất có các đích mới $\{-1,0,1,4,5,6\}$, vừa hai phản hồi độ rộng ba. Lấp khoảng trống để dùng khoảng bao $[-1,6]$ sẽ đòi sai thành ba phản hồi. Bất định có điều kiện là một tập, không tự động là bao lồi của nó.
+
+\section{Trạng thái thực và câu hỏi hữu hạn}
+\begin{theorem}\label{B-thm:continuous}
+Trong mô hình liên tục, sai số minimax chính xác với phản hồi phía nhận không giới hạn là
+\begin{equation}\label{B-eq:E}
+\Einf(L,b,d,k)=\min\left\{\frac d2+\frac{L}{4k},\ \frac d2+\frac{b}{4(k-1)},\ \frac{b+2kd}{2(2k-1)}\right\}.
+\end{equation}
+\end{theorem}
+\begin{proof}
+Với $h\downarrow0$, lấy $n_h=\floor{L/h}+1$, $b_h=\floor{b/h}$ và $d_h=\floor{d/h}$. Khi $h$ đủ nhỏ, $b_h\geq1$. Nhúng trạng thái cũ $ih$, quan sát phía nhận $(t+b_h/2)h$ và trạng thái mới $jh$. Mọi bộ ba được phép trong mô hình rời rạc đều được phép trong mô hình liên tục. Hạn chế cùng một giao thức liên tục tùy ý rồi áp dụng Định lý~\ref{B-thm:integer} cho
+\begin{equation}\label{B-eq:grid}
+E\geq\frac h2\bigl(W(n_h,b_h,d_h,k)-1\bigr).
+\end{equation}
+Vì $hn_h\to L$, $hb_h\to b$, $hd_h\to d$ và sai lệch làm tròn lên biến mất sau khi nhân $h$, cận dưới được chứng minh. Không giả định sự hội tụ của các bộ mã.
+
+Để đạt cận, đặt $w=2\Einf$, $r=w-2d$ và $s=2w-2d>0$. Công thức~\eqref{B-eq:E} cho hoặc $L\leq ks$, hoặc $b\leq(k-1)s+\max(r,0)$. Ở trường hợp đầu, dùng $k$ khoảng trạng thái cũ dài không quá $s$; hai khoảng đích mới dài $w$ phủ mỗi phần giãn. Nếu không, gán nhãn tuần hoàn cho các ô nửa mở dài $s$ bằng $k$ nhãn, đồng thời gán điểm $L$ theo phép lấy phần nguyên. Với $r\leq0$, cửa sổ đóng của phía nhận dài không quá $(k-1)s$ không thể gặp hai ô cùng nhãn. Với $r>0$, nó gặp tối đa hai ô; nếu độ dài khoảng bao của hai phần là $A,C\geq0$ thì $A+C\leq r$. Mỗi phần giãn dài không quá $r+2d=w$ và nhận một nhãn cuối. Một ô đơn lẻ dùng hai nhãn. Khoảng bao đóng của các phần nửa mở phủ an toàn mọi đích thực sự. Các trung điểm cho sai số $w/2$, kể cả ở biên.
+\end{proof}
+
+\begin{proposition}\label{B-prop:finitequery}
+Gọi $E_F$ là tối ưu khi phía nhận có không quá $F\geq1$ nhãn câu hỏi. Khi đó
+\begin{equation}\label{B-eq:finitequery}
+\Einf(L,b,d,k)\leq E_F\leq\Einf\!\left(L,b+\frac{L+b}{F},d,k\right),
+\end{equation}
+và $0\leq E_F-\Einf\leq(L+b)/(4(k-1)F)$.
+\end{proposition}
+\begin{proof}
+Mọi $y$ được phép nằm trong $[-b/2,L+b/2]$. Lượng tử hóa khoảng này thành $F$ ô bằng nhau và gửi chỉ số ô. Trung điểm $\widehat y$ thỏa $|y-\widehat y|\leq(L+b)/(2F)$, nên $|x-\widehat y|\leq[b+(L+b)/F]/2$. Dùng cấu trúc của Định lý~\ref{B-thm:continuous}, được thiết kế ngay từ đầu cho độ rộng đã nới ấy. Phía nhận có thể bỏ qua phần chính xác dư của mình. Phản hồi không giới hạn cung cấp cận dưới. Mỗi biểu thức affine trong~\eqref{B-eq:E} có hệ số góc theo $b$ không quá $1/(4(k-1))$; minimum của chúng có cùng cận Lipschitz. Điều này cho ước lượng khoảng cách giữa hai cận.
+\end{proof}
+Đây là bảo đảm xấp xỉ, không phải công thức chính xác cho câu hỏi hữu hạn. Cài đặt nhị phân cố định dùng $\ceil{\log_2F}$ bit hỏi, $\ceil{\log_2k}$ bit nguồn sớm và một bit nguồn cuối. Cho phép có các từ nhị phân không được dùng.
+
+\section{Phân bổ theo thứ tự nhân quả và thời gian truyền}
+\begin{corollary}\label{B-cor:late}
+Nếu toàn bộ $2k$ nhãn nguồn được gửi sau quan sát mới và sau khi tiết lộ $y$, tại cùng các thời điểm quan sát, sai số chính xác là
+\begin{equation}\label{B-eq:late}
+E_{\mathrm{late}}=\frac{\min(L,b)+2d}{4k}.
+\end{equation}
+Nó nhỏ hơn nghiêm ngặt $\Einf$ đúng khi $d>0$ hoặc $b<L$. Hơn nữa, với $L,b,d$ cố định, $\Einf\to d/2$ khi $k\to\infty$, còn $E_{\mathrm{late}}\to0$.
+\end{corollary}
+\begin{proof}
+Với $y$ cố định, tập đích mới là khoảng dài không quá $\min(L,b)+2d$, và dấu bằng đạt tại một $y$ nào đó. Chia nó thành $2k$ ô đạt~\eqref{B-eq:late}; $2k$ khoảng sai số dài $2E$ không thể phủ khoảng dài nhất với sai số nhỏ hơn. Đặt $E_0=\min(L/(4k),b/(2(2k-1)))$. Mọi số hạng trong~\eqref{B-eq:E} có hệ số góc theo $d$ ít nhất là $1/2$, nên $\Einf\geq E_0+d/2$. Vì $E_0\geq\min(L,b)/(4k)$, chênh lệch ít nhất là $(k-1)d/(2k)$ khi $d>0$. Tại $d=0$, so sánh trực tiếp cho tính nghiêm ngặt đúng khi $b<L$. Các giới hạn theo~\eqref{B-eq:E} và~\eqref{B-eq:late}.
+\end{proof}
+Tích kích thước bảng nhãn bằng nhau, nhưng thời điểm chúng có thể được dùng khác nhau. Khi $k$ là lũy thừa của hai, cả hai lịch dùng $\log_2k+1$ bit nguồn. Ngân sách bảng nhãn và thời điểm quan sát bằng nhau không suy ra chi phí truyền vật lý bằng nhau.
+
+Để làm rõ chi phí thời gian, xét một điều kiện vận hành riêng. Câu hỏi chứa đúng $q\geq0$ bit, được gửi với tốc độ $R>0$. Mẫu mới được lấy sau $\tau(q)=\tau_0+q/R$, trong đó $\tau_0\geq0$ gồm chuẩn bị và giao tiếp sớm. Mọi dịch chuyển có độ lớn không quá $d(q)=v\tau(q)$ đều được phép, với $v>0$. Khoảng truyền cuối $\rho\geq0$ cho phép dịch chuyển độc lập tiếp theo trong $[-v\rho,v\rho]$, không có quan sát mới nào được truyền thêm. Tại thời điểm hoàn tất $\tau(q)+\rho$, đặt
+\begin{align}\label{B-eq:timing}
+\mathcal L(q)&=\Einf(L,b,d(q),k)+v\rho,\notag\\
+\mathcal U(q)&=\Einf(L,b+(L+b)2^{-q},d(q),k)+v\rho.
+\end{align}
+Đây lần lượt là cận dưới và cận trên của sai số tốt nhất theo lịch bắt buộc ấy. Số hạng cộng thêm là chính xác dưới giả thiết độc lập đã nêu: với mọi trạng thái mới $z$ và ước lượng $u$, sai số lớn nhất sau đó là $|z-u|+v\rho$. Các quỹ đạo thẳng từng đoạn thỏa cận tốc độ đã khai hiện thực hóa các dịch chuyển được phép.
+
+Lấy $L=100$, $b=1$, $k=2$, $v=1/10$, $\tau_0=1$, $R=10$ và $\rho=1/10$. Tính toán hữu tỷ chính xác cho
+\begin{equation}\label{B-eq:example}
+\mathcal U(11)=\frac{96733}{307200}+\frac1{100}<\frac{113}{300}=\mathcal L(20).
+\end{equation}
+Do đó một cấu trúc câu hỏi mười một bit có sai số trường hợp xấu nhất nhỏ hơn mọi thiết kế buộc gửi hai mươi bit trong khung này. Thời điểm hoàn tất lần lượt là $11/5$ và $31/10$. Cận của cấu trúc đạt minimum tại $q=11$: chỉ cần kiểm $0\leq q\leq2500$ vì cận dưới $d(q)/2+v\rho$ loại mọi giá trị lớn hơn. Điều này không giải bài toán tối ưu chính xác với câu hỏi hữu hạn và không so sánh tại cùng hạn chót. Với hạn chót cố định và các quan sát giống nhau, lớp dùng không quá $q+1$ bit bao hàm lớp dùng không quá $q$ bit, nên cho phép thêm bit không thể làm tối ưu xấu đi.

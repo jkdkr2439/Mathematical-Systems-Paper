@@ -1,0 +1,27 @@
+# Track only the paper, its editable sources and the recorded verification.
+*
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/revision-01/
+!/revision-01/paper-en.pdf
+!/revision-01/paper-vi.pdf
+!/revision-01/paper-en.tex
+!/revision-01/paper-vi.tex
+!/revision-01/preamble.tex
+!/revision-01/references.tex
+!/revision-01/README-en.md
+!/revision-01/english/
+!/revision-01/english/*.tex
+!/revision-01/sections/
+!/revision-01/sections/*.tex
+!/revision-01/supplement/
+!/revision-01/supplement/verify.py
+!/revision-01/supplement/Observation.lean
+!/revision-01/supplement/Policies.lean
+!/revision-01/supplement/Transfer.lean
+!/revision-01/supplement/verification-01/
+!/revision-01/supplement/verification-01/results.json
+!/revision-01/supplement/verification-01/Observation.log
+!/revision-01/supplement/verification-01/Policies.log
+!/revision-01/supplement/verification-01/Transfer.log

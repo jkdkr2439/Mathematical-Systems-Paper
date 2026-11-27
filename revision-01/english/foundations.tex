@@ -1,0 +1,85 @@
+\section{The question of sufficiency}
+Consider a receiver that will be asked to act on a changing system. A message can identify the present output exactly and still leave the receiver unable to predict the output after one intervention. Conversely, the receiver may have no way of identifying the state and yet know an optimal action. A third possibility arises when the message reports yesterday's state accurately, but the decision will be evaluated against today's. These examples ask for three different guarantees.
+
+Our starting question is which distinctions between states a representation must preserve for a specified task. Reproducing each member of a family of outputs gives an equivalence relation. Selecting an acceptable action gives an intersection condition. Reconstructing a scalar within a tolerance gives a covering problem on the conditional set of possible values. The distinction matters even for a single, fixed-length message.
+
+\subsection{Mathematical setting and antecedents}
+Finite automata provide a classical model of future indistinguishability. States agree if every permitted input continuation yields the same observed response. Partition refinement implements this idea, and Hopcroft obtained an efficient minimization algorithm~\cite{hopcroft}. Complete abstract interpretations address the more general issue of which distinctions an abstraction must retain for a family of operations~\cite{giacobazzi}. We give direct proofs for the deterministic systems used here.
+
+For linear switched systems, pulling an observation back along a word of transitions leads to rows of products of matrices~\cite{petreczky}. We use that construction with positive integer event costs and count the resulting observations on a full finite vector space. In one-way communication the encoder may know the input but not the receiver's subsequent question~\cite{roughgarden}. Interactive communication, causal source coding, and the use of decoder side information have substantial precedents~\cite{ahlswede1997,kaspi2013,mayekar2021}. Delay can affect remote estimation because a signal evolves during service~\cite{sun2019}. Our remeasurement result specifies the order of observations, the alphabets, the admissible drift, and the loss.
+
+The interval problem belongs to the literature on maximum-sum segments with offsets~\cite{sakai,jo}. Counting distinct increments under a total budget also occurs in parametric sequence alignment~\cite{gusfield}. Robustness of a combinatorial optimizer under perturbations of its objective is a sensitivity question~\cite{chak}. We use dual bad approximability of a linear form and the classical algebraic norm argument in the arithmetic specialization~\cite{fgm}. The contribution to be assessed there is the joint count under length and precision constraints. Numerical transfer has a separate antecedent in floating-point error analysis~\cite{goldberg}.
+
+The logical dependencies run from observation to representation, from representation to admissible action, and from an error at the decision time to a certificate for a particular action. The arithmetic and causal coding results enter at different points in that chain. The arithmetic result describes how many different interval decisions survive a specified perturbation. The coding result describes how accurately a particular protocol can recover a value. Their combination requires a common target state, units and time.
+
+Throughout, a fixed-length, one-shot code is deterministic. Its description is shared, and the receiver has no extra channel through silence or message timing unless explicitly stated. The accounting concerns transmitted content. Model description, sampling, computation, and storage have their own costs. A finite exhaustive check concerns the indicated finite domain. The appendix states precisely which universal assertions also have formal proofs in Lean.
+
+\section{Observed transition systems}
+\begin{definition}[System]\label{def:system}
+Let $S$ be a nonempty state space, $E$ an event alphabet, $T_e:S\to S$ a total transition for each $e$, and $o:S\to O$ an observation. For $w=e_1\cdots e_k$, events take effect in their written order, so that
+\[
+T_w=T_{e_k}\circ\cdots\circ T_{e_1},\qquad T_{\varnothing}=\operatorname{id}_S .
+\]
+A language $L\subseteq E^*$ specifies the words for which the representation is required to work.
+\end{definition}
+A guarded operation can be represented by an explicit failure state, or by a separate model that records enabledness among its requirements. The results below using total maps quantify over all declared words. Removing an adverse transition changes this quantifier.
+
+\begin{definition}[Sufficient representation]\label{def:sufficient}
+An encoder $q:S\to Z$ is sufficient for $(o,T,L)$ if a decoder $d:Z\times L\to O$ satisfies $d(q(s),w)=o(T_w(s))$ for every $s\in S$ and $w\in L$. At encoding time the source knows the state, system, and admissible language. At decoding time the receiver also knows which word occurred.
+\end{definition}
+An encoder for a one-bit observation can require many bits if future events expose many independent coordinates. In another application the observation may be the entire state. The definition covers both cases without prescribing the answer in advance.
+
+\begin{definition}[Three task criteria]
+For a loss $\ell:O\times O\to[0,\infty]$, exact output equality, a uniform bound on $\ell$, and membership of the final action in a specified acceptable set are distinct task criteria. Passing from one to another requires a property of the loss, the decision rule, or both.
+\end{definition}
+Two instances with the same reconstruction error can have different decisions when their margins differ. This is the reason for keeping the decision problem explicit.
+
+\section{Observational equivalence and finite codes}\label{sec:finite}
+\begin{definition}
+Write $s\sim_L t$ if $o(T_w(s))=o(T_w(t))$ for all $w\in L$. Denote its classes by $[s]_L$.
+\end{definition}
+Reflexivity and symmetry hold coordinatewise in $w$. For transitivity, fix any $w$ and compose the two equalities for that word. This argument uses the equality of a family of functions.
+
+\begin{theorem}[Factorization and coding]\label{thm:factor}
+The encoder $q$ is sufficient if and only if $q(s)=q(t)$ implies $s\sim_Lt$. If $S$ is finite and there are $N$ classes, the minimum fixed binary length is $\ceil{\log_2 N}$.
+\end{theorem}
+\begin{proof}
+For necessity, states with the same code present the same pair of inputs to the decoder for any fixed $w$. Correct decoding gives equality of the corresponding observations for all $w$. For sufficiency, on a used code $z$ and word $w$ take the unique common value of $o(T_w(s))$ among states with $q(s)=z$. The implication ensures uniqueness, and membership in the image ensures existence. On unused codes return $o(s_0)$ for a fixed $s_0\in S$.
+
+Representatives of distinct classes must use distinct codes. An $\ell$-bit alphabet has $2^\ell$ elements, so $2^\ell\ge N$. Conversely, number the classes from $0$ to $N-1$ and encode their indices. The constructed decoder applies. For $N=1$ the empty message suffices.
+\end{proof}
+
+\subsection{Residual languages and quotient transitions}
+After an event $e$, the remaining language is $e^{-1}L=\{v:ev\in L\}$. From $T_{ev}=T_v\circ T_e$ it follows that $s\sim_Lt$ implies $T_e(s)\sim_{e^{-1}L}T_e(t)$. For $L=E^*$ the language stays unchanged. Consequently $\bar T_e([s])=[T_e(s)]$ is well defined. For a bounded language the horizon generally changes. Preservation of the present output requires the empty word to be among the tests.
+
+\begin{proposition}[Finite refinement]\label{prop:refinement}
+For finite $S,E$ and $L=E^*$, partition by the present output. At each iteration refine by the tuple consisting of the current block and the successor block for every event. At stabilization the blocks are precisely the observational equivalence classes.
+\end{proposition}
+\begin{proof}
+After $j$ iterations, membership in the same block is equivalent to agreement on all words of length at most $j$. This is the initial output test at $j=0$. At the next iteration unequal present blocks remain unequal, and each extra test prepends one event to a word of length at most $j$. This proves both directions of the invariant by induction.
+
+Every strict refinement increases the number of blocks, which is at most $|S|$. Thus there are at most $|S|-|P_0|$ strict rounds, where $P_0$ is the initial partition. At stabilization each block has a well-defined successor block under every event. Induction along an arbitrary word now gives equal observations within each block. States agreeing on every word were never separated by the invariant.
+\end{proof}
+A simple full rescan uses $O((1+|E|)|S|^2)$ block accesses, apart from the cost of representing and grouping tuples. The sharper complexity of Hopcroft's algorithm pertains to a different implementation~\cite{hopcroft}.
+
+\begin{proposition}[A distinguishing word]\label{prop:witness}
+For an inequivalent pair of states, breadth-first search of the pair graph finds a shortest distinguishing word. Its length is strictly less than $|S|^2$.
+\end{proposition}
+\begin{proof}
+From $(s,t)$ follow an $e$-edge to $(T_e(s),T_e(t))$. A word distinguishes the pair exactly when its path reaches two states of unequal output. Breadth-first search visits vertices by distance. A shortest path cannot repeat a vertex, since deleting the intervening cycle would give a shorter path to the same target. There are at most $|S|^2$ vertices.
+\end{proof}
+
+\section{The cost of extending an observation task}\label{sec:refresh}
+Let $L\subseteq L'$. Every test for the old task is still available in the new one. Each new class therefore lies in an old class. For an old class $C$ let $K(C)$ count its new subclasses.
+
+\begin{theorem}[Conditional refinement cost]\label{thm:refresh}
+For finite $S$, let $K=\max_C K(C)$. If both parties know the old class and the source still has access to the state, the minimum worst-case fixed length of an additional message identifying the new class is $\ceil{\log_2 K}$. An old class that splits cannot be refined correctly by a function of its old class index alone.
+\end{theorem}
+\begin{proof}
+Condition on an old class attaining $K$. The receiver must distinguish $K$ possibilities under exactly that shared condition. Conversely, enumerate the subclasses separately within each old class. Transmit the local index using the common length $\ceil{\log_2 K}$. Both sides can select the right enumeration. Finally, two states in one old class but different new classes supply the same argument to any function of the old index. Their required outputs differ.
+\end{proof}
+The construction explicitly uses common side information and access to the missing distinction at the source. Receiver-only side information gives a different encoding problem. If the source has discarded the state, an additional measurement has to be modeled as an observation in its own right.
+
+\begin{example}
+On $\F^n$ the current parity takes one bit. After resetting coordinate $i$ to zero, its new parity together with its old parity determines $x_i$. If the reset may target any coordinate and encoding takes place before $i$ is known, all $2^n$ states must remain distinguishable. The next section derives this separation as an observability rank.
+\end{example}

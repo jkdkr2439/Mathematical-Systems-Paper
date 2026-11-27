@@ -1,0 +1,222 @@
+\section{Declared observation and error model}
+Fix $n\ge1$ and $x\in\R^n$. Let $\mathcal I_n$ contain every nonempty contiguous positional interval in $[1,n]$. Define
+\begin{equation}\label{A-eq:score}
+\ell(I)=|I|,\qquad S_x(I)=\sum_{i\in I}x_i,\qquad
+f_{x,\alpha}(I)=S_x(I)-\alpha\ell(I).
+\end{equation}
+The units of $\alpha$ and the error radius $\varepsilon$ are those of one entry. An interval $I$ is \emph{$\varepsilon$-stable at $\alpha$} if it maximizes~\eqref{A-eq:score} for every realized array $x+\delta$ with $|\delta_i|\le\varepsilon$ independently for all $i$. This is weak optimality throughout the full closed box in $\R^n$. The box is not truncated at zero even when nominal entries are nonnegative. Adversarial ties are allowed. The same positional interval must work for every realization; neither minimax optimization nor choosing an answer after seeing the error is meant.
+
+Let $R_x(\varepsilon;[a,b])$ count distinct stable intervals, each counted once if some $\alpha\in[a,b]$ certifies it. For a fixed finite nonnegative alphabet $\Sigma$ containing zero and a positive value, put $B=\max\Sigma$ and
+\begin{equation}\label{A-eq:count}
+R_\Sigma(n,\varepsilon)=\max_{x\in\Sigma^n}R_x(\varepsilon;[0,B]),
+\qquad r=\dim_\Q\operatorname{span}_\Q\Sigma.
+\end{equation}
+The alphabet precedes the varying parameters $n,\varepsilon$. This is a worst-case count over arrays, not a guarantee for each array or a bit-space lower bound for every implicit representation. The empty interval will be admitted only where explicitly stated.
+
+\section{Stability, parameter separation and value bounds}
+\begin{lemma}[Established box criterion]\label{A-lem:box}
+An interval $I$ is $\varepsilon$-stable at $\alpha$ if and only if
+\begin{equation}\label{A-eq:margin}
+f_{x,\alpha}(I)-f_{x,\alpha}(J)\ge\varepsilon|I\mathbin{\triangle}J|
+\quad\text{for every }J\in\mathcal I_n.
+\end{equation}
+For $\varepsilon>0$, a stable interval is the unique nominal optimizer.
+\end{lemma}
+\begin{proof}
+The smallest perturbed difference against $J$ subtracts $\varepsilon$ on $I\setminus J$ and adds it on $J\setminus I$. This minimum is the left side of~\eqref{A-eq:margin} minus its right side. Moreover, the single array obtained by subtracting $\varepsilon$ throughout $I$ and adding it outside $I$ attains every such worst difference simultaneously. This proves necessity and sufficiency. For $J\ne I$ the right side is positive when $\varepsilon>0$, proving nominal uniqueness.
+\end{proof}
+One maximum-subarray scan on that adverse array is therefore an $O(n)$ arithmetic certificate, returning a violating competitor on failure. For a nominal optimum with at least one competitor, the radius is the minimum score gap divided by $|I\triangle J|$. For $n=1$ there is no competing nonempty interval and the radius is infinite. These are specializations of established sensitivity ideas~\cite{chak}, not the new counting result.
+
+\begin{proposition}[Parameter packing]\label{A-prop:packing}
+For $\varepsilon>0$,
+\begin{equation}\label{A-eq:packing}
+R_x(\varepsilon;[a,b])\le\floor{\frac{b-a}{2\varepsilon}}+1.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Let distinct $I,J$ be stable at $\alpha<\beta$. Adding~\eqref{A-eq:margin} in both directions gives
+\begin{equation}\label{A-eq:separation}
+(\beta-\alpha)(\ell(I)-\ell(J))\ge2\varepsilon|I\triangle J|>0.
+\end{equation}
+Hence $\ell(I)>\ell(J)$ and $\beta-\alpha\ge2\varepsilon$, since $|I\triangle J|\ge\ell(I)-\ell(J)$. Choose one witnessing parameter per interval and order them. Their separation proves the bound.
+\end{proof}
+
+The same argument works for any finite family of subsets. Interval structure enters the stronger length-dependent bound below.
+
+
+Let $F_x(\alpha)=\max(0,\max_I f_{x,\alpha}(I))$, now explicitly allowing the empty interval. Componentwise monotonicity gives the exact value envelope
+\begin{equation}\label{A-eq:value}
+F_x(\alpha+\varepsilon)\le F_{x+\delta}(\alpha)\le F_x(\alpha-\varepsilon),
+\qquad |F_{x+\delta}(\alpha)-F_x(\alpha)|\le n\varepsilon.
+\end{equation}
+Uniform perturbations $-\varepsilon$ and $+\varepsilon$ attain the two endpoints. The inequalities also hold without the empty option. A value envelope can remain useful when no fixed interval survives the whole box; it is not a statistical confidence interval.
+
+\section{The exact upper-bound dependency}
+For all real offsets, let $H_x$ count vertices of the strict upper chain of the points $(|I|,S_x(I))$. Retain the largest sum at each length and remove intermediate collinear points. Every stable interval for positive error is a unique nominal optimum, so its type is one such vertex, and different stable intervals cannot share a type.
+
+\begin{lemma}[Signature budget and rank bound]\label{A-lem:rank}
+Let $\Phi_x(m)$ count distinct pairs $(|A|,\sum_{i\in A}x_i)$ over nonempty subsets $A\subseteq[1,n]$ of size at most integer $m\ge1$. Then
+\begin{equation}\label{A-eq:budget}
+H_x\le4\Phi_x(m)+2n/m-1.
+\end{equation}
+For every fixed alphabet of rational rank $r$, uniformly over $x\in\Sigma^n$,
+\begin{equation}\label{A-eq:rank}
+H_x=O_\Sigma(n^{(r+1)/(r+2)}).
+\end{equation}
+\end{lemma}
+\begin{proof}
+Choose a representative interval for each strict vertex and a parameter exposing its type uniquely. Distinct vertices have distinct lengths. If $I,J$ optimize at $\alpha<\beta$, adding their optimality inequalities gives $|I|\ge|J|$. If they intersect and $J\not\subseteq I$, compare $I$ with $I\cup J$ at $\alpha$, and $J$ with $I\cap J$ at $\beta$. For $C=J\setminus I$ this gives $f_{x,\alpha}(C)\le0$ and $f_{x,\beta}(C)\ge0$, contradicting $f_{x,\beta}(C)=f_{x,\alpha}(C)-(\beta-\alpha)|C|<0$. Here the score extends additively to subsets. Thus representatives are disjoint or nested.
+
+The full array is a representative at sufficiently negative offset. Make the smallest strict containing representative the parent of each other interval. This gives a rooted tree. If $L,U,D$ count leaves, unary nodes and branching nodes, edge counting yields $D\le L-1$ and $H_x\le2(L+U)-1$. Charge a leaf its whole interval and a unary parent $P$ its difference from the sole child $Q$. These charges are nonempty and pairwise disjoint: every represented proper descendant of a unary parent lies in its only child, and different branches are disjoint. Total charged size is at most $n$.
+
+Leaf signatures are distinct. Unary signatures are chord increments between upper-chain vertices. Two distinct chords of the same positive horizontal width have different vertical increments. To see this, linearly interpolate the concave chain. Its slopes are nonincreasing, with a strict drop at each interior vertex. For two equal-width chords starting at $u<v$, the difference of their increments is a finite sum of slope differences times lengths, all nonnegative. A strict interior vertex between the first start and the second endpoint makes one term positive: use $v$ if the chords overlap, and the first endpoint otherwise. Thus equality is impossible. Identical starting point and width give the same chord.
+
+Consequently a signature occurs in at most one leaf charge and one unary charge. There are at most $2\Phi_x(m)$ charges of size at most $m$ and at most $n/m$ larger ones. The tree inequality proves~\eqref{A-eq:budget}. The charges need not be contiguous, which is why $\Phi$ counts subsets.
+
+Choose a rational basis $b_1,\ldots,b_r$ of the span of the fixed alphabet. A common denominator $D_0>0$ and a fixed integer $C\ge1$ give $a=D_0^{-1}\sum_j z_j(a)b_j$, with integer $|z_j(a)|\le C$ for every symbol $a$. Subsets of at most $m$ atoms have at most $m(2Cm+1)^r$ signature codes. Hence
+\begin{equation}\label{A-eq:finite-rank}
+H_x\le4m(2Cm+1)^r+2n/m-1.
+\end{equation}
+Taking $m=\ceil{n^{1/(r+2)}}$ proves~\eqref{A-eq:rank}. All constants precede the choice of $n$ and the array.
+\end{proof}
+
+The interval domain and positive unit weights are used essentially in the union/intersection comparison. Laminarity does not mean a single inclusion chain. The proof here is a written proof. The appendix lists the statements covered by the accompanying formal certificates.
+
+\section{Matching robust laws}
+\begin{theorem}[Binary alphabet]\label{A-thm:binary}
+There are absolute $c,C>0$ such that for every $B>0$, integer $n\ge22528$ and $0<\varepsilon\le B/1024$,
+\begin{equation}\label{A-eq:binary}
+c\min(n^{2/3},B/\varepsilon)\le R_{\{0,B\}}(n,\varepsilon)
+\le C\min(n^{2/3},B/\varepsilon).
+\end{equation}
+\end{theorem}
+\begin{proof}
+Scaling reduces to a fixed binary alphabet for the upper bound, which follows from Lemma~\ref{A-lem:rank} and Proposition~\ref{A-prop:packing}. For the lower bound, fix $m\ge8$ and take primitive pairs $(c_0,c_1)$ with $\ceil{m/10}\le c_j\le m$. Their number $M$ is at least $(3/50)m^2$: the box has at least $(9m/10)^2$ points, while a union bound removes at most $m^2\sum_{d\ge2}d^{-2}\le3m^2/4$ nonprimitive ones. The last bound uses $1/4+\int_2^\infty t^{-2}\,dt$.
+
+Blocks $0^{c_0}B^{c_1}$ have distinct densities $Bc_1/(c_0+c_1)$, separated by at least $B/(4m^2)$ and lying in $[B/20,19B/20]$. Order them by decreasing density; if their body length is $N$, prepend $21N$ copies of $B$. At each density-gap midpoint every block has $|d-\alpha|\ge B/(8m^2)$. If $\varepsilon\le B/(16m^2)$, every suffix of a positive block remains positive, while every prefix of a negative block remains negative. All prefixes through the guard are positive. Prefixes into the body have realized sum at least $BN/20-22N\varepsilon>0$ for $m\ge8$. Thus the unique optimum, under every realization, is the prefix ending after the positive blocks. There are $M-1\ge3m^2/100$ different such intervals, in length at most $44m^3$.
+
+Set $m=\floor{\min((n/44)^{1/3},(B/(16\varepsilon))^{1/2})}$. The hypotheses ensure $m\ge8$ and the floor loses at most a factor two. Append zeros to reach $n$; their adjusted realized values are negative because $\alpha\ge B/20>\varepsilon$. This gives~\eqref{A-eq:binary}, for example with $c=3/6400$.
+\end{proof}
+
+For the higher-rank law put $r\ge2$, $d=r-1$, $k=r+1$, and fix positive $\theta_1,\ldots,\theta_d$. Assume a fixed $0<\kappa\le1/2$ satisfies
+\begin{equation}\label{A-eq:BA}
+\|\theta\cdot e\|_{\R/\Z}\ge\kappa\|e\|_\infty^{-d}
+\quad(e\in\Z^d\setminus\{0\}).
+\end{equation}
+Distance to the nearest integer is denoted by $\|\cdot\|_{\R/\Z}$. This is dual bad approximability of one linear form. It is neither a coordinatewise condition nor multiplicative bad approximability. It implies rational independence of $1,\theta_1,\ldots,\theta_d$.
+
+\begin{theorem}[Conditional law in every rank]\label{A-thm:BA}
+For $\Sigma=\{0,1,\theta_1,\ldots,\theta_d\}$ satisfying~\eqref{A-eq:BA}, there are $c,C,\varepsilon_0>0$ and $n_0$, depending only on the fixed alphabet and a valid $\kappa$, such that for every integer $n\ge n_0$ and every $0<\varepsilon\le\varepsilon_0$,
+\begin{equation}\label{A-eq:main}
+c\min(n^{(r+1)/(r+2)},B/\varepsilon)\le R_\Sigma(n,\varepsilon)
+\le C\min(n^{(r+1)/(r+2)},B/\varepsilon).
+\end{equation}
+\end{theorem}
+
+\subsection{Counting close densities}
+We prove the lower bound without assuming a uniform minimum gap. First, for integer $L\ge1$ and $\delta\ge0$, the number of pairs $(a,e)\in\Z\times\Z^d$ with $\|e\|_\infty\le L$ and $|a+\theta\cdot e|\le\delta$ is at most
+\begin{equation}\label{A-eq:residues}
+C_d(1+\delta L^d/\kappa),\qquad C_d=8\cdot3^d.
+\end{equation}
+For $\delta<1/2$, each $e$ permits at most one $a$. Distinct residues are at circular distance at least $\kappa/(2L)^d$. Packing them into the arc of length $2\delta$ around zero gives at most $1+2\delta(2L)^d/\kappa$. This includes $\delta=0$. For $\delta\ge1/2$, there are at most $4\delta$ integers $a$ per vector and $(3L)^d$ vectors. Both estimates imply~\eqref{A-eq:residues}.
+
+Set $h=\ceil{m/10}$ and take all count vectors $\mathcal T_m=\{h,\ldots,m\}^k$, without a primitivity restriction. For $c\in\mathcal T_m$, define
+\begin{equation}\label{A-eq:density}
+q_c=\sum_{j=0}^r c_j,\qquad
+b_c=\frac{c_1+\sum_{j=1}^d\theta_jc_{j+1}}{q_c},\qquad
+M=|\mathcal T_m|\ge(9m/10)^k.
+\end{equation}
+Let $E_m(t)$ count ordered pairs $(c,c')$ with $|b_c-b_{c'}|\le t$, including equal densities and the diagonal. We claim
+\begin{equation}\label{A-eq:pairs}
+E_m(t)\le C_*(m^k+t m^{2k}),\qquad
+C_*=11^r\,8\cdot3^{r-1}k^{r+3}/\kappa.
+\end{equation}
+Fix lengths $q,q'$ and $g=\gcd(q,q')$. The determinants $c_jq'-c_j'q$ are divisible by $g$. Write the first as $ga$ and the remaining $d$ as $ge_j$. Their bounds imply $|e_j|\le km^2/g$, and close densities give $|a+\theta\cdot e|\le tqq'/g\le tk^2m^2/g$. Applying~\eqref{A-eq:residues} with $L=\floor{km^2/g}\ge1$ bounds determinant tuples by
+\begin{equation}\label{A-eq:determinants}
+C_d\left(1+\frac{t k^{r+1}m^{2r}}{\kappa g^r}\right).
+\end{equation}
+For a fixed tuple, put $u=q/g,v=q'/g$. The equation $vc_j-uc_j'=a_j$ has a one-parameter integer solution set, since $\gcd(u,v)=1$. Its intersection with $[h,m]^2$ contains at most $1+m/\max(u,v)\le1+10g/k\le11g$ points. The $r$ positive-symbol coordinates therefore allow at most $(11g)^r$ pairs. The zero coordinates are then determined; ignoring their restrictions only enlarges the count.
+
+For $Q=km$ and $r\ge2$,
+\begin{equation}\label{A-eq:gcd}
+\sum_{q,q'\le Q}\gcd(q,q')^r
+\le\sum_{a=1}^Q a^r\floor{Q/a}^2
+\le Q^2\sum_{a=1}^Q a^{r-2}\le Q^{r+1}.
+\end{equation}
+The first inequality overcounts divisors. Summing~\eqref{A-eq:determinants} times $(11g)^r$ over at most $Q^2$ length pairs proves~\eqref{A-eq:pairs}. No injectivity of densities was assumed.
+
+\subsection{Selection, construction and joint quantifiers}
+Suppose $\varepsilon m^k\le1$. Partition the real line into half-open bins of width $4\varepsilon$, and let $a_j$ count vectors in bin $j$. Pairs in a bin are close, so $\sum_j a_j^2\le E_m(4\varepsilon)\le5C_*m^k$. If $J$ bins are occupied, Cauchy--Schwarz gives $M^2\le J\sum_j a_j^2$. At least half the occupied bins have the same parity. Choose one vector from each of these bins. Their densities are separated strictly by more than $4\varepsilon$, and their number $K$ satisfies
+\begin{equation}\label{A-eq:selection}
+K\ge\beta m^k,\qquad \beta=(9/10)^{2k}/(10C_*),\qquad K\le m^k.
+\end{equation}
+Sort the symbols within each selected block and order the blocks by decreasing density. Their total length is $N\le kmK$. Prepend $(10k+1)N$ copies of $B$. Every density lies between $1/(10k)$ and $B-B/(10k)$. At every consecutive-density midpoint, $|b_c-\alpha|>2\varepsilon$ for every selected block. Impose
+\begin{equation}\label{A-eq:guard}
+\varepsilon\le\varepsilon_g:=\min\left(\frac{B}{20k(10k+2)},\frac1{20k}\right),
+\qquad A=k(10k+2).
+\end{equation}
+Prefixes inside the guard remain positive. A prefix entering the body has nominal score at least $BN/(10k)$ and loses at most $(10k+2)N\varepsilon$, leaving at least $BN/(20k)>0$. Thus every optimum starts at the first position. A sorted positive-density block has every suffix of length $s$ of nominal adjusted sum at least $s(b_c-\alpha)$; it remains positive after error. A negative-density block has every nonempty prefix of adjusted sum at most $s(b_c-\alpha)$; it remains negative. Therefore the unique optimum under every realization ends after exactly the positive blocks. Perturbation need not preserve the internal sorting. There are $K-1$ distinct stable prefixes in length at most $A m^{k+1}$. Appended zeros have adjusted realized values at most $\varepsilon-\alpha<0$ and cannot change these positive optima.
+
+Choose an integer $m_0$ with $\beta m_0^k\ge2$ and set
+\begin{equation}\label{A-eq:quantifiers}
+n_0=\ceil{A(2m_0)^{k+1}},\quad
+\varepsilon_0=\min(\varepsilon_g,(2m_0)^{-k}),\quad
+m=\floor{\min((n/A)^{1/(k+1)},\varepsilon^{-1/k})}.
+\end{equation}
+For the stated $n,\varepsilon$, this choice has $m\ge m_0$, loses at most a factor two from the minimum, and satisfies both length and error budgets. Padding reaches exactly $n$. Consequently
+\begin{equation}\label{A-eq:lower}
+K-1\ge\frac{\beta}{2^{k+1}}\min((n/A)^{k/(k+1)},1/\varepsilon)
+\ge\frac{\beta}{2^{k+1}A^{k/(k+1)}B}\min(n^{k/(k+1)},B/\varepsilon).
+\end{equation}
+Here $A,B\ge1$. This proves the lower half of Theorem~\ref{A-thm:BA}; Lemma~\ref{A-lem:rank} and Proposition~\ref{A-prop:packing} give the upper half. The constants are deliberately loose and do not assert a useful finite-data threshold.
+
+\begin{corollary}[Examples in every rank]\label{A-cor:algebraic}
+For every integer $r\ge2$, let $\rho=2^{1/r}$. The fixed alphabet $\{0,1,\rho,\ldots,\rho^{r-1}\}$ satisfies Theorem~\ref{A-thm:BA}.
+\end{corollary}
+\begin{proof}
+By Eisenstein at 2, $X^r-2$ is irreducible. For nonzero $e\in\Z^{r-1}$ let $H=\|e\|_\infty$, choose the nearest integer $a$ to $-\sum e_j\rho^j$, and put $P(X)=a+\sum e_jX^j$. Its value at $\rho$ is a nonzero algebraic integer. The product over its $r$ conjugates is a nonzero integer. Since $|a|\le H\sum\rho^j+1/2$ and each $\rho^j<2$, every other conjugate has modulus at most $4rH$. Hence $|P(\rho)|\ge(4rH)^{-(r-1)}$, which is~\eqref{A-eq:BA} with $\kappa=(4r)^{-(r-1)}$. Absolute values handle complex conjugates. This norm mechanism is classical~\cite{fgm}; the interval-count consequence is the proposed result.
+\end{proof}
+
+\section{Why rank alone does not classify stability}
+\begin{lemma}[Representation and query transfer]\label{A-lem:transfer}
+If $I$ is $\varepsilon$-stable for $x$ at $\alpha$, $\|x-y\|_\infty\le\delta$, $|\alpha-\beta|\le\tau$ and $\delta+\tau<\varepsilon$, then $I$ is $(\varepsilon-\delta-\tau)$-stable for $y$ at $\beta$.
+\end{lemma}
+\begin{proof}
+Every allowed perturbed adjusted array $y+\zeta-\beta$ differs coordinatewise from $x-\alpha$ by at most $\delta+(\varepsilon-\delta-\tau)+\tau=\varepsilon$. Apply the original stability definition. At positive remaining radius nominal uniqueness follows from Lemma~\ref{A-lem:box}.
+\end{proof}
+
+Fix irrational $\theta\in(1,2)$. If $q\ge1$, $p\in\Z$, $0\le p\le2q$ and $|\theta-p/q|<\varepsilon$, replace every $\theta$ by $p/q$ in an arbitrary array over $\{0,1,\theta\}$. Transfer injects its stable intervals into the strict types of the rationalized array $y$. Subset sums of length at most $m$ lie on the $1/q$ grid in $[0,2m]$, so $\Phi_y(m)\le m(2qm+1)\le3qm^2$. Lemma~\ref{A-lem:rank} gives $H_y\le12qm^2+2n/m-1$. Taking $m=\ceil{(n/q)^{1/3}}$ when $n\ge q$, and using $H_y\le n$ otherwise, yields
+\begin{equation}\label{A-eq:approx}
+R_{\{0,1,\theta\}}(n,\varepsilon)\le50q^{1/3}n^{2/3}.
+\end{equation}
+The denominator dependence is explicit; it cannot be hidden in a constant uniform over changing approximants.
+
+\begin{theorem}[A fixed-alphabet obstruction]\label{A-thm:obstruction}
+There is one fixed rank-two alphabet $\Sigma$ for which no positive $c_\Sigma$ gives the lower bound $c_\Sigma\min(n^{3/4},B/\varepsilon)$ for all sufficiently large $n$ and all sufficiently small positive $\varepsilon$.
+\end{theorem}
+\begin{proof}
+Use the classical Liouville construction
+\begin{equation}\label{A-eq:liouville}
+\theta=1+\sum_{j=1}^{\infty}10^{-j!},\qquad
+q_k=10^{k!},\qquad \frac{p_k}{q_k}=1+\sum_{j=1}^k10^{-j!}\quad(k\ge2).
+\end{equation}
+The positive tail is less than $2q_k^{-(k+1)}$. If $\theta=a/b$ were rational, its nonzero distance from $p_k/q_k$ would be at least $1/(bq_k)$, contradicting this tail for large $k$. Thus $\theta\in(1,2)$ is irrational and $\Sigma=\{0,1,\theta\}$ has rank two. Set $n_k=q_k^8$, $\varepsilon_k=3q_k^{-(k+1)}$. Bound~\eqref{A-eq:approx} gives $R_\Sigma(n_k,\varepsilon_k)\le50q_k^{17/3}$. For $k\ge6$, the proposed minimum is $q_k^6$, so
+\begin{equation}\label{A-eq:obstruction}
+\frac{R_\Sigma(n_k,\varepsilon_k)}{\min(n_k^{3/4},\theta/\varepsilon_k)}
+\le50q_k^{-1/3}\longrightarrow0.
+\end{equation}
+No positive lower constant survives. The alphabet stays fixed throughout.
+\end{proof}
+This does not contradict the exact rank bound. Many exact regimes may have margins below the declared error. The classical Liouville number itself is not a new construction; the specific obstruction follows from~\eqref{A-eq:approx}. Nor does this theorem prove that failure of~\eqref{A-eq:BA} always prevents the matching robust law. The sufficient condition and the obstruction leave an intermediate arithmetic class unresolved.
+
+\section{A finite certificate on supplied values}
+The proof can also be used without inferring an all-scale Diophantine property. Fix a supplied alphabet $\Sigma=\{0,a_1,\ldots,a_{k-1}\}$ with positive entries, and let $a$ be the smallest positive entry. For a chosen $m$, form all count vectors in $\{\ceil{m/10},\ldots,m\}^k$ and compute their densities. Let $K_0$ be the larger number of occupied even or odd bins of width $4\varepsilon$. Put
+\begin{equation}\label{A-eq:finite-design}
+A=k(10k+2),\qquad K=\min(K_0,\floor{n/(Am)}),\qquad
+0<\varepsilon\le\min\left(\frac{B}{20k(10k+2)},\frac{a}{20k}\right).
+\end{equation}
+If $K\ge2$, select one block from each of $K$ bins of that parity. The guard and padding proof above gives an explicit length-$n$ array with at least $K-1$ uniformly unique stable intervals. Its length is at most $AmK$ before padding. This is a design certificate, not an optimal-design algorithm or a prediction about every observed array. Exact rational values permit exact verification even when the alphabet has rank one.
+
+The arithmetic counting proof at a particular $m$ only uses~\eqref{A-eq:BA} for $0<\|e\|_\infty\le2km^2$. A verified finite separation constant suffices at that scale, but does not establish the global condition. Alternatively, actual bin occupancies supply the finite certificate directly. Lemma~\ref{A-lem:transfer} spends both value-rounding and query-rounding error, preventing a rounded representation from being silently treated as the exact real model.
+
+Under a change of units $x'=sx+t$, $\alpha'=s\alpha+t$, $\varepsilon'=s\varepsilon$ with $s>0$, adjusted scores multiply by $s$ and the error boxes correspond. Stable decisions are preserved when the parameter window is transformed too. Quantization is not such an invertible change of units. In particular, a fixed finite decimal alphabet has rational rank one regardless of its resemblance to irrational constants.

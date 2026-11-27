@@ -1,0 +1,52 @@
+\section{From reconstruction error to a decision at a common time}\label{sec:bridge}
+The arithmetic results count robust decisions, whereas the coding results bound uncertainty in a reconstructed value. To use the latter in the former, both statements must concern the same coordinates, in the same units, at the time at which the decision will be evaluated. We give the exact box calculation first.
+
+\begin{theorem}[Heterogeneous coordinate errors and a shared offset]\label{thm:heterogeneous}
+Suppose the true vector and offset range over the full box
+\[
+|x_i-\widehat x_i|\le\delta_i,\qquad |\alpha-\widehat\alpha|\le\tau,
+\]
+with nonnegative radii. A fixed interval $I$ is a weak maximizer throughout the box if and only if, for every competitor $J$,
+\begin{equation}\label{eq:jointbridge}
+ f_{\widehat x,\widehat\alpha}(I)-f_{\widehat x,\widehat\alpha}(J)
+ \ \ge\ \sum_{i\in I\triangle J}\delta_i+\tau\big||I|-|J|\big|.
+\end{equation}
+\end{theorem}
+\begin{proof}
+Set $u_i=\ind_I(i)-\ind_J(i)$, $e_i=x_i-\widehat x_i$, and $a=\alpha-\widehat\alpha$. The true gap is the nominal gap plus $\sum_i u_i e_i-a(|I|-|J|)$. For this competitor the first term has minimum $-\sum_i |u_i|\delta_i$, attained by taking $e_i=-\operatorname{sgn}(u_i)\delta_i$ wherever $u_i\ne0$. The offset term has minimum $-\tau\big||I|-|J|\big|$, attained by choosing $a$ with the sign of the length difference. The full product box permits these choices simultaneously. Coordinates in both intervals cancel.
+
+If every inequality holds, every true gap is nonnegative. If one fails, its minimizing assignment gives a feasible state and a competitor with strictly larger score. Necessity only needs an adverse realization for the violating pair. Distinct competitors may have different worst-case offsets.
+\end{proof}
+For a smaller correlated uncertainty set enclosed by the box, the same test is sufficient. Its converse can fail since the corner required for a violating pair may be unreachable.
+
+\subsection{Samples taken at different times}
+Let coordinate $i$ be sampled at $t_i$ and used at $t_*\ge t_i$. Suppose $|\widehat x_i-x_i(t_i)|\le\eta_i$ and a validated or explicitly assumed rate bound gives $|x_i(t)-x_i(s)|\le v_i|t-s|$ on the relevant domain. Then
+\begin{equation}\label{eq:age}
+|\widehat x_i-x_i(t_*)|\le\eta_i+v_i(t_*-t_i)=:\delta_i(t_*).
+\end{equation}
+This is the triangle inequality through $x_i(t_i)$. The first term may include sensing, reconstruction, or numerical errors if the individual bounds apply to the same quantity. Adding valid upper bounds gives an upper bound on total error. Independence is unnecessary for this direction.
+
+\begin{corollary}[Lifetime of a decision certificate]\label{cor:deadlinecertificate}
+Substitution of~\eqref{eq:age} and a valid offset radius $\tau(t_*)$ into~\eqref{eq:jointbridge} certifies $I$ at $t_*$. For fixed nominal data and offset radius, with all $v_i\ge0$, a certificate at a later time also suffices at earlier times for which these bounds apply and all the samples are already available.
+\end{corollary}
+\begin{proof}
+The target state belongs to the box just constructed. Apply the sufficient direction of Theorem~\ref{thm:heterogeneous}. Each contribution to the right-hand side is nondecreasing in $t_*$. Holding nominal scores fixed proves the second assertion.
+\end{proof}
+Continuity alone supplies no common rate for a class of trajectories. All functions $t\mapsto Mt$ on a compact interval are continuous, for arbitrarily large $M$. Uniform continuity of each individual function would still not give an observer a known numerical modulus for the family. Constant trajectories are also continuous.
+
+\begin{proposition}[Margins for action-specific error bounds]\label{prop:actionmargin}
+Let $m(a)$ be a model score and $v(a)$ its target value, with $|v(a)-m(a)|\le\epsilon(a)$. A selected action $a_*$ remains weakly optimal if $m(a_*)-m(a)\ge\epsilon(a_*)+\epsilon(a)$ for every $a\ne a_*$. The pairwise condition is necessary as well if the possible scores fill the independent action-error box.
+\end{proposition}
+\begin{proof}
+For a distinct competitor,
+\[
+v(a)\le m(a)+\epsilon(a)\le m(a_*)-\epsilon(a_*)\le v(a_*).
+\]
+The self-comparison holds by reflexivity. If an inequality fails on a full box, take the competitor at its upper endpoint and the selected score at its lower endpoint. This reverses their order.
+\end{proof}
+Interval scores share coordinate errors. Adding separate action bounds can count the same uncertainty in $I\cap J$ twice. Formula~\eqref{eq:jointbridge} retains that dependence.
+
+\subsection{A six-interval calculation}
+For $\widehat x=(3,1,4)$ and $\widehat\alpha=2$, the three singleton scores are $1,-1,2$. The scores for $[1,2]$, $[2,3]$, and $[1,3]$ are $0,1,2$. Thus $[3]$ and $[1,3]$ tie. If $\delta_1,\delta_2>0$, the zero nominal gap cannot cover their symmetric-difference error. Arbitrarily small full-box errors can invalidate either fixed choice.
+
+Now take $(3,1,5)$ and offset $5/2$. The singleton $[3]$ scores $5/2$ and $[1,3]$ scores $3/2$. With $\delta_i=1/10$ and $\tau=1/20$, the required allowance for this pair is $2/10+2/20=3/10$, below the gap of one. For the other four competitors, $[1],[2],[1,2],[2,3]$, the gaps are respectively $2,4,7/2,3/2$ and the allowances are $1/5,1/5,7/20,3/20$. All comparisons pass. The result certifies this instance at its declared radii.

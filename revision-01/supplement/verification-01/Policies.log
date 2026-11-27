@@ -1,0 +1,20 @@
+'DecisionPolicies.feasible_iff_safe' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DecisionPolicies.no_information_no_stop' does not depend on any axioms
+Policies.lean:97:54: warning: Variable name `hi` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hi
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+Policies.lean:129:53: warning: Variable name `hi` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hi
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+'DecisionPolicies.interval_cost_lower_bound' depends on axioms: [propext, Quot.sound]
+'DecisionPolicies.interval_cost_one_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DecisionPolicies.state_has_minimizer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DecisionPolicies.proper_cell_common_minimizer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DecisionPolicies.full_cell_no_common_minimizer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DecisionPolicies.two_label_decision' depends on axioms: [propext, Classical.choice, Quot.sound]

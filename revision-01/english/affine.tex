@@ -1,0 +1,58 @@
+\section{Cost-indexed observability for affine systems}\label{sec:linear}
+Take $x\in\F^n$, output $Cx\in\F^p$, and transitions $T_e(x)=A_ex+a_e$. Matrices and offsets are known. Each of finitely many events has a state-independent positive integer cost $c_e$. For a nonnegative integer budget $b$ put $L_b=\{w:\cost(w)\le b\}$, with costs added along a word. All matrix operations in this section are over the binary field.
+
+\subsection{Pulling a measurement back through a word}
+Writing $T_w(x)=A_wx+a_w$, one obtains $A_{ev}=A_vA_e$ and $a_{ev}=A_va_e+a_v$ by applying $e$ first. After $e$, a measurement row $u$ therefore reads $uA_ex+ua_e$. Its dependence on the unknown state has row $uA_e$. Reversing matrix order can change the observable information.
+
+Define the row space
+\begin{equation}\label{eq:Wbudget}
+W_b=\spn\left(\operatorname{rows}(C)\ \cup
+\bigcup_{e:c_e\le b}\{uA_e:u\in W_{b-c_e}\}\right).
+\end{equation}
+Positive costs make this a recursion on strictly smaller budgets.
+\begin{lemma}[Word representation]\label{lem:wordspace}
+$W_b$ is the span of all rows of $CA_w$ for $w\in L_b$. Consequently $W_{b'}\subseteq W_b$ whenever $b'\le b$.
+\end{lemma}
+\begin{proof}
+Use strong induction. At zero budget only the empty word occurs, with identity matrix. At positive budget each nonempty word decomposes uniquely as $ev$ with $v\in L_{b-c_e}$. The induction hypothesis identifies the rows for these suffixes. Right multiplication by $A_e$ is linear and takes their span onto the span of their products. Taking all first events and adding the empty word gives~\eqref{eq:Wbudget}. Monotonicity follows by inclusion of the word sets.
+\end{proof}
+
+\begin{theorem}[Minimum length and compressed updates]\label{thm:linear}
+Suppose every state in $\F^n$ is possible. Write $r_b=\dim W_b$ and let the rows of $B_b$ form a basis of $W_b$. Then $x\sim_{L_b}y$ exactly when $B_bx=B_by$. There are $2^{r_b}$ classes. The minimum fixed length among all encoders, including nonlinear ones, is $r_b$ bits. For $z=B_bx$ there exist matrices $D_b,U_{b,e}$ satisfying
+\[
+D_b B_b=C,\qquad U_{b,e}B_b=B_{b-c_e}A_e,\qquad
+z'=U_{b,e}z+B_{b-c_e}a_e
+\]
+for every affordable event. The updated code is the code of $T_e(x)$ at residual budget $b-c_e$.
+\end{theorem}
+\begin{proof}
+Fix a word $w$. The difference of the two observations is $CA_w(x-y)$ since both trajectories contain the same known offset. Agreement for all words is equivalent to annihilation of $x-y$ by every row in Lemma~\ref{lem:wordspace}, hence by every basis row. This proves the first assertion.
+
+The linear map $x\mapsto B_bx$ has rank $r_b$. Its image is all of $\F^{r_b}$, and each fiber is a coset of an $(n-r_b)$-dimensional kernel. Dividing $2^n$ by the common fiber size $2^{n-r_b}$ gives $2^{r_b}$ classes. The lower bound now follows from Theorem~\ref{thm:factor} without any linearity assumption on a competing encoder.
+
+To recover the current output, write each row of $C$ in basis $B_b$. Stacking its coordinates gives $D_b$. To update, use~\eqref{eq:Wbudget} to write every row of $B_{b-c_e}A_e$ in the same basis. Stack the coordinates into $U_{b,e}$. Substituting $z=B_bx$ gives
+\[
+U_{b,e}z+B_{b-c_e}a_e=B_{b-c_e}(A_ex+a_e).
+\]
+Thus the representation invariant holds after the first event. Applying it inductively gives the correct observation at every admissible prefix. The initial message has the length required by the lower bound.
+\end{proof}
+
+For initial support $X\subseteq\F^n$, the number of attainable classes is $|B_bX|$. A singleton support needs no initial message even if the matrix has high rank. A support-specific online update must also accommodate the supports reached after events. If a zero-cost event is introduced, the recurrence needs closure under that event at the same budget. The smallest closed row space can be found by adjoining independent rows until dimension stabilizes. A single pass in strictly increasing budget no longer implements that closure.
+
+\begin{corollary}[Linear information refresh]\label{cor:linearrepair}
+For nested spaces $W\subseteq W'$ of dimensions $r,r'$, under full support, exactly $r'-r$ additional bits suffice and are necessary when the old basis code is shared and the source retains the state.
+\end{corollary}
+\begin{proof}
+Extend a basis for $W$ to a basis for $W'$ and transmit the $r'-r$ new row evaluations. For necessity, fix any old code. Its fiber is a coset of the kernel of an old basis matrix. Each assignment of the new coordinates occurs on that fiber since the extended basis map is onto $\F^{r'}$. There are precisely $2^{r'-r}$ refined classes on it. Apply Theorem~\ref{thm:refresh}.
+\end{proof}
+A smaller budget induces a code computable from the larger one. Restoring a larger budget after information has been discarded can require a new message. Changing the budget counter alone cannot distinguish two members of its previous fiber.
+
+\begin{proposition}[Three families]\label{prop:families}
+Let $n\ge2$. For parity observation with unit-cost coordinate resets, $r_0=1$ and $r_b=n$ for $b\ge1$. For first-coordinate observation with a unit-cost cyclic shift, $r_b=\min(n,b+1)$. For known toggles $x\mapsto x+a_e$, $W_b=\operatorname{row}(C)$ for every budget.
+\end{proposition}
+\begin{proof}
+Let $u$ be the all-ones row. After reset $i$ its observation row is $u+e_i$. Both rows lie in $W_1$, hence so does their sum $e_i$. All unit rows are obtained. For shifts, the admissible powers read successive unit rows around the cycle. The first $\min(n,b+1)$ are independent and the rest repeat. For toggles, every linear part is the identity. Recurrence~\eqref{eq:Wbudget} adds no new row. Known changes of value need not expose another unknown component of the state.
+\end{proof}
+
+\subsection{Construction and resource accounting}
+For each budget, start with the rows of $C$ and add $uA_e$ for each basis row at the residual budget. Gaussian elimination produces the next basis. Tracking row coordinates yields the decoding and update matrices. With $m=|E|$ there are at most $p+mn$ candidate rows at a budget. A direct row--matrix product and reduction against at most $n$ pivots each cost $O(n^2)$ elementary bit operations. The resulting conservative bound is $O((b+1)(p+mn)n^2)$. Storing the bases takes $O((b+1)n^2)$ bits and storing all update matrices can take $O((b+1)mn^2)$ bits, before implementation overhead. The shorter per-state message is therefore most useful when model and compilation costs can be shared.
