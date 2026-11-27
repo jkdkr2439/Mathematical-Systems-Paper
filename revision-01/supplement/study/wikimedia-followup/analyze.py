@@ -146,7 +146,7 @@ def main():
         times,values=data[(r['day'],r['hour'],r['group'])]
         selected.append(dict(reason=reason,**r,seconds=times,latency_ns=values))
     for filename,value in [('summary',summary),('cases',selected),('benchmark',benchmark(speed))]:
-        (out/(filename+'.json')).write_text(json.dumps(value,indent=2),encoding='utf-8')
+        (out/(filename+'.json')).write_text(json.dumps(value,indent=2),encoding='utf-8',newline='\n')
     with (out/'decisions.jsonl').open('w',encoding='utf-8',newline='\n') as f:
         for row in rows:
             f.write(json.dumps(row)+'\n')
