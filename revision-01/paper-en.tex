@@ -48,13 +48,15 @@
 \end{minipage}
 \vspace{14mm}
 
-\noindent English edition \hfill 28 November 2026
+\noindent English edition 1.1 \hfill 28 November 2026
 \end{titlepage}
 \pagenumbering{roman}
 \section*{Abstract}
 This monograph studies the information needed to reproduce observations and select actions when a system evolves between measurement and use. For a finite deterministic system, the number of distinct future observation profiles gives the exact fixed-length coding cost. If the admissible interactions expand, the largest number of refined classes inside an old class determines the additional information required. For affine dynamics over the binary field, a cost-indexed observability space yields a matching rank bound for arbitrary encoders, together with an explicit compressed update. For decisions with several acceptable answers, sufficiency instead requires a common action in each message class. An interval optimization problem exhibits minimal incompatible families of unbounded size and an exact separation between the costs of deciding and reconstructing.
 
 Two specializations are developed with their converses and constructions. The first counts robust positional optimizers of a parametric interval score. Binary alphabets obey a joint length--precision law. In higher rational rank a Diophantine separation condition suffices for a corresponding law, while a single fixed Liouville alphabet defeats a classification by rank alone. The second specialization gives the exact integer and continuous minimax errors for a source that commits an early label and later sends one of two replies after remeasurement. Coordinatewise error bounds connect reconstruction to interval decisions at a common target time. Further results give conditions for synchronous composition, finite-deadline policy synthesis, and preservation of a certificate under a change of numerical semantics. The supplementary programs check selected logical statements and independently reproduce finite examples. The asymptotic arithmetic bounds and minimax formulas have written proofs.
+
+Tests cover server latency, power-system windows, sensor communication and register monitoring. In a held-out replay of 86,400 CDN requests, the overlap-aware rule certified 855 of 1,800 exact window decisions, against 766 under a separate-sum bound.
 
 \noindent\textbf{Keywords.} Observational equivalence, zero-error communication, switched systems, robust optimization, parametric maximum-sum segments, Diophantine approximation, causal coding.
 \newpage{\setlength{\parskip}{3.5pt}\tableofcontents}\clearpage\pagenumbering{arabic}
@@ -67,6 +69,8 @@ Two specializations are developed with their converses and constructions. The fi
 \input{english/composition}
 \input{english/semantics}
 \input{english/applications}
+\newcommand{\edtext}[2]{#1}
+\input{study}
 \input{english/conclusion}
 \appendix
 \input{english/details}

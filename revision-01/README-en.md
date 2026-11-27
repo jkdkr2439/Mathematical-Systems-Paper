@@ -2,7 +2,7 @@
 
 **Kevin T.N. — Epistemologist**
 
-Full English edition, 28 November 2026. Open **paper-en.pdf** to read the monograph. Its linked contents give access to the 23 numbered sections, four appendices and references.
+English edition 1.1, 28 November 2026. Open **paper-en.pdf** to read the monograph. Section 22 reports four application tests with a [reproducible experimental supplement](supplement/study/README.md). The prior release remains in Git history.
 
 ## First edition
 
@@ -28,7 +28,7 @@ From `supplement/`, run the finite checks with a new output directory.
 python verify.py --out verification-new
 ```
 
-To include the 17 checked Lean declarations, supply a Lean executable. The recorded run used Lean 4.34.0-rc1 and Python 3.12.10.
+To include the 17 checked Lean declarations, supply a Lean executable. The archived formal verification used Lean 4.34.0-rc1 and Python 3.12.14. The four-application study uses Python 3.12.10.
 
 ```sh
 python verify.py --lean /path/to/lean --out verification-lean-new

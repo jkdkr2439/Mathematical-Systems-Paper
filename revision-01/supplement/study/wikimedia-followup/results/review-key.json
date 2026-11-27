@@ -1,0 +1,93 @@
+{
+  "packet": "038c851ec0a83e10bdc4a34024254f94052a8b9b3a3f66974b60dcd650c176fb",
+  "cases": {
+    "W01": {
+      "reason": "uncertified optimum",
+      "day": 2,
+      "hour": 0,
+      "group": 7,
+      "regret_ns": 0,
+      "overlap": 6,
+      "margin_ns": -16000000,
+      "split": "holdout",
+      "selected_label": "A"
+    },
+    "W02": {
+      "reason": "largest regret",
+      "day": 18,
+      "hour": 16,
+      "group": 64,
+      "regret_ns": 12089000,
+      "overlap": 0,
+      "margin_ns": -48000000,
+      "split": "holdout",
+      "selected_label": "A"
+    },
+    "W03": {
+      "reason": "smallest positive regret",
+      "day": 2,
+      "hour": 0,
+      "group": 111,
+      "regret_ns": 1000,
+      "overlap": 5,
+      "margin_ns": -8000000,
+      "split": "holdout",
+      "selected_label": "B"
+    },
+    "W04": {
+      "reason": "least overlap",
+      "day": 0,
+      "hour": 0,
+      "group": 37,
+      "regret_ns": 395000,
+      "overlap": 0,
+      "margin_ns": -48000000,
+      "split": "pilot",
+      "selected_label": "A"
+    },
+    "W05": {
+      "reason": "largest regret",
+      "day": 0,
+      "hour": 0,
+      "group": 191,
+      "regret_ns": 7112000,
+      "overlap": 4,
+      "margin_ns": -24000000,
+      "split": "pilot",
+      "selected_label": "A"
+    },
+    "W06": {
+      "reason": "certified optimum",
+      "day": 2,
+      "hour": 0,
+      "group": 0,
+      "regret_ns": 0,
+      "overlap": 6,
+      "margin_ns": 64000000,
+      "split": "holdout",
+      "selected_label": "B"
+    },
+    "W07": {
+      "reason": "smallest positive regret",
+      "day": 0,
+      "hour": 0,
+      "group": 77,
+      "regret_ns": 1000,
+      "overlap": 5,
+      "margin_ns": -8000000,
+      "split": "pilot",
+      "selected_label": "A"
+    },
+    "W08": {
+      "reason": "least overlap",
+      "day": 2,
+      "hour": 16,
+      "group": 194,
+      "regret_ns": 5103000,
+      "overlap": 0,
+      "margin_ns": -40000000,
+      "split": "holdout",
+      "selected_label": "B"
+    }
+  }
+}

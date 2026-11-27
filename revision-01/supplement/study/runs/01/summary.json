@@ -1,0 +1,128 @@
+{
+  "python": "3.12.10",
+  "versions": {
+    "simpy": "4.1.2",
+    "pandapower": "3.5.6",
+    "ns.py": "0.4.3",
+    "pyrtl": "1.0.3"
+  },
+  "hardware": {
+    "states": 160,
+    "words": 8,
+    "trajectories": 1280,
+    "comparisons": 5120,
+    "mismatches": 0,
+    "distinguishable": 16,
+    "four_shift_witness": {
+      "0": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "16": [
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    }
+  },
+  "hardware_sha256": "10dba5112833e77d3e20dd2b1f7d2ad5460e4cca5d252100d68ebe7db5c09e58",
+  "network": [
+    {
+      "schedule": "1+1",
+      "busy": true,
+      "triples": 576,
+      "worst_error": 2.5,
+      "protocol_bytes": 15,
+      "finish_ms": 34.0,
+      "deadline_misses": 576
+    },
+    {
+      "schedule": "1+1",
+      "busy": false,
+      "triples": 576,
+      "worst_error": 2.5,
+      "protocol_bytes": 15,
+      "finish_ms": 25.0,
+      "deadline_misses": 0
+    },
+    {
+      "schedule": "0+2",
+      "busy": true,
+      "triples": 576,
+      "worst_error": 1.5,
+      "protocol_bytes": 10,
+      "finish_ms": 34.0,
+      "deadline_misses": 576
+    },
+    {
+      "schedule": "0+2",
+      "busy": false,
+      "triples": 576,
+      "worst_error": 1.5,
+      "protocol_bytes": 10,
+      "finish_ms": 25.0,
+      "deadline_misses": 0
+    }
+  ],
+  "network_sha256": "ad1cb50d619aac348ba39feae759441a45db58d5f5c7238bb2ccc3406a5c0bc6",
+  "windows": {
+    "server": [
+      {
+        "quantum": 2,
+        "traces": 100,
+        "certified": 56,
+        "coarse_certified": 0,
+        "nominal_wrong": 7,
+        "certified_wrong": 0
+      },
+      {
+        "quantum": 8,
+        "traces": 100,
+        "certified": 9,
+        "coarse_certified": 0,
+        "nominal_wrong": 46,
+        "certified_wrong": 0
+      },
+      {
+        "quantum": 24,
+        "traces": 100,
+        "certified": 1,
+        "coarse_certified": 0,
+        "nominal_wrong": 83,
+        "certified_wrong": 0
+      }
+    ],
+    "power": [
+      {
+        "quantum": 10000,
+        "traces": 24,
+        "certified": 22,
+        "coarse_certified": 18,
+        "nominal_wrong": 1,
+        "certified_wrong": 0
+      },
+      {
+        "quantum": 50000,
+        "traces": 24,
+        "certified": 11,
+        "coarse_certified": 1,
+        "nominal_wrong": 6,
+        "certified_wrong": 0
+      },
+      {
+        "quantum": 150000,
+        "traces": 24,
+        "certified": 8,
+        "coarse_certified": 0,
+        "nominal_wrong": 9,
+        "certified_wrong": 0
+      }
+    ]
+  },
+  "windows_sha256": "8d6559a747e2b73a0c47f1d4f569f4753cd77676f3b1d0455e3ca8a42214d343"
+}

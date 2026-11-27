@@ -14,4 +14,8 @@ This first edition sets out the questions, assumptions, and results that define 
 
 ## Manuscript and verification
 
+Revision 1.1 adds four application studies: server latency (simulation and public Wikimedia traces), synthetic power-system windows, deadline-constrained sensor communication, and register monitoring. The [experimental supplement](revision-01/supplement/study/README.md) includes the recorded inputs, results and replay commands. Operator assessments remain pending.
+
+Bản 1.1 bổ sung bốn phép thử về độ trễ máy chủ, cửa sổ phụ tải điện, truyền tin cảm biến và giám sát thanh ghi. Phần CDN dùng bản ghi vận hành công khai. Phiếu đánh giá tám ca dành cho người trực hệ thống đã sẵn sàng.
+
 The [English edition guide](revision-01/README-en.md) describes the structure, typesetting commands and verification procedure. Both editions use the same [mathematical supplement](revision-01/supplement/) and [verification record](revision-01/supplement/verification-01/results.json). The editable entry points are [paper-en.tex](revision-01/paper-en.tex) and [paper-vi.tex](revision-01/paper-vi.tex). Run XeLaTeX in their containing directory.

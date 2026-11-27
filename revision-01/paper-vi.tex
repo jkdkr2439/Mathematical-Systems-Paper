@@ -11,7 +11,7 @@
 {\Large Kevin T.N.\par}
 {\large Nhà nhận thức luận\par}
 \vspace{12mm}
-{\large Bản nghiên cứu tổng hợp 1.0\par 28 tháng 11 năm 2026\par}
+{\large Bản nghiên cứu tổng hợp 1.1\par 28 tháng 11 năm 2026\par}
 \vfill
 \begin{minipage}{0.88\textwidth}
 Một lý thuyết về thông tin dùng cho hành động phải chỉ rõ thông tin được phân biệt ở đâu, qua những biến đổi nào và tới thời điểm nào. Công trình này phát triển các định nghĩa, cận dưới, cấu trúc đạt cận, chứng chỉ độ bền và điều kiện ghép trong những lớp hệ xác định. Những phát biểu phổ quát về thực tại không được suy ra từ việc một mô hình hữu hạn đã được giải đúng.
@@ -21,7 +21,8 @@ Một lý thuyết về thông tin dùng cho hành động phải chỉ rõ thô
 \begin{abstract}
 Chúng tôi trình bày một tổng hợp toán học về lượng thông tin cần giữ để tái tạo quan sát và lựa chọn hành động dưới tương tác, độ trôi và ngân sách hữu hạn. Điểm xuất phát là quan hệ tương đương quan sát qua mọi chuỗi sự kiện được phép. Trong hệ hữu hạn, số lớp cho cận bit chính xác; khi mở rộng họ tương tác, số lớp mới trong từng lớp cũ xác định lượng thông tin bổ sung tối thiểu. Với hệ affine trên trường hai phần tử, chúng tôi suy ra một truy hồi không gian quan sát có trọng số chi phí, chứng minh cận hạng áp cả bộ mã phi tuyến, và dựng bộ giải mã cùng phép cập nhật theo ngân sách còn lại. Đối với quyết định, điều kiện cùng có một hành động hợp lệ được biểu diễn bằng giao các tập hành động thay vì mặc định là quan hệ tương đương. Chúng tôi chứng minh một họ tối ưu đoạn có bậc xung đột tối thiểu không bị chặn và khoảng cách chính xác giữa quyết định với tái dựng trạng thái.
 
-Hai chuyên biệt được phát triển đầy đủ: số nghiệm đoạn bền theo độ dài và cấu trúc Diophantine của bảng giá trị; và sai số minimax khi nguồn gửi nhãn trước rồi quan sát lại và gửi hai nhãn mới. Các phần này được nối bằng chứng chỉ nhiễu theo tọa độ tại cùng thời điểm quyết định. Công trình cũng đưa ra điều kiện ghép hệ qua cổng, truy hồi chính sách dưới hạn chót và tài nguyên, cùng điều kiện chuyển chứng chỉ giữa ngữ nghĩa toán học và thực thi. Chứng minh viết, các bổ đề được kiểm bằng Lean, và phép kiểm hữu hạn độc lập được phân biệt tường minh. Đóng góp là một cấu trúc kết quả chuyên biệt và tổng hợp có thể kiểm; mức ưu tiên lịch sử của các kết quả chuyên biệt chưa được xác lập bằng một đối chiếu toàn diện.
+Hai chuyên biệt được phát triển đầy đủ: số nghiệm đoạn bền theo độ dài và cấu trúc Diophantine của bảng giá trị; và sai số minimax khi nguồn gửi nhãn trước rồi quan sát lại và gửi một trong hai nhãn mới. Các phần này được nối bằng chứng chỉ nhiễu theo tọa độ tại cùng thời điểm quyết định. Công trình cũng đưa ra điều kiện ghép hệ qua cổng, truy hồi chính sách dưới hạn chót và tài nguyên, cùng điều kiện chuyển chứng chỉ giữa ngữ nghĩa toán học và thực thi. Chứng minh viết, các bổ đề được kiểm bằng Lean, và phép kiểm hữu hạn độc lập được phân biệt tường minh. Đóng góp là một cấu trúc kết quả chuyên biệt và tổng hợp có thể kiểm; mức ưu tiên lịch sử của các kết quả chuyên biệt chưa được xác lập bằng một đối chiếu toàn diện.
+Phần ứng dụng kiểm tra độ trễ máy chủ, cửa sổ phụ tải, giao thức cảm biến và thanh ghi. Với 86.400 yêu cầu CDN giữ riêng, cách xét phần giao chứng nhận đúng 855 trong 1.800 lựa chọn cửa sổ, so với 766 khi chặn sai số riêng từng tổng.
 \end{abstract}
 \noindent\textbf{Từ khóa:} observational equivalence; sufficient representation; observability; zero-error communication; robust optimization; parametric maximum-subarray problem; Diophantine approximation; bounded drift; causal protocols; formal verification.
 
@@ -29,6 +30,7 @@ Hai chuyên biệt được phát triển đầy đủ: số nghiệm đoạn b�
 This monograph develops a mathematical synthesis of information sufficient for observations and decisions under interactions, bounded drift, and finite resources. Finite observational equivalence yields exact fixed-length coding bounds and a conditional refinement cost. For affine systems over the binary field, a cost-indexed observability recurrence gives a matching information bound, a constructive compressed update, and an exact information-refresh cost under full support. Decision sufficiency is treated through intersections of admissible-action sets rather than assumed to define an equivalence relation. A family of interval optimization problems exhibits unbounded minimal conflict order and a one-bit decision versus logarithmic state-reconstruction separation.
 
 Two detailed specializations concern robust parametric interval optimization under arithmetic assumptions and minimax reconstruction with an early source message followed by two fresh response labels. Coordinatewise error certificates connect these results at a common decision time. Further results address compositional abstraction, finite-deadline policy synthesis, and transfer between ideal and operational semantics. Written proofs, selected Lean-checked lemmas, and finite computational checks have explicitly different scopes. The work is a research synthesis with specialized claims; historical priority and external empirical validity are not certified by the formal or computational checks.
+The four application tests cover server latency, power-system windows, sensor communication and register monitoring. A held-out CDN replay yielded 855 exact certificates in 1,800 groups, against 766 under a separate-sum bound.
 \tableofcontents
 \newpage
 \input{sections/introduction.tex}
@@ -41,6 +43,8 @@ Two detailed specializations concern robust parametric interval optimization und
 \input{sections/composition.tex}
 \input{sections/semantics.tex}
 \input{sections/applications.tex}
+\newcommand{\edtext}[2]{#2}
+\input{study}
 \input{sections/discussion.tex}
 \appendix
 \input{sections/proof-details.tex}

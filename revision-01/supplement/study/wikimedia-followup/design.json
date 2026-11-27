@@ -1,0 +1,32 @@
+{
+  "pilot_days": [
+    0,
+    14
+  ],
+  "days": [
+    2,
+    9,
+    18
+  ],
+  "hours": [
+    0,
+    8,
+    16
+  ],
+  "records_per_stratum": 9600,
+  "batch": 48,
+  "width": 6,
+  "quantum_ns": 8000000,
+  "tolerances_ns": [
+    0,
+    1000000,
+    8000000
+  ],
+  "tie_rule": "earliest starting window, any true optimum counts correct",
+  "selection": "Select first 9600 valid consecutive rows at or after file_day*86400+hour*3600, in source order. Within-second order is file order. Verify monotonic time per selected slice. Drop no high-latency rows. Fail on missing or malformed measurements.",
+  "metric": "Compare nominal sum winner against full-resolution published TTFB. True regret = best sum minus chosen sum. For overlap use maximum common request count among full-resolution maximizers. Sum in ns over six requests, converted to ms for display.",
+  "cert": "Certify regret <= delta if minimum nominal lead plus delta >= (q/2)*symmetric difference over ALL competitors. Loose comparator uses 6*q for every competitor. Record false certificates, coverage, nominal mistakes, loss quantiles and overlap. Primary delta=0; 1 and 8 ms are sensitivity points, not user-validated costs.",
+  "benchmark": "Same batches for selection only and for selection plus certification. Prefix sums, no oracle or I/O in timing. Warm up both. Nine paired runs, alternate order. Report process wall clock ns per batch for each and paired median overhead.",
+  "review": "On pilot and holdout separately inspect the smallest positive regret, largest regret and smallest overlap among positive-regret cases (break ties by row order; avoid repeats). Add two holdout controls: first exact certificate and first correct abstention. Report overlap as location, never as incident identity. Reviewer judges same incident and same triage from anonymized local timelines; no labels available initially.",
+  "interpretation": "Describe sampled times and absolute counts. Adjacent batches in the same slice are correlated. No significance test, independent incident count, field benefit or production threshold inferred."
+}
